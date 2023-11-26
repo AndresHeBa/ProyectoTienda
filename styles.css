@@ -1,0 +1,96 @@
+form {
+    margin-bottom: 50px;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Estilo para las etiquetas y campos de entrada */
+form input, form select {
+    padding: 8px;
+    margin: 5px;
+    width: calc(50% - 12px);
+    box-sizing: border-box;
+}
+
+/* Estilo específico para las partes real e imaginaria */
+form input[name="real1"],
+form input[name="imag1"],
+form input[name="real2"],
+form input[name="imag2"] {
+    width: calc(40% - 8px);
+}
+
+/* Añade espacio entre los campos de parte real e imaginaria */
+form input[name="imag1"],
+form input[name="real2"] {
+    margin-right: 10px;
+}
+
+/* Añade un espacio vertical entre los campos de entrada y el botón */
+form button {
+    margin-top: 10px;
+}
+
+/* Añade un poco de espacio en la gráfica y el contenedor de resultados */
+#myCanvas {
+    background-color: white;
+    margin-top: 20px;
+    margin-left: 34%;
+}
+
+.result-container {
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-top: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 400px; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.result-heading {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.val{
+    margin-left: 33%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e7f9ff;
+}
+
+.container {
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.bloque{
+    display: block;
+}
+
+.formulario {
+    width: 30%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.titu{
+    background-color: burlywood;
+}
+
+.oper{
+    /* margin-top: 10%; */
+    width: 5rem;
+    height: 4rem;
+}
