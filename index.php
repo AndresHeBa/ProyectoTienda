@@ -116,6 +116,97 @@
     }
     ?>
 
+<canvas id="myCanvas" width="400" height="400"></canvas>
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            //Tamaño de la grafica segun la magnitud del resultado
+            var magnitudResultado = Math.sqrt(resultado_real ** 2 + resultado_imag ** 2);
+            var canvasSize = Math.max(400, magnitudResultado * 20 + 40);
+
+            //Ajustar tamaño de la grafica
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
+            var maxCanvasSize = 400;//Tamaño máximo
+            var scale = Math.min(1, maxCanvasSize / canvasSize);
+            canvasSize *= scale;
+            x *= scale;
+            y *= scale;
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
+
+            //Dibujar ejes cartesianos
+            ctx.moveTo(canvasSize / 2, 0);
+            ctx.lineTo(canvasSize / 2, canvasSize);
+            ctx.moveTo(0, canvasSize / 2);
+            ctx.lineTo(canvasSize, canvasSize / 2);
+            ctx.stroke();
+
+            //Etiquetas para el eje imaginario y real
+            ctx.font = "12px Arial";
+            ctx.fillText("Eje imaginario", canvasSize / 2, 10);
+            ctx.save();
+            ctx.translate(canvasSize - 5, canvasSize / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText("Eje Real", 0, 0);
+            ctx.restore();
+
+            for (var i = 1; i <= canvasSize / 40; i++) {
+                ctx.fillText(i, canvasSize / 2 + i * 20, canvasSize / 2 + 15);
+                ctx.fillText(-i, canvasSize / 2 - i * 20, canvasSize / 2 + 15);
+            }
+
+            for (var i = 1; i <= canvasSize / 40; i++) {
+                ctx.fillText(i, canvasSize / 2 - 15, canvasSize / 2 - i * 20);
+                ctx.fillText(-i, canvasSize / 2 - 15, canvasSize / 2 + i * 20);
+            }
+
+            //Dibujar punto de resultado
+            var x = canvasSize / 2 + resultado_real * 20; // Eje x
+            var y = canvasSize / 2 - resultado_imag * 20; // Eje y
+
+            // Tamaño máximo de la trayectoria
+            var maxSize = 200;
+            var lineSize = Math.sqrt((x - canvasSize / 2) ** 2 + (y - canvasSize / 2) ** 2);
+            if (lineSize > maxSize) {
+                var scale = maxSize / lineSize;
+                x = canvasSize / 2 + (x - canvasSize / 2) * scale;
+                y = canvasSize / 2 + (y - canvasSize / 2) * scale;
+            }
+
+            //Dibujar trayectoria
+            drawArrow(canvasSize / 2, canvasSize / 2, x, y);
+            function drawArrow(fromX, fromY, toX, toY) {
+                ctx.beginPath();
+                ctx.moveTo(fromX, fromY);
+                ctx.lineTo(toX, toY);
+                var angle = Math.atan2(toY - fromY, toX - fromX);
+                var arrowLength = 10;
+                ctx.lineTo(toX - arrowLength * Math.cos(angle - Math.PI / 6), toY - arrowLength * Math.sin(angle - Math.PI / 6));
+                ctx.moveTo(toX, toY);
+                ctx.lineTo(toX - arrowLength * Math.cos(angle + Math.PI / 6), toY - arrowLength * Math.sin(angle + Math.PI / 6));
+                ctx.stroke();
+            }
+
+            //Dibujar ángulo
+            drawAngle();
+            function drawAngle() {
+                ctx.beginPath();
+                if (resultado_imag < 0 || (resultado_real < 0 && resultado_imag < 0)) {
+                    ctx.arc(canvasSize / 2, canvasSize / 2, 20, 0, -angulo_rad, false);
+                } else {
+                    ctx.arc(canvasSize / 2, canvasSize / 2, 20, 0, -angulo_rad, true);
+                }
+                ctx.lineTo(0 + canvasSize / 2, canvasSize / 2 - 0);
+                ctx.lineTo(canvasSize / 2, canvasSize / 2);
+                ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+                ctx.fill();
+            }
+            </script>
     
     <div class="resul">
         <div class="graf">
