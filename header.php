@@ -6,6 +6,10 @@
     <title>Header</title>
 </head>
 <body>
-    
+    <header>
+        <div>
+            <img src="img/logo_transparent.png" alt="">
+        </div>
+    </header>
 </body>
 </html>
