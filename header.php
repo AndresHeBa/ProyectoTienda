@@ -50,6 +50,9 @@
                 <li class="nav-item">
                 <a class="nav-link" href="#">Ayuda</a>
                 </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Iniciar Sesion</a>
+                </li>
             </ul>
             <a href=""><i class="fa-solid fa-cart-shopping fa-2xl icono"></i></a>
             </div>

@@ -43,3 +43,23 @@ body{
     border-radius: 3px;
 
 }
+
+.cartas{
+    display: flex;
+    justify-content: space-around;
+}
+
+.img_cat{
+    height: 200px;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.card{
+    width: 250px;
+    margin: 0 auto;
+}
+
+.foot_cat{
+    text-align: center;
+}

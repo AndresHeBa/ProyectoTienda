@@ -58,8 +58,25 @@
         <div class="header-title">
             <h1>Categorias</h1>
         </div>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card">
+                    <img  src="img/ryzen.webp" class="card-img img_cat" alt="...">
+                    <div class="card-footer foot_cat">
+                        Procesadores
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="img/hard_drive.webp" class="card-img img_cat" alt="...">
+                    <div class="card-footer foot_cat">
+                        Discos Duros
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
     <!-- Footer -->
     <?php
     include 'footer.php';
