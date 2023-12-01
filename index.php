@@ -44,13 +44,13 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="img/ssd.webp" class="d-block w-100" alt="...">
+                    <img src="img/ssd.webp" class="d-block w-100 img-fluid" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="img/ram.webp" class="d-block w-100" alt="...">
+                    <img src="img/ram.webp" class="d-block w-100 img-fluid" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="img/kaspersky.webp" class="d-block w-100" alt="...">
+                    <img src="img/kaspersky.webp" class="d-block w-100 img-fluid" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
