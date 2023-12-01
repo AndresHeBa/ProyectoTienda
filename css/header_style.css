@@ -5,8 +5,8 @@
     margin: 20px;
 }
 header{
-    position: fixed;
-    top: 0;
+    /* position: fixed; */
+    /* top: 0; */
     width: 100%;
 }
 #menu{
@@ -31,5 +31,13 @@ header{
     color: white;
 }
 #enlaces > li a:hover{
-    color: aquamarine;
+    color: rgb(65, 58, 58);
+}
+
+.navbar{
+    background: rgb(199, 27, 27);
+    width: 100%;
+}
+.icono{
+    color: rgb(39, 39, 39);
 }
