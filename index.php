@@ -54,6 +54,8 @@
         </div>
     </div>
 
+    <!-- Categorias -->
+
     <div id="categorias">
         <div class="header-title">
             <h1>Categorias</h1>
@@ -75,6 +77,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Nuevos Productos -->
+    <div class="nuevos">
+        <div class="header-title">
+            <h1>Nuevos Productos</h1>
+        </div>
+    </div>
+    <!-- Ofertas -->
+    <div class="ofertas">
+        <div class="header-title">
+            <h1>Ofertas</h1>
         </div>
     </div>
     <!-- Footer -->

@@ -58,8 +58,16 @@ body{
 .card{
     width: 250px;
     margin: 0 auto;
+    border-width: 0;
+}
+
+.card:hover{
+    border-width: 1px;
+    cursor: pointer;
 }
 
 .foot_cat{
+    border-width: 0;
     text-align: center;
+    background: white;
 }
