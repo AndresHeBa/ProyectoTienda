@@ -1,3 +1,13 @@
 body{
     font-family: 'Poppins', sans-serif;
 }
+
+.banner{
+    margin-top: 120px;
+    width: 100%;
+}
+
+#myCarousel{
+    margin: 0 auto;
+    width: 80%;
+}
