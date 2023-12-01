@@ -32,9 +32,9 @@ ul,ol{
 
 .hm-header{
     position: relative;
-    height: 94px;
+    height: 100px;
     background: rgb(199, 27, 27);
-    line-height: 64px;
+    line-height: 70px;
     -webkit-transition: all .6s ease-in-out;
     -moz-transition: all .6s ease-in-out;
     -ms-transition: all .6s ease-in-out;
@@ -73,8 +73,8 @@ ul,ol{
 }
 
 .img-logo{
-    width: 290px;
-    height: 65px;
+    /* width: 290px; */
+    height: 42px;
 }
 
 .hm-menu{

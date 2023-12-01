@@ -1,12 +1,8 @@
-.contenedor{
-    margin-top: 150px;
-}
-
 .paragraph{
     margin: 0 auto;
     width: 70%;
     font-size: x-large;
     /* font-weight: bold; */
-    text-align: center;
+    text-align: justify;
     margin-bottom: 0;
 }

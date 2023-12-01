@@ -37,10 +37,11 @@
 
                 <nav class="hm-menu">
                     <ul>
-                        <li><a href="http://">Productos</a></li>
-                        <li><a href="http://">Campañas</a></li>
-                        <li><a href="http://">Nosotros</a></li>
-                        <li><a href="http://">Contacto</a></li>
+                    <li><a href="index.php">Inicio</a></li>
+            <li><a href="#">Tienda</a></li>
+            <li><a href="sobrenosotros.php">Nosotros</a></li>
+            <li><a href="contactanos.php">Contactanos</a></li>
+            <li><a href="#">Ayuda</a></li>
                     </ul>
 
 
@@ -68,10 +69,11 @@
     <div class="header-menu-movil">
         <button class="cerrar-menu"><i class="fas fa-times"></i></button>
         <ul>
-            <li><a href="#">Productos</a></li>
-            <li><a href="#">Campañas</a></li>
-            <li><a href="#">Nosotros</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="#">Tienda</a></li>
+            <li><a href="sobrenosotros.php">Nosotros</a></li>
+            <li><a href="contactanos.php">Contactanos</a></li>
+            <li><a href="#">Ayuda</a></li>
         </ul>
     </div>
 
