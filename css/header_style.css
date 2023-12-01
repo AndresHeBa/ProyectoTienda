@@ -17,7 +17,7 @@ header{
     color: white;
 }
 #enlaces > li{
-    // font-weight: bold; 
+    // font-weight: bold;
     font-size: small;
     list-style: none;
     float: left;
@@ -40,7 +40,7 @@ header{
 }
 .icono{
     color: rgb(39, 39, 39);
-} */ 
+} */
 
 :root{
     --color-principal: #FF5A5F;
@@ -76,7 +76,7 @@ ul,ol{
 
 .hm-header{
     position: relative;
-    height: 64px;
+    height: 94px;
     background: rgb(199, 27, 27);
     line-height: 64px;
     -webkit-transition: all .6s ease-in-out;
@@ -84,8 +84,8 @@ ul,ol{
     -ms-transition: all .6s ease-in-out;
     -o-transition: all .6s ease-in-out;
     transition: all .6s ease-in-out;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     box-sizing: border-box;
 }
 .hm-header .container{
@@ -112,18 +112,19 @@ ul,ol{
 }
 
 .header-menu .hm-logo{
-    width: 242px;
+    width: 282px;
     height: 65px;
 }
 
 .img-logo{
-    width: 240px;
+    width: 280px;
     height: 65px;
 }
 
 .hm-menu{
     display: flex;
     position: relative;
+    margin-top: 20px;
 }
 
 .hm-menu ul{
@@ -163,7 +164,7 @@ ul,ol{
     border-radius: 50%;
     background: var(--color-principal);
     color: #fff;
-    
+
 }
 
 
@@ -273,6 +274,6 @@ ul,ol{
     .header-menu-movil ul li a{
         display: inline-block;
         color: #fff;
-    
+
     }
 }
