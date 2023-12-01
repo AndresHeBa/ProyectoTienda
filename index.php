@@ -92,6 +92,21 @@
             <h1>Ofertas</h1>
         </div>
     </div>
+
+    <!-- Animaciones : AOS-->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <!-- Mi Script -->
+    <script src="js/app.js"></script>
+
+    <script>
+    
+        AOS.init({
+            duration: 1200,
+        })
+
+
+    </script>
     <!-- Footer -->
     <?php
     include 'footer.php';
