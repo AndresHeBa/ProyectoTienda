@@ -4,13 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
     <link rel="icon" href="img/favicon.png">
+
+    <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Iconos -->
     <script src="https://kit.fontawesome.com/bfdec4dace.js" crossorigin="anonymous"></script>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -62,7 +72,7 @@
         </div>
         <div class="row row-cols-1 row-cols-md-2 g-4">
             <div class="col">
-                <div class="card">
+                <div class="card zoom">
                     <img  src="img/ryzen.webp" class="card-img img_cat" alt="...">
                     <div class="card-footer foot_cat">
                         Procesadores
@@ -70,7 +80,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card">
+                <div class="card zoom">
                     <img src="img/hard_drive.webp" class="card-img img_cat" alt="...">
                     <div class="card-footer foot_cat">
                         Discos Duros
@@ -86,12 +96,14 @@
             <h1>Nuevos Productos</h1>
         </div>
     </div>
+
     <!-- Ofertas -->
     <div class="ofertas">
         <div class="header-title">
             <h1>Ofertas</h1>
         </div>
     </div>
+
     <!-- Footer -->
     <?php
     include 'footer.php';

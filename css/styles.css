@@ -8,6 +8,8 @@ body{
     z-index: 99;
 }
 
+/* Carrusel */
+
 #myCarousel{
     margin: 0 auto;
     width: 80%;
@@ -16,6 +18,8 @@ body{
 #myCarousel:hover{
     cursor: pointer;
 }
+
+/* Titulos */
 
 .header-title{
     margin-top: 3%;
@@ -44,6 +48,8 @@ body{
 
 }
 
+/* Categorias */
+
 .cartas{
     display: flex;
     justify-content: space-around;
@@ -70,4 +76,13 @@ body{
     border-width: 0;
     text-align: center;
     background: white;
+}
+
+/* Animacion Zoom */
+.zoom {
+    transition: transform .2s; /* Animation */
+}
+  
+.zoom:hover {
+    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
