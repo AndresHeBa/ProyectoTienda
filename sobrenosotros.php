@@ -31,9 +31,6 @@
     </header>
 
     <!--  -->
-    <div class="">
-
-    </div>
 
     <!-- Footer -->
     <?php
