@@ -30,7 +30,7 @@
             <div class="header-menu">
 
                 <div class="hm-logo">
-                    <a href="#">
+                    <a href="index.php">
                         <img class="img-logo" src="img/logo_transparent-2.png" alt="">
                     </a>
                 </div>
@@ -39,8 +39,8 @@
                     <ul>
                         <li><a href="http://">Productos</a></li>
                         <li><a href="http://">Campañas</a></li>
-                        <li><a href="http://">Nosotros</a></li>
-                        <li><a href="http://">Contacto</a></li>
+                        <li><a href="sobrenosotros.php">Nosotros</a></li>
+                        <li><a href="contactanos.php">Contacto</a></li>
                     </ul>
 
 
