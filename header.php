@@ -41,7 +41,7 @@
             <li><a href="#">Tienda</a></li>
             <li><a href="sobrenosotros.php">Nosotros</a></li>
             <li><a href="contactanos.php">Contactanos</a></li>
-            <li><a href="#">Ayuda</a></li>
+            <li><a href="ayuda.php">Ayuda</a></li>
                     </ul>
 
 
