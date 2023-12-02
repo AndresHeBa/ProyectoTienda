@@ -1,11 +1,11 @@
 body{
 	height: 100%; 
-    font-family:Arial, Helvetica, sans-serif;
     background-color:rgb(250, 45, 45); 
 }
 
 
 .contact_form{	
+	font-family:Arial, Helvetica, sans-serif;
 	width: 460px; 
     height: auto;
     margin: 80px auto;
@@ -17,7 +17,7 @@ body{
 }
 
 
-input{
+.contact_form input{
 	background-color: #c7c7c7; 
 	width: 408px; 
 	height: 40px; 
@@ -31,7 +31,7 @@ input{
 }
 
 
-textarea{
+.contact_form textarea{
     background-color: #bbbbbb; 
 	width: 405px; 
 	height: 150px; 
@@ -46,13 +46,13 @@ textarea{
 }
 
 
-label{
+.contact_form label{
     display: block; 
 	float: center; 	
 }
 
 
-button{
+.contact_form button{
 	height: 45px; 
 	padding-left: 5px;
 	padding-right: 5px; 	
@@ -68,12 +68,12 @@ button{
 }
 
 
-button p{
+.contact_form button p{
 	color: #fff; 
 }
 
 
-span{
+.contact_form span{
 	color: #ebebeb; 
 }
 
@@ -84,7 +84,7 @@ span{
 }
 
 
-h1{
+.contact_form h1{
 	font-size: 39px;  
 	text-align: letf; 
 	padding-bottom: 20px; 
@@ -92,14 +92,14 @@ h1{
 }
 
 
-h3{
+.contact_form h3{
 	font-size: 16px; 
 	padding-bottom: 30px;
 	color: #0e0e0e;   
 }
 
 
-p{
+.contact_form p{
 	font-size: 14px; 
 	color: #0e0e0e; 
 }
