@@ -46,7 +46,7 @@
                 </span>
                 <br>
             </p>
-            <a id="btnfoot" href="#myCarousel"><i class="fa-solid fa-arrow-up fa-lg"></i></a>
+            <a id="btnfoot" href="#banner"><i class="fa-solid fa-arrow-up fa-lg"></i></a>
         </div>
     </footer>
 </body>

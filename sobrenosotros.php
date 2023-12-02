@@ -38,26 +38,30 @@
     </header>
 
     <!--  -->
-    <div class="contenedor">
+    <div id="banner">
         <div class="header-title">
-            <h1>Vision</h1>
-            <p class="paragraph animate__animated animate__fadeIn">
+            <h1 data-aos="fade-up">Vision</h1>
+            <p class="paragraph" data-aos="fade-up">
             "Ser la principal fuente de inspiración y soluciones tecnológicas para nuestros clientes, 
             ofreciendo una experiencia única que transforme sus vidas a través de la 
             innovación y la excelencia en TecnoGadget."
             </p>
-        </div><div class="header-title">
-            <h1>Mision</h1>
-            <p class="paragraph animate__animated animate__fadeIn">
+        </div>
+        <div class="separ animate__animated animate__fadeIn" data-aos="fade-up"></div>
+        <div class="header-title">
+            <h1 data-aos="fade-up">Mision</h1>
+            <p class="paragraph" data-aos="fade-up">
             "En TecnoGadget, nos comprometemos a proporcionar productos y servicios tecnológicos de la más alta calidad, 
             siempre a la vanguardia de la innovación. Buscamos ser líderes en el mercado, brindando asesoramiento experto 
             y creando conexiones significativas entre las personas y la tecnología. Nuestra misión es simplificar la vida 
             digital de nuestros clientes, ofreciendo productos confiables y 
             soluciones personalizadas que impulsen su experiencia tecnológica."
             </p>
-        </div><div class="header-title">
-            <h1>Objetivo</h1>
-            <p class="paragraph animate__animated animate__fadeIn">
+        </div>
+        <div class="separ animate__animated animate__fadeIn" data-aos="fade-up"></div>
+        <div class="header-title">
+            <h1 data-aos="fade-up">Objetivo</h1>
+            <p class="paragraph" data-aos="fade-up">
             "Nuestro principal objetivo en TecnoGadget es ser reconocidos como el destino preferido para los entusiastas de 
             la tecnología y aquellos que buscan soluciones inteligentes para sus necesidades digitales. Nos esforzamos por 
             construir relaciones a largo plazo con nuestros clientes, ofreciendo productos de calidad, servicio excepcional 
