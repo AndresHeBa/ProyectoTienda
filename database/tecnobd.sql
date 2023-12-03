@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-12-2023 a las 03:03:51
+-- Tiempo de generación: 03-12-2023 a las 05:58:03
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -113,6 +113,14 @@ CREATE TABLE `Proveedores` (
   `Dirección` varchar(150) DEFAULT NULL,
   `NúmeroContacto` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `Proveedores`
+--
+
+INSERT INTO `Proveedores` (`ProveedorID`, `Nombre`, `Dirección`, `NúmeroContacto`) VALUES
+(1, 'Jose Luis Ornelas Valadez', 'Santander 127 Col. España', '+52 1 449 279 5404'),
+(2, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '+52 1 449 543 6109');
 
 -- --------------------------------------------------------
 
@@ -231,7 +239,7 @@ ALTER TABLE `Producto`
 -- AUTO_INCREMENT de la tabla `Proveedores`
 --
 ALTER TABLE `Proveedores`
-  MODIFY `ProveedorID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProveedorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `Usuarios`

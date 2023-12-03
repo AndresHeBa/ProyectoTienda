@@ -3,12 +3,27 @@
 
 <div class="container">
     <h2>Administración de Usuarios</h2>
+    <div class="prove_butt">
+        <button class="btn btn-primary" onclick="window.location.href='../adminzone.php'">Regresar</button>
+        <button class="btn btn-primary" onclick="window.location.href='add.php'">Agregar Usuario</button>
+        <!-- buscar a la derecha y js-->
+        <input type="text" id="myInput" onkeyup="searchWithFilter()" placeholder="Buscar" title="Type in a name">
+        <!-- tipo de busqueda -->
+        <select id="mySelect">
+            <option value="1">ID</option>
+            <option value="2">Nombre</option>
+            <option value="3">Dirección</option>
+            <option value="4">Número de contacto</option>
+            <option value="5">Correo</option>
+            <option value="6">Cuenta</option>
+        </select>
+    </div>
     <?php
     include '../includes/db.php';
     $sql = "SELECT * FROM Usuarios";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        echo "<table>";
+        echo "<table id='SQLTable'>";
         echo "<tr>";
         echo "<th>ID</th>";
         echo "<th>IsAdmin</th>";
@@ -41,5 +56,7 @@
     $conn->close();
     ?>
 </div>
+<script src="../js/sqltab.js"></script>
+
 
 <?php include '../includes/footer.php'; ?>

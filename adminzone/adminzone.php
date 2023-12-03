@@ -11,7 +11,7 @@
 
 <?php include 'includes/header.php'; ?>
 
-<div class="container" transition-style="out:square:center">
+<div class="container">
     <h2>Bienvenido a Tecnogadget - Panel de Administración</h2>
     <ul>
         <li><a href="admin/users.php">Administración de Usuarios</a></li>
