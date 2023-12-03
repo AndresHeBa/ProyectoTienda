@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 02-12-2023 a las 17:57:57
+-- Tiempo de generación: 03-12-2023 a las 03:03:51
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `tecnobd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Categoria`
+--
+
+CREATE TABLE `Categoria` (
+  `CategoriaID` int(11) NOT NULL,
+  `DesCategoria` varchar(80) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `Categoria`
+--
+
+INSERT INTO `Categoria` (`CategoriaID`, `DesCategoria`) VALUES
+(1, 'Discos Duros'),
+(2, 'Procesadores'),
+(3, 'Monitores'),
+(4, 'RAM'),
+(5, 'Tarjetas Gráficas'),
+(6, 'Teclados'),
+(7, 'Mouse');
 
 -- --------------------------------------------------------
 
@@ -66,6 +90,7 @@ INSERT INTO `Preguntas` (`PreguntaID`, `Pregunta`) VALUES
 CREATE TABLE `Producto` (
   `ProductoID` int(11) NOT NULL,
   `Nombre` varchar(100) DEFAULT NULL,
+  `Descripción` varchar(250) NOT NULL,
   `Modelo` varchar(50) DEFAULT NULL,
   `NúmeroSerie` varchar(30) DEFAULT NULL,
   `ProveedorID` int(11) DEFAULT NULL,
@@ -73,7 +98,7 @@ CREATE TABLE `Producto` (
   `PrecioVenta` decimal(10,2) DEFAULT NULL,
   `CantidadStock` int(11) DEFAULT NULL,
   `Imagen` varchar(30) DEFAULT NULL,
-  `Categoria` varchar(30) DEFAULT NULL
+  `CategoriaID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -127,6 +152,12 @@ CREATE TABLE `Ventas` (
 --
 
 --
+-- Indices de la tabla `Categoria`
+--
+ALTER TABLE `Categoria`
+  ADD PRIMARY KEY (`CategoriaID`);
+
+--
 -- Indices de la tabla `DetallesVenta`
 --
 ALTER TABLE `DetallesVenta`
@@ -145,7 +176,8 @@ ALTER TABLE `Preguntas`
 --
 ALTER TABLE `Producto`
   ADD PRIMARY KEY (`ProductoID`),
-  ADD KEY `ProveedorID` (`ProveedorID`);
+  ADD KEY `ProveedorID` (`ProveedorID`),
+  ADD KEY `fk_Producto_Categoria` (`CategoriaID`);
 
 --
 -- Indices de la tabla `Proveedores`
@@ -157,7 +189,8 @@ ALTER TABLE `Proveedores`
 -- Indices de la tabla `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  ADD PRIMARY KEY (`ClienteID`);
+  ADD PRIMARY KEY (`ClienteID`),
+  ADD KEY `fk_Pregunta_Usuario` (`PreguntaID`);
 
 --
 -- Indices de la tabla `Ventas`
@@ -169,6 +202,12 @@ ALTER TABLE `Ventas`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `Categoria`
+--
+ALTER TABLE `Categoria`
+  MODIFY `CategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `DetallesVenta`
@@ -221,7 +260,14 @@ ALTER TABLE `DetallesVenta`
 -- Filtros para la tabla `Producto`
 --
 ALTER TABLE `Producto`
-  ADD CONSTRAINT `Producto_ibfk_1` FOREIGN KEY (`ProveedorID`) REFERENCES `Proveedores` (`ProveedorID`);
+  ADD CONSTRAINT `Producto_ibfk_1` FOREIGN KEY (`ProveedorID`) REFERENCES `Proveedores` (`ProveedorID`),
+  ADD CONSTRAINT `fk_Producto_Categoria` FOREIGN KEY (`CategoriaID`) REFERENCES `Categoria` (`CategoriaID`);
+
+--
+-- Filtros para la tabla `Usuarios`
+--
+ALTER TABLE `Usuarios`
+  ADD CONSTRAINT `fk_Pregunta_Usuario` FOREIGN KEY (`PreguntaID`) REFERENCES `Preguntas` (`PreguntaID`);
 
 --
 -- Filtros para la tabla `Ventas`

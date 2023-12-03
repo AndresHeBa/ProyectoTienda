@@ -69,7 +69,8 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -84,6 +85,34 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+.prove_butt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;    
+}
+
+.prove_butt button:first-child {
+    margin-right: 10px; 
+}
+
+.prove_butt button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.prove_butt input {
+    margin-left: auto;
+}
+
+
+
+
+
 
 /* squere animation*/
 /* @keyframes square-out-center {
@@ -94,7 +123,7 @@ tr:nth-child(even) {
       clip-path: inset(100% 100% 100% 100%);
     }
   }
-  
+
   [transition-style="out:square:center"] {
     animation: 2.5s cubic-bezier(.25, 1, .30, 1) square-out-center both;
   } */
