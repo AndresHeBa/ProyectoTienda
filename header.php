@@ -38,7 +38,7 @@
                 <nav class="hm-menu">
                     <ul>
                     <li><a href="index.php">Inicio</a></li>
-            <li><a href="#">Tienda</a></li>
+            <li><a href="tienda.php">Tienda</a></li>
             <li><a href="sobrenosotros.php">Nosotros</a></li>
             <li><a href="contactanos.php">Contactanos</a></li>
             <li><a href="ayuda.php">Ayuda</a></li>
@@ -46,7 +46,7 @@
 
 
                     <div class="hm-icon-cart">
-                        <a href="#">
+                        <a href="carrito.php">
                             <i class="las la-shopping-cart"></i>
                             <span>0</span>
                         </a>
