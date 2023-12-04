@@ -19,7 +19,7 @@ body{
 
 .regs input{
 	background-color: #c7c7c7; 
-	width: 408px; 
+	width: 400px; 
 	height: 40px; 
 	border-radius: 5px;  
 	border-style: solid; 
@@ -33,7 +33,7 @@ body{
 
 .regs textarea{
     background-color: #bbbbbb; 
-	width: 405px; 
+	width: 400px; 
 	height: 150px; 
 	border-radius: 5px;  
 	border-style: solid; 
@@ -82,7 +82,7 @@ body{
     justify-content: space-evenly;
     align-items: center;
     margin-bottom: 10px; 
-    width: 408px; 
+    width: 400px; 
 	height: 40px;   
 }
 
