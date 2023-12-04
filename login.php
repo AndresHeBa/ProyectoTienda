@@ -1,6 +1,20 @@
+<?php
+    session_start();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        include_once 'securimage/securimage.php';
+        $securimage = new Securimage();
+
+        if ($securimage->check($_POST['captcha_code']) == false) {
+            echo "El código captcha ingresado es incorrecto. Intenta de nuevo.";
+        } else {
+            echo "captcha incorrecto";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,11 +42,13 @@
     <link rel="stylesheet" href="https://unpkg.com/transition-style">
 
     <!-- Animate -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 
     <title>Registro/Longin</title>
 </head>
-
 <body>
     <!-- registro dinamico -->
     <div class="regs">
@@ -41,37 +57,23 @@
             <button id="btn-login" onclick="showFormlog()">Login</button>
         </div>
         <div class="regist" id="regist" style="display: block;" transition-style="in:wipe:down">
-            <!-- onsubmit="return validarFormulario()" -->
             <h1>Registro</h1>
-            <form action="registro.php" method="POST" id="registrationForm">
-                <input type="text" name="nombre" placeholder="Nombre" required>
-                <input type="text" name="direccion" placeholder="Dirección" required>
-                <input type="tel" name="telefono" placeholder="Teléfono" pattern="\(\d{3}\) \d{3}[-\s]\d{4}" title="Un número de teléfono válido consta de un código de 3 cifras entre paréntesis, un espacio, las tres primeras cifras del número, un espacio o guión (-) y cuatro cifras más" required>
-                <input type="text" name="email" placeholder="Email" required>
-                <input type="text" name="usuario" placeholder="Usuario" required>
-                <input type="password" name="password" id="password" placeholder="Contraseña" onblur="validarContrasenas()" required>
-                <input type="password" name="password2" id="password2" placeholder="Confirmar Contraseña" oninput="validarContrasenas()" required>
-                <span id="mensaje-contrasenas"></span>
-                <select name="pregunta">
-                    <?php
-                    include 'adminzone/includes/db.php';
-                    $query = "SELECT * FROM Preguntas";
-                    $resultado = $conn->query($query);
-                    while ($row = $resultado->fetch_assoc()) {
-                        echo "<option value='" . $row['PreguntaID'] . "'>" . $row['Pregunta'] . "</option>";
-                    }
-                    $conn->close();
-                    ?>
-                </select>
-                <input type="text" name="respuesta" placeholder="Respuesta" required>
-                <input type="submit" value="Registrar" onclick="registerUser(event)">
+            <form action="registro.php" method="POST">
+                <input type="text" name="nombre" placeholder="Nombre">
+                <input type="text" name="apellido" placeholder="Apellido">
+                <input type="text" name="email" placeholder="Email">
+                <input type="text" name="usuario" placeholder="Usuario">
+                <input type="password" name="password" placeholder="Contraseña">
+                <input type="submit" value="Registrar">
             </form>
         </div>
         <div class="login" id="login" style="display: none;" transition-style="in:wipe:up">
             <h1>Login</h1>
             <form action="login.php" method="POST">
                 <input type="text" name="usuario" placeholder="Usuario">
-                <input type="passwordl" name="passwordl" placeholder="Contraseña">
+                <input type="password" name="password" placeholder="Contraseña">
+                <img id="captcha" src="securimage/securimage_show.php" alt="Captcha Image" />
+                <input type="text" name="captcha_code" placeholder="Captcha" required>
                 <input type="submit" value="Ingresar">
             </form>
         </div>
@@ -83,52 +85,15 @@
         var login = document.getElementById("login");
 
         function showFormreg() {
-            registro.style.display = "block";
-            login.style.display = "none";
+            registro.style.display="block";
+            login.style.display="none";
         }
 
         function showFormlog() {
-            login.style.display = "block";
-            registro.style.display = "none";
-        }
-
-        function validarContrasenas() {
-            var password = document.getElementById("password").value;
-            var password2 = document.getElementById("password2").value;
-            var mensaje = document.getElementById("mensaje-contrasenas");
-
-            if (password !== password2) {
-                mensaje.innerHTML = "Las contraseñas no coinciden.";
-                mensaje.style.color = "red";
-            } else {
-                mensaje.innerHTML = "";
-            }
-        }
-
-        function registerUser(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            var form = document.getElementById('registrationForm');
-            var formData = new FormData(form);
-
-            fetch('registro.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text()) // Parse as text
-                .then(data => {
-                    // Handle the response data, e.g., show a success message
-                    console.log(data);
-                    alert("Usuario registrado exitosamente");
-                })
-                .catch(error => {
-                    // Handle errors, e.g., show an error message
-                    console.error('Error:', error);
-                });
-
+            login.style.display="block";
+            registro.style.display="none";
         }
     </script>
 
 </body>
-
 </html>
