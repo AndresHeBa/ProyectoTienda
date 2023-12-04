@@ -1,3 +1,17 @@
+<?php
+     
+    $servidor='localhost';
+    $cuenta='root';
+    $password='';
+    $bd='tecnobd';
+   
+    $conexion = new mysqli($servidor,$cuenta,$password,$bd);
+
+    if ($conexion->connect_errno){
+         die('Error en la conexion');
+    }
+       
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,9 +55,33 @@
     <section class="contenedor">
     <!-- Contenedor de elementos -->
     <div class="contenedor-items">
-            <div class="item">
+        <?php
+            $sql = 'select * from producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
+            $resultado = $conexion -> query($sql); //aplicamos sentencia
+            if ($resultado -> num_rows){ //si la consulta genera registros
+                    while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
+                        echo '<div class="item">';
+                            echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
+                            echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
+                            echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
+                            echo '<div class="selector-cantidad">
+                                    <i class="fa-solid fa-minus restar-cantidad"></i>
+                                    <input type="text" value="3" class="carrito-item-cantidad" disabled>
+                                    <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                  </div>
+                                  <button class="boton-item">Agregar al Carrito</button>';
+                        echo '</div>';
+                    }   
+                    echo '</table">';
+                echo '</div>';
+            }
+            else{
+                echo "no hay datos";
+            }
+        ?>
+            <!-- <div class="item">
                 <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
+                <img src="img/barracuda_1tb.webp" alt="" class="img-item">
                 <span class="precio-item">$5,620</span>
                 <div class="selector-cantidad">
                             <i class="fa-solid fa-minus restar-cantidad"></i>
@@ -129,7 +167,7 @@
                         </div>
                 <button class="boton-item">Agregar al Carrito</button>
             </div>
-        </div>
+        </div> -->
 </section>
 
          
