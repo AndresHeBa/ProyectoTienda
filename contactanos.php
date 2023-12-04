@@ -21,6 +21,7 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/contactanos_styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -35,8 +36,8 @@
     <!-- Contactanos -->
     <div class="contact_form">
         <div class="formulario">
-            <h1>Contactanos - Formulario</h1>
-            <h3>Envianos un mensaje a nosotros, alguien de nosotros se pondra en contacto con usted, para ello llene los campos siguientes:</h3>
+            <h1>Contactanos</h1>
+            <h3>Envianos un mensaje, alguien de nuestro equipo se pondra en contacto con usted, para ello llene los campos siguientes:</h3>
             <form action="submeter-formulario.php" method="post">
                 <p>
                     <label for="nombre" class="colocar_nombre">Nombre completo
@@ -76,7 +77,7 @@
                     <p>Enviar</p>
                 </button>
                 <p class="aviso">
-                    <span class="obligatorio"> * </span>LLene los campos que son presentados a continuación aparte que algunos son requeridos forzosamente por lo cual hagalo por favor.
+                    <span class="obligatorio"> * </span>Por favor llene los campos obliatorios
                 </p>
             </form>
         </div>

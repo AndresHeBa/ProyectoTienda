@@ -34,6 +34,16 @@
                     <li><a href="sobrenosotros.php">Nosotros</a></li>
                     <li><a href="contactanos.php">Contactanos</a></li>
                     <li><a href="ayuda.php">Ayuda</a></li>
+                    <?php
+                        if (isset($_SESSION["usuario"])) {
+                            echo "<li><a href='vacante.php'>Trabaja Con Nosotros</a></li>";
+                            echo "<li><a href='#'>". $_SESSION["usuario"]."</a></li>";
+                            echo "<li><a href='logout.php'>Logout</a></li>";
+                        } else {
+                            echo "<li><a href='login.php'>Login</a></li>";
+                        }
+                        
+                    ?>
                 </ul>
 
 

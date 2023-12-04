@@ -34,13 +34,30 @@
 </head>
 
 <body>
+    <!-- Header -->
+    <header>
+        <?php
+            include "header.php";
+        ?>
+    </header>
+    
     <!-- registro dinamico -->
     <div class="regs">
         <div class="prove_butt">
             <button id="btn-registro" onclick="showFormreg()">Registro</button>
             <button id="btn-login" onclick="showFormlog()">Login</button>
         </div>
-        <div class="regist" id="regist" style="display: block;" transition-style="in:wipe:down">
+
+        <div class="login" id="login" style="display: block;" transition-style="in:wipe:up">
+            <h1>Login</h1>
+            <form action="login.php" method="POST">
+                <input type="text" name="usuario" placeholder="Usuario">
+                <input type="passwordl" name="passwordl" placeholder="Contraseña">
+                <input type="submit" value="Ingresar">
+            </form>
+        </div>
+
+        <div class="regist" id="regist" style="display: none;" transition-style="in:wipe:down">
             <!-- onsubmit="return validarFormulario()" -->
             <h1>Registro</h1>
             <form action="registro.php" method="POST" id="registrationForm">
@@ -67,15 +84,11 @@
                 <input type="submit" value="Registrar" onclick="registerUser(event)">
             </form>
         </div>
-        <div class="login" id="login" style="display: none;" transition-style="in:wipe:up">
-            <h1>Login</h1>
-            <form action="login.php" method="POST">
-                <input type="text" name="usuario" placeholder="Usuario">
-                <input type="passwordl" name="passwordl" placeholder="Contraseña">
-                <input type="submit" value="Ingresar">
-            </form>
-        </div>
     </div>
+    <!-- Footer -->
+    <?php
+        include "footer.php"
+    ?>
     <script>
         var btnRegistro = document.getElementById("btn-registro");
         var btnLogin = document.getElementById("btn-login");

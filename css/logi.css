@@ -1,6 +1,7 @@
 body{
 	height: 100%; 
-    background-color:rgb(250, 45, 45); 
+    /* background-color:rgb(250, 45, 45);  */
+	font-family: 'Poppins', sans-serif;
 }
 
 
