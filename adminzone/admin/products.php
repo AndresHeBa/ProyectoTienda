@@ -73,23 +73,51 @@
             <label for="descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion" required></textarea>
 
-            <!-- Agrega más campos según tus necesidades -->
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" name="modelo" required>
+
+            <label for="numeroSerie">Número de Serie:</label>
+            <input type="text" id="numeroSerie" name="numeroSerie" required>
 
             <label for="proveedor">Proveedor:</label>
             <select id="proveedor" name="proveedor" required>
-                <!-- Aquí cargarás dinámicamente las opciones desde la base de datos -->
-                <option value="1">Proveedor 1</option>
-                <option value="2">Proveedor 2</option>
-                <!-- Agrega más opciones según tus proveedores -->
+                <?php
+
+                include '../includes/db.php';
+                $query = "SELECT * FROM Proveedores";
+                $resultado = $conn->query($query);
+                while ($row = $resultado->fetch_assoc()) {
+                    echo "<option value='" . $row['ProveedorID'] . "'>" . $row['Nombre'] . "</option>";
+                }
+                $conn->close();
+                ?>
             </select>
 
             <label for="categoria">Categoría:</label>
             <select id="categoria" name="categoria" required>
-                <!-- Aquí cargarás dinámicamente las opciones desde la base de datos -->
-                <option value="1">Categoría 1</option>
-                <option value="2">Categoría 2</option>
-                <!-- Agrega más opciones según tus categorías -->
+                <?php
+
+                include '../includes/db.php';
+                $query = "SELECT * FROM Categoria";
+                $resultado = $conn->query($query);
+                while ($row = $resultado->fetch_assoc()) {
+                    echo "<option value='" . $row['CategoriaID'] . "'>" . $row['DesCategoria'] . "</option>";
+                }
+                $conn->close();
+                ?>
             </select>
+
+            <label for="precioCompra">Precio de Compra:</label>
+            <input type="number" id="precioCompra" name="precioCompra" required>
+
+            <label for="precioVenta">Precio de Venta:</label>
+            <input type="number" id="precioVenta" name="precioVenta" required>
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" required>
+
+            <label for="imagen">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" required>
             <br>
             <br>
             <button type="submit" class="btn btn-success">Agregar Producto</button>

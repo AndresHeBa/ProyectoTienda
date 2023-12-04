@@ -31,7 +31,6 @@
         echo "<th>Dirección</th>";
         echo "<th>Número de contacto</th>";
         echo "<th>Correo</th>";
-        echo "<th>Contraseña</th>";
         echo "<th>Cuenta</th>";
         echo "<th>Acciones</th>";
         echo "</tr>";
@@ -43,9 +42,8 @@
             echo "<td>" . $row["Dirección"] . "</td>";
             echo "<td>" . $row["NúmeroContacto"] . "</td>";
             echo "<td>" . $row["Correo"] . "</td>";
-            echo "<td>" . $row["Contraseña"] . "</td>";
             echo "<td>" . $row["Cuenta"] . "</td>";
-            echo "<td><a href='edit.php?id=" . $row["id_usuario"] . "'>Editar</a> | <a href='delete.php?id=" . $row["id_usuario"] . "'>Eliminar</a></td>";
+            echo "<td><a href='edit.php?id=" . $row["ClienteID"] . "'>Editar</a> | <a href='delete.php?id=" . $row["ClienteID"] . "'>Eliminar</a></td>";
             echo "</tr>";
         }
         echo "</table>";
