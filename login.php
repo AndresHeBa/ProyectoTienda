@@ -72,6 +72,8 @@
             <form action="loginu.php" method="POST" id="loginFrom">
                 <input type="text" name="usuario" placeholder="Usuario" required>
                 <input type="password" name="passwordl" placeholder="Contraseña" required>
+                <img id="captcha" src="captcha.php" alt="Captcha Image" />
+                <input type="text" name="captcha_code" placeholder="Captcha" required>
                 <input type="submit" value="Ingresar" onclick="loginUser(event)">
             </form>
         </div>
@@ -145,7 +147,7 @@
                     if (data.status === "success") {
                         alert("Usuario loggeado exitosamente");
                         window.location.href = "index.php";
-                    } else {
+                    }else {
                         alert("Usuario o contraseña incorrectos");
                     }
                 })
