@@ -27,7 +27,7 @@ nav a {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 20px auto;
     background-color: #fff;
     padding: 20px;
@@ -69,7 +69,8 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -84,6 +85,78 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+.prove_butt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;    
+}
+
+.prove_butt button:first-child {
+    margin-right: 10px; 
+}
+
+.prove_butt button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.prove_butt input {
+    margin-left: auto;
+}
+
+
+
+.add{	
+	font-family:Arial, Helvetica, sans-serif;
+	width: 460px; 
+    height: auto;
+    margin: 80px auto;
+	border-radius: 10px;  
+	padding-top: 30px;
+	padding-bottom: 20px;  
+    background-color: #707070; 
+    padding-left: 30px; 
+}
+
+.add textarea{
+    background-color: #e6e6e6; 
+	width: 405px; 
+	height: 150px; 
+	border-radius: 5px;  
+	border-style: solid; 
+	border-width: 1px; 
+	border-color: #555555; 
+}
+
+
+.add label{
+    display: block; 
+	float: center; 	
+}
+
+
+.add button{
+	background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* estilo para option */
+
+
+/* estilo para input */
+
+
+
+
 
 /* squere animation*/
 /* @keyframes square-out-center {
@@ -94,7 +167,7 @@ tr:nth-child(even) {
       clip-path: inset(100% 100% 100% 100%);
     }
   }
-  
+
   [transition-style="out:square:center"] {
     animation: 2.5s cubic-bezier(.25, 1, .30, 1) square-out-center both;
   } */
