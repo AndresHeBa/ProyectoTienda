@@ -1,7 +1,7 @@
 <?php
 require_once 'adminzone/includes/db.php';
 
-// Check if the form is submitted
+// checar metodo de solicitud
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
     // Contraseña con SHA1
