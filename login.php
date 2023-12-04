@@ -93,6 +93,42 @@
             login.style.display="block";
             registro.style.display="none";
         }
+
+        function validarContrasenas() {
+            var password = document.getElementById("password").value;
+            var password2 = document.getElementById("password2").value;
+            var mensaje = document.getElementById("mensaje-contrasenas");
+
+            if (password !== password2) {
+                mensaje.innerHTML = "Las contraseñas no coinciden.";
+                mensaje.style.color = "red";
+            } else {
+                mensaje.innerHTML = "";
+            }
+        }
+
+        function registerUser(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var form = document.getElementById('registrationForm');
+            var formData = new FormData(form);
+
+            fetch('registro.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text()) // Parse as text
+                .then(data => {
+                    // Handle the response data, e.g., show a success message
+                    console.log(data);
+                    alert("Usuario registrado exitosamente");
+                })
+                .catch(error => {
+                    // Handle errors, e.g., show an error message
+                    console.error('Error:', error);
+                });
+
+        }
     </script>
 
 </body>
