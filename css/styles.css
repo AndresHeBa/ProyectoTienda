@@ -1,0 +1,98 @@
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+#banner{
+    margin-top: 30px;
+    width: 100%;
+    z-index: 99;
+}
+
+/* Separador */
+
+.separ{
+    height: 1px;
+    width: 60%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: #9b9c9c91;
+}
+
+/* Carrusel */
+
+#myCarousel{
+    margin: 0 auto;
+    width: 80%;
+}
+
+#myCarousel:hover{
+    cursor: pointer;
+}
+
+/* Titulos */
+
+.header-title{
+    margin-top: 3%;
+    /* margin-bottom: 50px; */
+}
+
+.header-title h1{
+    color: #444A47;
+    position: relative;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    padding-bottom: 16px;
+}
+
+.header-title h1::after{
+    content: '';
+    width: 76px;
+    height: 5px;
+    background: rgb(199, 27, 27);;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    border-radius: 3px;
+
+}
+
+/* Categorias */
+
+.cartas{
+    display: flex;
+    justify-content: space-around;
+}
+
+.img_cat{
+    height: 200px;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.card{
+    width: 250px;
+    margin: 0 auto;
+    border-width: 0;
+}
+
+.card:hover{
+    border-width: 1px;
+    cursor: pointer;
+}
+
+.foot_cat{
+    border-width: 0;
+    text-align: center;
+    background: white;
+}
+
+/* Animacion Zoom */
+.zoom {
+    transition: transform .2s; /* Animation */
+}
+  
+.zoom:hover {
+    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
