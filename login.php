@@ -84,6 +84,16 @@
                 <input type="submit" value="Registrar" onclick="registerUser(event)">
             </form>
         </div>
+        <div class="login" id="login" style="display: none;" transition-style="in:wipe:up">
+            <h1>Login</h1>
+            <form action="loginu.php" method="POST" id="loginFrom">
+                <input type="text" name="usuario" placeholder="Usuario" required>
+                <input type="password" name="passwordl" placeholder="Contraseña" required>
+                <img id="captcha" src="captcha.php" alt="Captcha Image" />
+                <input type="text" name="captcha_code" placeholder="Captcha" required>
+                <input type="submit" value="Ingresar" onclick="loginUser(event)">
+            </form>
+        </div>
     </div>
     <!-- Footer -->
     <?php
@@ -138,7 +148,34 @@
                     // Handle errors, e.g., show an error message
                     console.error('Error:', error);
                 });
+        }
 
+        function loginUser(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var form = document.getElementById('loginFrom');
+            var formData = new FormData(form);
+
+            fetch('loginu.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json()) // Parse as JSON
+                .then(data => {
+                    // Handle the response data
+                    console.log(data);
+
+                    if (data.status === "success") {
+                        alert("Usuario loggeado exitosamente");
+                        window.location.href = "index.php";
+                    }else {
+                        alert("Usuario o contraseña incorrectos");
+                    }
+                })
+                .catch(error => {
+                    // Handle errors, e.g., show an error message
+                    console.error('Error:', error);
+                });
         }
     </script>
 
