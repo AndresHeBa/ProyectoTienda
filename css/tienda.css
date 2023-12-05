@@ -149,6 +149,12 @@ body{
     font-size: 22px;
 }
 
+.contenedor .contenedor-items .item .texto-item{
+    display: block;
+    text-align: center;
+    font-size: 15px;
+}
+
 .contenedor .contenedor-items .item .boton-item{
     display: block;
     margin: 10px auto;
