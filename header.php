@@ -34,7 +34,8 @@
                     <li><a href="sobrenosotros.php">Nosotros</a></li>
                     <li><a href="contactanos.php">Contactanos</a></li>
                     <li><a href="ayuda.php">Ayuda</a></li>
-                    <li><a href="login.php">Inicia Sesion</a></li>
+                    <li><a href="login.php">Inicia sesion</a></li>
+                    <li><a href="./adminzone/admin/products.php">AddProd</a></li>
                 </ul>
 
 
