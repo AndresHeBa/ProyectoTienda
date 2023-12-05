@@ -90,7 +90,7 @@
             echo "<td>" . (isset($row["CantidadStock"]) ? $row["CantidadStock"] : "") . "</td>";
             echo "<td>" . (isset($row["DesCategoria"]) ? $row["DesCategoria"] : "") . "</td>";
             echo "<td><img src='../../{$row["Imagen"]}' alt='Imagen del Producto' style='width: 50px; height: 50px;'></td>";
-            echo "<td><a href='edit.php?id=" . $row["ProductoID"] . "'>Editar</a> | <a href='delete.php?id=" . $row["ProductoID"] . "'>Eliminar</a></td>";
+            echo "<td><a onclick='editProduct(" . $row["ProductoID"] . ")' href='#'>Editar</a> | <a onclick='deleteProduct(" . $row["ProductoID"] . ")' href='#'>Eliminar</a></td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -187,6 +187,25 @@
         fetch('insert_product.php', {
                 method: 'POST',
                 body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "success") {
+                    alert(data.message);
+                    window.location.href = "products.php";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function deleteProduct(productID) {
+        fetch('delete.php?id=' + productID, {
+                method: 'GET', // especificar explícitamente el método GET
             })
             .then(response => response.json())
             .then(data => {

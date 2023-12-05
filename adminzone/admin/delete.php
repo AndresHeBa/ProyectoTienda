@@ -1,20 +1,24 @@
 <?php
 include '../includes/db.php';
 
-if (isset($_GET['id'])) {
-    $productoID = $_GET['id'];
-
-    $sql = "DELETE FROM Producto WHERE ProductoID = $productoID";
+if ($_SERVER['REQUEST_METHOD'] === 'GET'&& isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql = "DELETE FROM producto WHERE ProductoID = $id";
     $result = $conn->query($sql);
 
-    if ($result) {
-        echo "Producto eliminado con éxito.";
+    if ($conn->affected_rows > 0) {
+        $response = array('status' => 'success', 'message' => 'Producto eliminado correctamente.');
     } else {
-        echo "Error al eliminar el producto: " . $conn->error;
+        $response = array('status' => 'error', 'message' => 'Hubo un problema al eliminar el producto.');
     }
+    
+    header('Content-Type: application/json');
+    echo json_encode($response);
 } else {
-    echo "ID de producto no proporcionado.";
+    $response = array('status' => 'error', 'message' => 'Invalid request method');
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
-
+   
 $conn->close();
 ?>
