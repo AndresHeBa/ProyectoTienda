@@ -17,7 +17,7 @@
     </div>
     <?php
     include '../includes/db.php';
-    $sql = "SELECT * FROM Proveedores";
+    $sql = "SELECT * FROM proveedores";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         echo "<table id='SQLTable'>";

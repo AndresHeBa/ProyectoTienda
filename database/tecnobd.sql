@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2023 a las 22:08:09
+-- Tiempo de generación: 05-12-2023 a las 01:41:57
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -97,7 +97,7 @@ CREATE TABLE `producto` (
   `PrecioCompra` decimal(10,2) DEFAULT NULL,
   `PrecioVenta` decimal(10,2) DEFAULT NULL,
   `CantidadStock` int(11) DEFAULT NULL,
-  `Imagen` varchar(30) DEFAULT NULL,
+  `Imagen` varchar(100) DEFAULT NULL,
   `CategoriaID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -106,9 +106,22 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`ProductoID`, `Nombre`, `Descripción`, `Modelo`, `NúmeroSerie`, `ProveedorID`, `PrecioCompra`, `PrecioVenta`, `CantidadStock`, `Imagen`, `CategoriaID`) VALUES
-(4, 'Pollo', 'hola', 'Cuantum', '4556585', 1, 4.00, 5.00, 6, '', 1),
-(5, 'humus', 'jojojo', 'acelga', '78945', 2, 45.00, 10.00, 89, '', 5),
-(6, 'raton ms', 'raton mini slim para manos pequeñas', 'ms lux', '653320', 1, 250.00, 60.00, 5, '', 7);
+(123, 'Seagate Skyhawk 1Tb', '1Tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb Cache', 'barracuda', '765678', 2, 700.00, 1600.00, 15, 'img/barracuda_1tb.webp', 1),
+(125, 'Western Digital 18tb', '18tb, Sata, 7200 Rpm, Cache 512 Mb, 3.5\"', 'wd', '89641', 2, 6000.00, 8200.00, 5, 'img/wd_18tb.webp', 1),
+(146, 'Seagate Barracuda 4tb', '4tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb', 'barracuda', '87654', 2, NULL, 1600.00, 20, 'img/barracuda_4tb.webp', 1),
+(174, 'Intel Core i5', 'Cache 24 Mb, Nucleos 14, Hilos 20, 5.1 Ghz', 'core', '42888', 1, NULL, 5900.00, 4, 'img/core_i5.webp', 2),
+(193, 'Seagate Skyhawk 20tb', '20 Tb, Serial Ata Iii, Cache 256 Mb, 3.5\"', 'skyhawk', '45782', 2, NULL, 8900.00, 5, 'img/skyhawk_20tb.webp', 1),
+(525, 'AMD Ryzen 7', 'Skt Am5, 5nm, 4.2 Ghz, 8 Core', 'ryzen', '24743', 1, 0.00, 7500.00, 13, 'img/ryzen_7.webp', 2),
+(567, 'Western Digital 8tb', '8tb, Sata 6gb/s, 5640rpm, 128mb', 'barracuda', '78902', 2, 3000.00, 4150.00, 10, 'img/wd_8tb.webp', 1),
+(689, 'Seagate Ironwolf 18tb', '18tb, 7200 Rpm, Cache 256 Mb, 3.5\"', 'ironwolf', '34572', 2, 5500.00, 7100.00, 7, 'img/ironwolf_18tb.webp', 1),
+(746, 'Intel Core i3', 'Cache 12 Mb, Nucleos 4, Hilos 8, 4.5 Ghz', 'core', '42887', 1, NULL, 2000.00, 11, 'img/core_i3.webp', 2),
+(782, 'Intel Celeron', 'kt 1200, 3.5ghz, 4mb Cache', 'celeron', '42572', 1, 400.00, 900.00, 4, 'img/celeron.webp', 2),
+(789, 'Intel Core i7', 'Cache 30 Mb, 16 Nucleos, 24 Hilos, 5.2 Ghz', 'core', '42882', 1, NULL, 7600.00, 9, 'img/core_i7.webp', 2),
+(913, 'Seagate Ironwolf 6tb', '18tb, 7200 Rpm, Cache 256 Mb, 3.5\"', 'ironwolf', '93157', 2, 3000.00, 4200.00, 10, 'img/ironwolf_6tb.webp', 1),
+(78124, 'Seagate Barracuda 2tb', '2tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb', 'barracuda', '87654', 2, NULL, 1000.00, 20, 'img/hard_drive.webp', 1),
+(78125, 'AMD Ryzen 5', 'Socket Am5, 4.7ghz, 5.3ghz, 38mb Cache', 'ryzen', '24743', 1, 0.00, 4000.00, 17, 'img/ryzen_5.jpg', 2),
+(78126, 'Intel Core i9', 'Cache 36mb, Nucleos 24, Hilos 32, 5.8 Ghz', 'core', '42882', 1, NULL, 10600.00, 9, 'img/core_i9.webp', 2),
+(78127, 'AMD Athlon', '3.5 Ghz 4mb 35w Am4 Vega Graphics', 'amd', NULL, 1, NULL, 900.00, 2, 'img/amd.png', 2);
 
 -- --------------------------------------------------------
 
@@ -155,8 +168,9 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`, `Estado`) VALUES
-(1, 0, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '(449) 543-6109', 'adrianalonso.a4@gmail.com', 'e9d1d42e658461e23c02ca01d57bf7b31d9d4f51', 'YuunoDev', 4, 'azul', '');
+INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`) VALUES
+(1, 1, 'Andrés', 'Vicente Riva Palacio 238', '+524492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado'),
+(2, 0, 'Andrés', 'Vicente Riva Palacio 238', '4492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado');
 
 -- --------------------------------------------------------
 
@@ -250,7 +264,7 @@ ALTER TABLE `preguntas`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `ProductoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ProductoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78128;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
@@ -262,7 +276,7 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`

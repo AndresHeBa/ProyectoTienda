@@ -30,17 +30,25 @@
             <nav class="hm-menu">
                 <ul>
                     <li><a href="index.php">Inicio</a></li>
-                    <li><a href="#">Tienda</a></li>
+                    <li><a href="tienda.php">Tienda</a></li>
                     <li><a href="sobrenosotros.php">Nosotros</a></li>
                     <li><a href="contactanos.php">Contactanos</a></li>
                     <li><a href="ayuda.php">Ayuda</a></li>
-                    <li><a href="login.php">Inicia sesion</a></li>
-                    <li><a href="./adminzone/admin/products.php">AddProd</a></li>
+                    <?php
+                        if (isset($_SESSION["usuario"])) {
+                            echo "<li><a href='vacante.php'>Trabaja Con Nosotros</a></li>";
+                            echo "<li><a href='#'>". $_SESSION["usuario"]."</a></li>";
+                            echo "<li><a href='logout.php'>Logout</a></li>";
+                        } else {
+                            echo "<li><a href='login.php'>Login</a></li>";
+                        }
+                        
+                    ?>
                 </ul>
 
 
                 <div class="hm-icon-cart">
-                    <a href="#">
+                    <a href="carrito.php">
                         <i class="las la-shopping-cart"></i>
                         <span>0</span>
                     </a>
