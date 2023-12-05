@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 04-12-2023 a las 03:58:09
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 05-12-2023 a las 22:08:09
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -24,19 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Categoria`
+-- Estructura de tabla para la tabla `categoria`
 --
 
-CREATE TABLE `Categoria` (
+CREATE TABLE `categoria` (
   `CategoriaID` int(11) NOT NULL,
   `DesCategoria` varchar(80) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Volcado de datos para la tabla `Categoria`
+-- Volcado de datos para la tabla `categoria`
 --
 
-INSERT INTO `Categoria` (`CategoriaID`, `DesCategoria`) VALUES
+INSERT INTO `categoria` (`CategoriaID`, `DesCategoria`) VALUES
 (1, 'Discos Duros'),
 (2, 'Procesadores'),
 (3, 'Monitores'),
@@ -48,10 +48,10 @@ INSERT INTO `Categoria` (`CategoriaID`, `DesCategoria`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `DetallesVenta`
+-- Estructura de tabla para la tabla `detallesventa`
 --
 
-CREATE TABLE `DetallesVenta` (
+CREATE TABLE `detallesventa` (
   `DetalleVentaID` int(11) NOT NULL,
   `VentaID` int(11) DEFAULT NULL,
   `ProductoID` int(11) DEFAULT NULL,
@@ -62,19 +62,19 @@ CREATE TABLE `DetallesVenta` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Preguntas`
+-- Estructura de tabla para la tabla `preguntas`
 --
 
-CREATE TABLE `Preguntas` (
+CREATE TABLE `preguntas` (
   `PreguntaID` int(11) NOT NULL,
   `Pregunta` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Volcado de datos para la tabla `Preguntas`
+-- Volcado de datos para la tabla `preguntas`
 --
 
-INSERT INTO `Preguntas` (`PreguntaID`, `Pregunta`) VALUES
+INSERT INTO `preguntas` (`PreguntaID`, `Pregunta`) VALUES
 (1, '¿Cuál es el nombre de tu primera mascota?'),
 (2, '¿Cuál es tu equipo de fútbol favorito?'),
 (3, '¿Cuál es el nombre de tu mejor amigo/a?'),
@@ -84,10 +84,10 @@ INSERT INTO `Preguntas` (`PreguntaID`, `Pregunta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Producto`
+-- Estructura de tabla para la tabla `producto`
 --
 
-CREATE TABLE `Producto` (
+CREATE TABLE `producto` (
   `ProductoID` int(11) NOT NULL,
   `Nombre` varchar(100) DEFAULT NULL,
   `Descripción` varchar(250) NOT NULL,
@@ -101,13 +101,22 @@ CREATE TABLE `Producto` (
   `CategoriaID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`ProductoID`, `Nombre`, `Descripción`, `Modelo`, `NúmeroSerie`, `ProveedorID`, `PrecioCompra`, `PrecioVenta`, `CantidadStock`, `Imagen`, `CategoriaID`) VALUES
+(4, 'Pollo', 'hola', 'Cuantum', '4556585', 1, 4.00, 5.00, 6, '', 1),
+(5, 'humus', 'jojojo', 'acelga', '78945', 2, 45.00, 10.00, 89, '', 5),
+(6, 'raton ms', 'raton mini slim para manos pequeñas', 'ms lux', '653320', 1, 250.00, 60.00, 5, '', 7);
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Proveedores`
+-- Estructura de tabla para la tabla `proveedores`
 --
 
-CREATE TABLE `Proveedores` (
+CREATE TABLE `proveedores` (
   `ProveedorID` int(11) NOT NULL,
   `Nombre` varchar(50) DEFAULT NULL,
   `Dirección` varchar(150) DEFAULT NULL,
@@ -115,20 +124,20 @@ CREATE TABLE `Proveedores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Volcado de datos para la tabla `Proveedores`
+-- Volcado de datos para la tabla `proveedores`
 --
 
-INSERT INTO `Proveedores` (`ProveedorID`, `Nombre`, `Dirección`, `NúmeroContacto`) VALUES
+INSERT INTO `proveedores` (`ProveedorID`, `Nombre`, `Dirección`, `NúmeroContacto`) VALUES
 (1, 'Jose Luis Ornelas Valadez', 'Santander 127 Col. España', '+52 1 449 279 5404'),
 (2, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '+52 1 449 543 6109');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Usuarios`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE `Usuarios` (
+CREATE TABLE `usuarios` (
   `ClienteID` int(11) NOT NULL,
   `IsAdmin` tinyint(1) NOT NULL,
   `Nombre` varchar(50) DEFAULT NULL,
@@ -138,23 +147,24 @@ CREATE TABLE `Usuarios` (
   `Contraseña` varchar(40) DEFAULT NULL,
   `Cuenta` varchar(30) DEFAULT NULL,
   `PreguntaID` int(11) DEFAULT NULL,
-  `RespuestaP` varchar(50) DEFAULT NULL
+  `RespuestaP` varchar(50) DEFAULT NULL,
+  `Estado` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Volcado de datos para la tabla `Usuarios`
+-- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `Usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`) VALUES
-(1, 0, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '(449) 543-6109', 'adrianalonso.a4@gmail.com', 'e9d1d42e658461e23c02ca01d57bf7b31d9d4f51', 'YuunoDev', 4, 'azul');
+INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`, `Estado`) VALUES
+(1, 0, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '(449) 543-6109', 'adrianalonso.a4@gmail.com', 'e9d1d42e658461e23c02ca01d57bf7b31d9d4f51', 'YuunoDev', 4, 'azul', '');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Ventas`
+-- Estructura de tabla para la tabla `ventas`
 --
 
-CREATE TABLE `Ventas` (
+CREATE TABLE `ventas` (
   `VentaID` int(11) NOT NULL,
   `Fecha` date DEFAULT NULL,
   `Hora` time DEFAULT NULL,
@@ -167,50 +177,50 @@ CREATE TABLE `Ventas` (
 --
 
 --
--- Indices de la tabla `Categoria`
+-- Indices de la tabla `categoria`
 --
-ALTER TABLE `Categoria`
+ALTER TABLE `categoria`
   ADD PRIMARY KEY (`CategoriaID`);
 
 --
--- Indices de la tabla `DetallesVenta`
+-- Indices de la tabla `detallesventa`
 --
-ALTER TABLE `DetallesVenta`
+ALTER TABLE `detallesventa`
   ADD PRIMARY KEY (`DetalleVentaID`),
   ADD KEY `VentaID` (`VentaID`),
   ADD KEY `ProductoID` (`ProductoID`);
 
 --
--- Indices de la tabla `Preguntas`
+-- Indices de la tabla `preguntas`
 --
-ALTER TABLE `Preguntas`
+ALTER TABLE `preguntas`
   ADD PRIMARY KEY (`PreguntaID`);
 
 --
--- Indices de la tabla `Producto`
+-- Indices de la tabla `producto`
 --
-ALTER TABLE `Producto`
+ALTER TABLE `producto`
   ADD PRIMARY KEY (`ProductoID`),
   ADD KEY `ProveedorID` (`ProveedorID`),
   ADD KEY `fk_Producto_Categoria` (`CategoriaID`);
 
 --
--- Indices de la tabla `Proveedores`
+-- Indices de la tabla `proveedores`
 --
-ALTER TABLE `Proveedores`
+ALTER TABLE `proveedores`
   ADD PRIMARY KEY (`ProveedorID`);
 
 --
--- Indices de la tabla `Usuarios`
+-- Indices de la tabla `usuarios`
 --
-ALTER TABLE `Usuarios`
+ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`ClienteID`),
   ADD KEY `fk_Pregunta_Usuario` (`PreguntaID`);
 
 --
--- Indices de la tabla `Ventas`
+-- Indices de la tabla `ventas`
 --
-ALTER TABLE `Ventas`
+ALTER TABLE `ventas`
   ADD PRIMARY KEY (`VentaID`),
   ADD KEY `ClienteID` (`ClienteID`);
 
@@ -219,45 +229,45 @@ ALTER TABLE `Ventas`
 --
 
 --
--- AUTO_INCREMENT de la tabla `Categoria`
+-- AUTO_INCREMENT de la tabla `categoria`
 --
-ALTER TABLE `Categoria`
+ALTER TABLE `categoria`
   MODIFY `CategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `DetallesVenta`
+-- AUTO_INCREMENT de la tabla `detallesventa`
 --
-ALTER TABLE `DetallesVenta`
+ALTER TABLE `detallesventa`
   MODIFY `DetalleVentaID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `Preguntas`
+-- AUTO_INCREMENT de la tabla `preguntas`
 --
-ALTER TABLE `Preguntas`
+ALTER TABLE `preguntas`
   MODIFY `PreguntaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `Producto`
+-- AUTO_INCREMENT de la tabla `producto`
 --
-ALTER TABLE `Producto`
-  MODIFY `ProductoID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `producto`
+  MODIFY `ProductoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `Proveedores`
+-- AUTO_INCREMENT de la tabla `proveedores`
 --
-ALTER TABLE `Proveedores`
+ALTER TABLE `proveedores`
   MODIFY `ProveedorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `Usuarios`
+-- AUTO_INCREMENT de la tabla `usuarios`
 --
-ALTER TABLE `Usuarios`
+ALTER TABLE `usuarios`
   MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `Ventas`
+-- AUTO_INCREMENT de la tabla `ventas`
 --
-ALTER TABLE `Ventas`
+ALTER TABLE `ventas`
   MODIFY `VentaID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -265,30 +275,30 @@ ALTER TABLE `Ventas`
 --
 
 --
--- Filtros para la tabla `DetallesVenta`
+-- Filtros para la tabla `detallesventa`
 --
-ALTER TABLE `DetallesVenta`
-  ADD CONSTRAINT `DetallesVenta_ibfk_1` FOREIGN KEY (`VentaID`) REFERENCES `Ventas` (`VentaID`),
-  ADD CONSTRAINT `DetallesVenta_ibfk_2` FOREIGN KEY (`ProductoID`) REFERENCES `Producto` (`ProductoID`);
+ALTER TABLE `detallesventa`
+  ADD CONSTRAINT `DetallesVenta_ibfk_1` FOREIGN KEY (`VentaID`) REFERENCES `ventas` (`VentaID`),
+  ADD CONSTRAINT `DetallesVenta_ibfk_2` FOREIGN KEY (`ProductoID`) REFERENCES `producto` (`ProductoID`);
 
 --
--- Filtros para la tabla `Producto`
+-- Filtros para la tabla `producto`
 --
-ALTER TABLE `Producto`
-  ADD CONSTRAINT `Producto_ibfk_1` FOREIGN KEY (`ProveedorID`) REFERENCES `Proveedores` (`ProveedorID`),
-  ADD CONSTRAINT `fk_Producto_Categoria` FOREIGN KEY (`CategoriaID`) REFERENCES `Categoria` (`CategoriaID`);
+ALTER TABLE `producto`
+  ADD CONSTRAINT `Producto_ibfk_1` FOREIGN KEY (`ProveedorID`) REFERENCES `proveedores` (`ProveedorID`),
+  ADD CONSTRAINT `fk_Producto_Categoria` FOREIGN KEY (`CategoriaID`) REFERENCES `categoria` (`CategoriaID`);
 
 --
--- Filtros para la tabla `Usuarios`
+-- Filtros para la tabla `usuarios`
 --
-ALTER TABLE `Usuarios`
-  ADD CONSTRAINT `fk_Pregunta_Usuario` FOREIGN KEY (`PreguntaID`) REFERENCES `Preguntas` (`PreguntaID`);
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `fk_Pregunta_Usuario` FOREIGN KEY (`PreguntaID`) REFERENCES `preguntas` (`PreguntaID`);
 
 --
--- Filtros para la tabla `Ventas`
+-- Filtros para la tabla `ventas`
 --
-ALTER TABLE `Ventas`
-  ADD CONSTRAINT `Ventas_ibfk_1` FOREIGN KEY (`ClienteID`) REFERENCES `Usuarios` (`ClienteID`);
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `Ventas_ibfk_1` FOREIGN KEY (`ClienteID`) REFERENCES `usuarios` (`ClienteID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
