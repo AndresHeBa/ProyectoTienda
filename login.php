@@ -50,10 +50,12 @@
 
         <div class="login" id="login" style="display: block;" transition-style="in:wipe:up">
             <h1>Login</h1>
-            <form action="login.php" method="POST">
-                <input type="text" name="usuario" placeholder="Usuario">
-                <input type="passwordl" name="passwordl" placeholder="Contraseña">
-                <input type="submit" value="Ingresar">
+            <form action="loginu.php" method="POST" id="loginFrom">
+                <input type="text" name="usuario" placeholder="Usuario" required>
+                <input type="password" name="passwordl" placeholder="Contraseña" required>
+                <img id="captcha" src="captcha.php" alt="Captcha Image" />
+                <input type="text" name="captcha_code" placeholder="Captcha" required>
+                <input type="submit" value="Ingresar" onclick="loginUser(event)">
             </form>
         </div>
 
@@ -72,7 +74,7 @@
                 <select name="pregunta">
                     <?php
                     include 'adminzone/includes/db.php';
-                    $query = "SELECT * FROM Preguntas";
+                    $query = "SELECT * FROM preguntas";
                     $resultado = $conn->query($query);
                     while ($row = $resultado->fetch_assoc()) {
                         echo "<option value='" . $row['PreguntaID'] . "'>" . $row['Pregunta'] . "</option>";
@@ -84,16 +86,7 @@
                 <input type="submit" value="Registrar" onclick="registerUser(event)">
             </form>
         </div>
-        <div class="login" id="login" style="display: none;" transition-style="in:wipe:up">
-            <h1>Login</h1>
-            <form action="loginu.php" method="POST" id="loginFrom">
-                <input type="text" name="usuario" placeholder="Usuario" required>
-                <input type="password" name="passwordl" placeholder="Contraseña" required>
-                <img id="captcha" src="captcha.php" alt="Captcha Image" />
-                <input type="text" name="captcha_code" placeholder="Captcha" required>
-                <input type="submit" value="Ingresar" onclick="loginUser(event)">
-            </form>
-        </div>
+        
     </div>
     <!-- Footer -->
     <?php
