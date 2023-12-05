@@ -35,3 +35,14 @@ Proyecto final de sistemas web
 1. Asegúrate de tener MySQL instalado en tu sistema.
 2. Crea una nueva base de datos llamada `tecnobd`.
 3. Importa el archivo SQL proporcionado en la carpeta `database` para crear las tablas necesarias.
+
+## Comandos para actualizar ramas
+
+1. Primero actulizar con este comando 
+```
+git remote update origin
+```
+2. revisar si es que se actulizo con
+```
+git branch --all 
+```
