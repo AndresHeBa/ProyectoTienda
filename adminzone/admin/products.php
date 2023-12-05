@@ -240,10 +240,13 @@
         //desactivar tabla
         var table = document.getElementById("SQLTable");
         table.style.display = (table.style.display === "none") ? "block" : "none";
+
+        var editForm = document.getElementById("edit");
+        editForm.style.display = "none";
         //cambiar contenido del boton
         var button = document.getElementById("addButton");
         button.innerHTML = (button.innerHTML === "Agregar Producto") ? "Tabla" : "Agregar Producto";
-        
+
         if (addForm.style.display === "block") {
             //vacia los campos
             document.getElementById("nombre").value = "";
@@ -307,12 +310,7 @@
     function editactive(productID) {
         var editForm = document.getElementById("edit");
         editForm.style.display = (editForm.style.display === "none") ? "block" : "none";
-        //desactivar tabla
-        var table = document.getElementById("SQLTable");
-        table.style.display = (table.style.display === "none") ? "block" : "none";
-        //cambiar contenido del boton
-        var button = document.getElementById("addButton");
-        button.innerHTML = (button.innerHTML === "Agregar Producto") ? "Tabla" : "Agregar Producto";
+
         if (editForm.style.display === "block") {
             objedit(productID);
         }else if(editForm.style.display === "none"){
@@ -331,6 +329,17 @@
             //quitar si se subio una imagen pero se dejo de editar
             document.getElementById("imagenNew").value = "";
         }
+        //desactivar tabla
+        var table = document.getElementById("SQLTable");
+        table.style.display = (table.style.display === "none") ? "block" : "none";
+
+        var addForm = document.getElementById("add");
+        addForm.style.display = "none";
+
+        //cambiar contenido del boton
+        var button = document.getElementById("addButton");
+        button.innerHTML = (button.innerHTML === "Agregar Producto") ? "Tabla" : "Agregar Producto";
+        button.onclick = (button.innerHTML === "Tabla") ? function(){editactive(productID)}: function(){showAddForm()} ;
     }
 
     function objedit(productID){

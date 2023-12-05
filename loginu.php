@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['usuario'];
         $password = sha1($_POST['passwordl']);
 
-        $query = "SELECT * FROM `Usuarios` WHERE `Cuenta` = ? AND `Contraseña` = ?;";
+        $query = "SELECT * FROM `usuarios` WHERE `Cuenta` = ? AND `Contraseña` = ?;";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('ss', $username, $password);
         $stmt->execute();
