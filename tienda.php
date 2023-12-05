@@ -127,7 +127,7 @@
                             </i>
                         </label>
                     </div>
-                    
+
                 <!-- Inicio para filtrar por categoria -->
                     <fieldset class="filters-category-container ">
                         <legend>
@@ -137,55 +137,69 @@
                             </h3>
                         </legend>
                         <div class="checkboxes-container input-category-container">
-                            <label for= "consolas" class="input-category in-line">
+                            <label for= "discosdutos" class="input-category in-line">
                                 <input type="checkbox"
                                     class=" filter filter-category"
                                     name="category"
-                                    value="consolas"
-                                    id= "consolas">
+                                    value="discosdutos"
+                                    id= "discosdutos">
                                 </input>
-                                <h4>CONSOLAS</h4>
+                                <h4>DISCOS DUROS</h4>
                             </label>
-
-                            <label for= "notebooks" class="input-category in-line">
+                            <label for= "procesadores" class="input-category in-line">
                                 <input type="checkbox"
                                     class="filter filter-category"
                                     name="category" 
-                                    value="notebooks"
-                                    id= "notebooks">
+                                    value="procesadores"
+                                    id= "procesadores">
                                 </input>
-                                <h4>NOTEBOOKS</h4>
+                                <h4>PROCESADORES</h4>
                             </label>
-
-                            <label for= "camaras" class="input-category in-line">
+                            <label for= "monitores" class="input-category in-line">
                                 <input type="checkbox"
                                     class="filter filter-category"
                                     name="category"
-                                    value="camaras"
-                                    id= "camaras">
+                                    value="monitores"
+                                    id= "monitores">
                                 </input>
-                                <h4>CÁMARAS</h4>
+                                <h4>MONITORES</h4>
                             </label>
-
-                            <label for ="celulares" class="input-category in-line">
+                            <label for ="ram" class="input-category in-line">
                                 <input type="checkbox"
                                     class="filter filter-category"
                                     name="category"
-                                    value="celulares"
-                                    id= "celulares">
+                                    value="ram"
+                                    id= "ram">
                                 </input>
-                                <h4>CELULARES</h4>
+                                <h4>RAM</h4>
                             </label>
-
-                            <label for= "accesorios" class="input-category in-line">
+                            <label for= "tarjetasgraficas" class="input-category in-line">
                                 <input type="checkbox"
                                     class="filter filter-category"
                                     name="category"
-                                    value="accesorios"
-                                    id= "accesorios">
+                                    value="tarjetasgraficas"
+                                    id= "tarjetasgraficas">
                                 </input>
-                                <h4>ACCESORIOS</h4>
-                            </label>                 
+                                <h4>TARJETAS GRÁFICAS</h4>
+                            </label>               
+                            <label for= "teclados" class="input-category in-line">
+                                <input type="checkbox"
+                                    class="filter filter-category"
+                                    name="category"
+                                    value="teclados"
+                                    id= "teclados">
+                                </input>
+                                <h4>TECLADOS</h4>
+                            </label>
+                            <label for= "mouses" class="input-category in-line">
+                                <input type="checkbox"
+                                    class="filter filter-category"
+                                    name="category"
+                                    value="mouses"
+                                    id= "mouses">
+                                </input>
+                                <h4>MOUSES</h4>
+                            </label>  
                         </fieldset>
 
                 <!-- Inicio de filtro de puntuaciones -->
@@ -193,7 +207,7 @@
                         <legend>
                             <h3 aria-label="Filtre los productos
                             por su cantidad de estrellas de una a cinco">
-                            PUNTAJE
+                            VALORACIÓN
                             </h3>
                         <legend>
                         <div class="filters-review">
