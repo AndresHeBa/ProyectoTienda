@@ -103,10 +103,15 @@
                 if ($resultado -> num_rows){ //si la consulta genera registros
                     while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
                         if ($fila['CategoriaID'] === $_POST['category']) {
+                            $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta']*($fila['PrecioCompra'])*(0.01)));
+                            if ($fila['PrecioCompra'] > 0) {
+                                echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
+                                echo '<span class="texto-item" style="color: red;">'.round($fila['PrecioCompra']).'%</span>';
+                            }
                             echo '<div class="item">';
                             echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
                             echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
-                            echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
+                            echo '<span class="precio-item">'.$precioFin.'</span>';
                             echo '<span class="texto-item">'.$fila['Descripción'].'</span>';
                             echo '<div class="selector-cantidad">
                                     <i class="fa-solid fa-minus restar-cantidad"></i>
@@ -120,17 +125,22 @@
                     }   
                     echo '</table">';
                 echo '</div>';
-            }
-            else{
-                echo "no hay datos";
-            }
+                }
+                else{
+                    echo "no hay datos";
+                }
             }else{
                 if ($resultado -> num_rows){ //si la consulta genera registros
                     while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
+                        $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta']*($fila['PrecioCompra'])*(0.01)));
                         echo '<div class="item">';
+                            if ($fila['PrecioCompra'] > 0) {
+                                echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
+                                echo '<span class="texto-item" style="color: red;">'.round($fila['PrecioCompra']).'%</span>';
+                            }
                             echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
                             echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
-                            echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
+                            echo '<span class="precio-item">'.$precioFin.'</span>';
                             echo '<span class="texto-item">'.$fila['Descripción'].'</span>';
                             echo '<div class="selector-cantidad">
                                     <i class="fa-solid fa-minus restar-cantidad"></i>
