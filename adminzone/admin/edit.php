@@ -1,81 +1,76 @@
 <?php
 include '../includes/db.php';
 
-if (isset($_GET['id'])) {
-    $productoID = $_GET['id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES["imagenNew"]) && !(empty($_FILES["imagenNew"]["tmp_name"]))) {
+    $targetDir = "../../img/";  // Directorio donde se guardarán las imágenes
+    $targetFile = $targetDir . basename($_FILES["imagenNew"]["name"]);
 
-    $sql = "SELECT * FROM Producto WHERE ProductoID = $productoID";
-    $result = $conn->query($sql);
+    // Verificar si el archivo es una imagen real
+    $check = getimagesize($_FILES["imagenNew"]["tmp_name"]);
+    if ($check !== false) {
+        if (move_uploaded_file($_FILES["imagenNew"]["tmp_name"], $targetFile)) {
+            $id = $_POST['id'];
+            $nombre = $_POST['nombreE'];
+            $descripcion = $_POST['descripcionE'];
+            $modelo = $_POST['modeloE'];
+            $numeroSerie = $_POST['numeroSerieE'];
+            $proveedor = $_POST['proveedorE'];
+            $categoria = $_POST['categoriaE'];
+            $precioCompra = $_POST['precioCompraE'];
+            $precioVenta = $_POST['precioVentaE'];
+            $stock = $_POST['stockE'];
+            $imagenbor = $_POST['imgenE'];
+            unlink("../../" . $imagenbor);
+            $imgen = "img/" . basename($_FILES["imagenNew"]["name"]);
+            $query = "UPDATE producto SET Nombre=?, Descripción=?, Modelo=?, NúmeroSerie=?, ProveedorID=?, CategoriaID=?, PrecioCompra=?, PrecioVenta=?, CantidadStock=?, Imagen=? WHERE ProductoID=?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param('ssssiiisssi', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $imgen, $id);
+            $stmt->execute();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-?>
-        <h3>Editar Producto</h3>
-        <form action="update_product.php" method="POST">
-            <input type="hidden" name="productoID" value="<?php echo $row['ProductoID']; ?>">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" required></textarea>
-
-            <label for="modelo">Modelo:</label>
-            <input type="text" id="modelo" name="modelo" required>
-
-            <label for="numeroSerie">Número de Serie:</label>
-            <input type="text" id="numeroSerie" name="numeroSerie" required>
-
-            <label for="proveedor">Proveedor:</label>
-            <select id="proveedor" name="proveedor" required>
-                <?php
-
-                include '../includes/db.php';
-                $query = "SELECT * FROM Proveedores";
-                $resultado = $conn->query($query);
-                while ($row = $resultado->fetch_assoc()) {
-                    echo "<option value='" . $row['ProveedorID'] . "'>" . $row['Nombre'] . "</option>";
-                }
-                $conn->close();
-                ?>
-            </select>
-
-            <label for="categoria">Categoría:</label>
-            <select id="categoria" name="categoria" required>
-                <?php
-
-                include '../includes/db.php';
-                $query = "SELECT * FROM Categoria";
-                $resultado = $conn->query($query);
-                while ($row = $resultado->fetch_assoc()) {
-                    echo "<option value='" . $row['CategoriaID'] . "'>" . $row['DesCategoria'] . "</option>";
-                }
-                $conn->close();
-                ?>
-            </select>
-
-            <label for="precioCompra">Precio de Compra:</label>
-            <input type="number" id="precioCompra" name="precioCompra" required>
-
-            <label for="precioVenta">Precio de Venta:</label>
-            <input type="number" id="precioVenta" name="precioVenta" required>
-
-            <label for="stock">Stock:</label>
-            <input type="number" id="stock" name="stock" required>
-
-            <label for="imagen">Imagen:</label>
-            <input type="file" id="imagen" name="imagen" required>
-            <br>
-            <br>
-            <button type="submit" class="btn btn-success">Agregar Producto</button>
-        </form>
-<?php
+            //verificar cuantas filas se vieron afectadas
+            if ($stmt->affected_rows > 0) {
+                $response = array('status' => 'success', 'message' => 'Producto actualizado correctamente.');
+            } else {
+                $response = array('status' => 'error', 'message' => 'Hubo un problema al actualizar el producto.');
+            }
+        } else {
+            $response = array('status' => 'error', 'message' => 'Hubo un problema al subir el archivo.');
+        }
     } else {
-        echo "Producto no encontrado.";
+        $response = array('status' => 'error', 'message' => 'Invalid image');
+    }
+    // si no se envio una nueva imagen, se deja la que ya estaba
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['imagenNew'])) {
+    $id = $_POST['id'];
+    $nombre = $_POST['nombreE'];
+    $descripcion = $_POST['descripcionE'];
+    $modelo = $_POST['modeloE'];
+    $numeroSerie = $_POST['numeroSerieE'];
+    $proveedor = $_POST['proveedorE'];
+    $categoria = $_POST['categoriaE'];
+    $precioCompra = $_POST['precioCompraE'];
+    $precioVenta = $_POST['precioVentaE'];
+    $stock = $_POST['stockE'];
+    $query = "UPDATE producto SET Nombre=?, Descripción=?, Modelo=?, NúmeroSerie=?, ProveedorID=?, CategoriaID=?, PrecioCompra=?, PrecioVenta=?, CantidadStock=? WHERE ProductoID=?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('ssssiiisss', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $id);
+    $stmt->execute();
+
+    // verificar cuántas filas se vieron afectadas
+    if ($stmt->affected_rows > 0) {
+        $response = array('status' => 'success', 'message' => 'Producto actualizado correctamente.');
+    } else {
+        $response = array('status' => 'error', 'message' => 'Hubo un problema al actualizar el producto.');
     }
 } else {
-    echo "ID de producto no proporcionado.";
+    $response = array('status' => 'error', 'message' => 'Invalid request method');
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 
-//$conn->close();
+header('Content-Type: application/json');
+echo json_encode($response);
+
+// Close the database connection
+$conn->close();
 ?>
-<p><a href="../adminzone.php">Regresar</a></p>

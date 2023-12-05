@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES["imagen"]) && !(empty
             $stmt->bind_param('ssssiiisss', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $imagen);
             $stmt->execute();
 
-
             // Verificar cuántas filas se vieron afectadas
             if ($stmt->affected_rows > 0) {
                 $response = array('status' => 'success', 'message' => 'Producto agregado correctamente.');

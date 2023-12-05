@@ -90,7 +90,7 @@
             echo "<td>" . (isset($row["CantidadStock"]) ? $row["CantidadStock"] : "") . "</td>";
             echo "<td>" . (isset($row["DesCategoria"]) ? $row["DesCategoria"] : "") . "</td>";
             echo "<td><img src='../../{$row["Imagen"]}' alt='Imagen del Producto' style='width: 50px; height: 50px;'></td>";
-            echo "<td><a onclick='editProduct(" . $row["ProductoID"] . ")' href='#'>Editar</a> | <a onclick='deleteProduct(" . $row["ProductoID"] . ")' href='#'>Eliminar</a></td>";
+            echo "<td><a onclick='editactive(" . $row["ProductoID"] . ")' href='#'>Editar</a> | <a onclick='deleteProduct(" . $row["ProductoID"] . ")' href='#'>Eliminar</a></td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -147,10 +147,10 @@
             </select>
 
             <label for="precioCompra">Precio de Compra:</label>
-            <input type="number" id="precioCompra" name="precioCompra" required>
+            <input type="number" step="0.01"  id="precioCompra" name="precioCompra" required>
 
             <label for="precioVenta">Precio de Venta:</label>
-            <input type="number" id="precioVenta" name="precioVenta" required>
+            <input type="number" step="0.01"  id="precioVenta" name="precioVenta" required>
 
             <label for="stock">Stock:</label>
             <input type="number" id="stock" name="stock" required>
@@ -160,6 +160,73 @@
             <br>
             <br>
             <input type="submit" class="btn btn-success" value="Agregar Producto" onclick="insertproduct(event)">
+        </form>
+    </div>
+
+    <div class="edit" id="edit" style="display: none;">
+        <h3>Editar Producto</h3>
+        <form method="POST" id="editproducto" enctype="multipart/form-data">
+            <input type="hidden" id="id" name="id">
+
+            <label for="nombreE">Nombre:</label>
+            <input type="text" id="nombreE" name="nombreE" required>
+
+            <label for="descripcionE">Descripción:</label>
+            <textarea id="descripcionE" name="descripcionE" required></textarea>
+
+            <label for="modeloE">Modelo:</label>
+            <input type="text" id="modeloE" name="modeloE" required>
+
+            <label for="numeroSerieE">Número de Serie:</label>
+            <input type="text" id="numeroSerieE" name="numeroSerieE" required>
+
+            <label for="proveedorE">Proveedor:</label>
+            <select id="proveedorE" name="proveedorE" required>
+                <?php
+
+                include '../includes/db.php';
+                $query = "SELECT * FROM proveedores";
+                $resultado = $conn->query($query);
+                while ($row = $resultado->fetch_assoc()) {
+                    echo "<option value='" . $row['ProveedorID'] . "'>" . $row['Nombre'] . "</option>";
+                }
+                $conn->close();
+                ?>
+            </select>
+
+            <label for="categoriaE">Categoría:</label>
+            <select id="categoriaE" name="categoriaE" required>
+                <?php
+
+                include '../includes/db.php';
+                $query = "SELECT * FROM categoria";
+                $resultado = $conn->query($query);
+                while ($row = $resultado->fetch_assoc()) {
+                    echo "<option value='" . $row['CategoriaID'] . "'>" . $row['DesCategoria'] . "</option>";
+                }
+                $conn->close();
+                ?>
+            </select>
+
+            <label for="precioCompraE">Precio de Compra:</label>
+            <input type="number" step="0.01" id="precioCompraE" name="precioCompraE" required>
+
+            <label for="precioVentaE">Precio de Venta:</label>
+            <input type="number" step="0.01" id="precioVentaE" name="precioVentaE" required>
+
+            <label for="stockE">Stock:</label>
+            <input type="number" id="stockE" name="stockE" required>
+
+            <!-- imagen actual -->
+            <label for="imgact">Imagen Actual:</label>
+            <img src="" alt="Imagen del Producto" id="imgact" style="width: 50px; height: 50px;">
+            <input type="hidden" id="imgenE" name="imgenE">
+
+            <label for="imagenNew">Imagen:</label>
+            <input type="file" id="imagenNew" name="imagenNew" class="form-control-file" required>
+            <br>
+            <br>
+            <input type="submit" class="btn btn-success" value="Editar Producto" onclick="editproduct(event)">
         </form>
     </div>
 </div>
@@ -176,6 +243,21 @@
         //cambiar contenido del boton
         var button = document.getElementById("addButton");
         button.innerHTML = (button.innerHTML === "Agregar Producto") ? "Tabla" : "Agregar Producto";
+        
+        if (addForm.style.display === "block") {
+            //vacia los campos
+            document.getElementById("nombre").value = "";
+            document.getElementById("descripcion").value = "";
+            document.getElementById("modelo").value = "";
+            document.getElementById("numeroSerie").value = "";
+            document.getElementById("proveedor").value = "";
+            document.getElementById("categoria").value = "";
+            document.getElementById("precioCompra").value = "";
+            document.getElementById("precioVenta").value = "";
+            document.getElementById("stock").value = "";
+            //quitar si se subio una imagen pero se dejo de editar
+            document.getElementById("imagen").value = "";
+        }
     }
 
     function insertproduct(event) {
@@ -221,6 +303,90 @@
                 console.error('Error:', error);
             });
     }
+
+    function editactive(productID) {
+        var editForm = document.getElementById("edit");
+        editForm.style.display = (editForm.style.display === "none") ? "block" : "none";
+        //desactivar tabla
+        var table = document.getElementById("SQLTable");
+        table.style.display = (table.style.display === "none") ? "block" : "none";
+        //cambiar contenido del boton
+        var button = document.getElementById("addButton");
+        button.innerHTML = (button.innerHTML === "Agregar Producto") ? "Tabla" : "Agregar Producto";
+        if (editForm.style.display === "block") {
+            objedit(productID);
+        }else if(editForm.style.display === "none"){
+            //vacia los campos
+            document.getElementById("id").value = "";
+            document.getElementById("nombreE").value = "";
+            document.getElementById("descripcionE").value = "";
+            document.getElementById("modeloE").value = "";
+            document.getElementById("numeroSerieE").value = "";
+            document.getElementById("proveedorE").value = "";
+            document.getElementById("categoriaE").value = "";
+            document.getElementById("precioCompraE").value = "";
+            document.getElementById("precioVentaE").value = "";
+            document.getElementById("stockE").value = "";
+            document.getElementById("imgact").src = "";
+            //quitar si se subio una imagen pero se dejo de editar
+            document.getElementById("imagenNew").value = "";
+        }
+    }
+
+    function objedit(productID){
+        fetch('get_product.php?id=' + productID, {
+                method: 'GET', // especificar explícitamente el método GET
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "success") {
+                    document.getElementById("id").value = data.product.ProductoID;
+                    document.getElementById("nombreE").value = data.product.Nombre;
+                    document.getElementById("descripcionE").value = data.product.Descripción;
+                    document.getElementById("modeloE").value = data.product.Modelo;
+                    document.getElementById("numeroSerieE").value = data.product.NúmeroSerie;
+                    document.getElementById("proveedorE").value = data.product.ProveedorID;
+                    document.getElementById("categoriaE").value = data.product.CategoriaID;
+                    document.getElementById("precioCompraE").value = data.product.PrecioCompra;
+                    document.getElementById("precioVentaE").value = data.product.PrecioVenta;
+                    document.getElementById("stockE").value = data.product.CantidadStock;
+                    document.getElementById("imgact").src = "../../" + data.product.Imagen;
+                    document.getElementById("imgenE").value = data.product.Imagen;
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function editproduct(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var form = document.getElementById('editproducto');
+        var formData = new FormData(form);
+
+        fetch('edit.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "success") {
+                    alert(data.message);
+                    window.location.href = "products.php";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }    
 </script>
 <script src="../js/sqltab.js"></script>
 
