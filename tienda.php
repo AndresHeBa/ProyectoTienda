@@ -1,15 +1,6 @@
 <?php
      
-    $servidor='localhost';
-    $cuenta='root';
-    $password='';
-    $bd='tecnobd';
-   
-    $conexion = new mysqli($servidor,$cuenta,$password,$bd);
-
-    if ($conexion->connect_errno){
-         die('Error en la conexion');
-    }
+     include 'adminzone/includes/db.php'
        
 ?>
 <!DOCTYPE html>
@@ -57,7 +48,7 @@
     <div class="contenedor-items">
         <?php
             $sql = 'select * from producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
-            $resultado = $conexion -> query($sql); //aplicamos sentencia
+            $resultado = $conn -> query($sql); //aplicamos sentencia
             if ($resultado -> num_rows){ //si la consulta genera registros
                     while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
                         echo '<div class="item">';

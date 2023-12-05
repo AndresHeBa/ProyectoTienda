@@ -1,3 +1,8 @@
+<?php
+     
+    include 'adminzone/includes/db.php'
+       
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +26,7 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/tienda.css">
 </head>
 
 <body>
@@ -95,14 +101,49 @@
         <div class="header-title">
             <h1>Nuevos Productos</h1>
         </div>
+        <section class="contenedor">
+        <!-- Contenedor de elementos -->
+        <div class="contenedor-items">
+            <?php
+                $sql = 'select * from producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
+                $resultado = $conn -> query($sql); //aplicamos sentencia
+                $paro=0;
+                if ($resultado -> num_rows){ //si la consulta genera registros
+                        while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
+                            echo '<div class="item">';
+                                echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
+                                echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
+                                echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
+                                echo '<span class="texto-item">'.$fila['Descripción'].'</span>';
+                                echo '<div class="selector-cantidad">
+                                        <i class="fa-solid fa-minus restar-cantidad"></i>
+                                        <input type="text" value="3" class="carrito-item-cantidad" disabled>
+                                        <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                    </div>
+                                    <button class="boton-item">Agregar al Carrito</button>';
+                                echo '<span class="texto-item">Stock: '.$fila['CantidadStock'].'</span>';
+                            echo '</div>';
+                            $paro+=1;
+                            if ($paro >3) {
+                                break;
+                            }
+                        }   
+                        echo '</table">';
+                    echo '</div>';
+                }
+                else{
+                    echo "no hay datos";
+                }
+            ?>
+        </div>
     </div>
 
     <!-- Ofertas -->
-    <div class="ofertas">
+    <!-- <div class="ofertas">
         <div class="header-title">
             <h1>Ofertas</h1>
         </div>
-    </div>
+    </div> -->
 
     <!-- Animaciones : AOS-->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
