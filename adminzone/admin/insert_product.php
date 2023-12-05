@@ -11,12 +11,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precioCompra = $_POST['precioCompra'];
     $precioVenta = $_POST['precioVenta'];
     $stock = $_POST['stock'];
+    if(isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+        $rutaImagenes = '../../img';
 
-    $sql = "INSERT INTO Producto (Nombre, Descripción, Modelo, NúmeroSerie, ProveedorID, CategoriaID, PrecioCompra, PrecioVenta, CantidadStock) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $nombreArchivo = time() . '_' . $_FILES['imagen']['name'];
+
+        $rutaCompleta = $rutaImagenes . $nombreArchivo;
+
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaCompleta);
+    } else {
+        $rutaCompleta = '';
+    }
+
+    // Query de inserción
+    $sql = "INSERT INTO Producto (Nombre, Descripción, Modelo, NúmeroSerie, ProveedorID, CategoriaID, PrecioCompra, PrecioVenta, CantidadStock, Imagen) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssiiiii", $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock);
+    $stmt->bind_param("ssssiiisss", $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $rutaCompleta);
 
     if ($stmt->execute()) {
         echo "Producto agregado con éxito.";

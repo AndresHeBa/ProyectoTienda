@@ -82,6 +82,8 @@
         var registro = document.getElementById("regist");
         var login = document.getElementById("login");
 
+        var loginAttempts = 0;
+
         function showFormreg() {
             registro.style.display = "block";
             login.style.display = "none";
@@ -106,7 +108,7 @@
         }
 
         function registerUser(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
             var form = document.getElementById('registrationForm');
             var formData = new FormData(form);
@@ -115,44 +117,73 @@
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.text()) // Parse as text
+                .then(response => response.text())
                 .then(data => {
-                    // Handle the response data, e.g., show a success message
                     console.log(data);
                     alert("Usuario registrado exitosamente");
                 })
                 .catch(error => {
-                    // Handle errors, e.g., show an error message
                     console.error('Error:', error);
                 });
         }
 
         function loginUser(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
             var form = document.getElementById('loginFrom');
             var formData = new FormData(form);
 
-            fetch('loginu.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json()) // Parse as JSON
-                .then(data => {
-                    // Handle the response data
-                    console.log(data);
+            if (loginAttempts < 3) {
+                fetch('loginu.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
 
-                    if (data.status === "success") {
-                        alert("Usuario loggeado exitosamente");
-                        window.location.href = "index.php";
-                    } else {
-                        alert("Usuario o contraseña incorrectos");
-                    }
-                })
-                .catch(error => {
-                    // Handle errors, e.g., show an error message
-                    console.error('Error:', error);
-                });
+                        if (data.status === "success") {
+                            alert("Usuario loggeado exitosamente");
+                            window.location.href = "index.php";
+                        } else {
+                            alert(data.message);
+                            loginAttempts++;
+                            // Manejar cuenta bloqueada
+                            if (data.message.includes('Cuenta bloqueada')) {
+                                showBlockedButtons();
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                alert("Máximo de intentos agotados. Prueba en otra ocasión.");
+            }
+        }
+
+        function showBlockedButtons() {
+            var bloqueadoMessage = "La cuenta está bloqueada. Ponte en contacto con el soporte.";
+            bloqueadoMessage += "<br><button onclick='redirectToRecuperarPage()'>Recuperar Contraseña</button>";
+            bloqueadoMessage += "<button onclick='redirectToInicioPage()'>Ir a Inicio</button>";
+
+            var dialog = document.createElement('div');
+            dialog.innerHTML = bloqueadoMessage;
+
+            dialog.style.padding = '10px';
+            dialog.style.border = '1px solid #ccc';
+            dialog.style.borderRadius = '5px';
+            dialog.style.backgroundColor = '#fff';
+            
+            document.body.appendChild(dialog);
+        }
+
+        function redirectToRecuperarPage() {
+            window.location.href = "recuperar.php";
+        }
+
+        function redirectToInicioPage() {
+            window.location.href = "index.php";
         }
     </script>
 

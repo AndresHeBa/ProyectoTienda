@@ -51,6 +51,7 @@
             echo "<td>" . (isset($row["PrecioVenta"]) ? $row["PrecioVenta"] : "") . "</td>";
             echo "<td>" . (isset($row["CantidadStock"]) ? $row["CantidadStock"] : "") . "</td>";
             echo "<td>" . (isset($row["DesCategoria"]) ? $row["DesCategoria"] : "") . "</td>";
+            echo "<td><img src='{$row["Imagen"]}' alt='Imagen del Producto' style='width: 50px; height: 50px;'></td>";
             echo "<td><a href='edit.php?id=" . $row["ProductoID"] . "'>Editar</a> | <a href='delete.php?id=" . $row["ProductoID"] . "'>Eliminar</a></td>";
             echo "</tr>";
 

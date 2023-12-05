@@ -12,6 +12,7 @@ if (isset($_GET['id'])) {
 ?>
         <h3>Editar Producto</h3>
         <form action="update_product.php" method="POST">
+            <input type="hidden" name="productoID" value="<?php echo $row['ProductoID']; ?>">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
 
