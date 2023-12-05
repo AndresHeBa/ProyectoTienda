@@ -1,4 +1,7 @@
+<!DOCTYPE html>
 <?php include '../includes/header.php'; ?>
+
+<meta charset="UTF-8">
 <link rel="stylesheet" href="../css/style.css">
 <div class="container">
     <h2>Administración de Productos</h2>
@@ -22,7 +25,41 @@
         </select>
     </div>
     <?php include '../includes/db.php';
-    $sql = "SELECT p.ProductoID, p.Nombre AS NombreProducto, p.Descripción, p.Modelo, p.NúmeroSerie, pr.Nombre AS NombreProveedor, p.PrecioCompra, p.PrecioVenta, p.CantidadStock, p.Imagen, c.DesCategoria FROM Producto p INNER JOIN Categoria c ON p.CategoriaID = c.CategoriaID LEFT JOIN Proveedores pr ON p.ProveedorID = pr.ProveedorID;";
+    $sql = "SELECT\n"
+
+        . "    p.ProductoID,\n"
+
+        . "    p.Nombre AS NombreProducto,\n"
+
+        . "    p.Descripción,\n"
+
+        . "    p.Modelo,\n"
+
+        . "    p.NúmeroSerie,\n"
+
+        . "    pr.Nombre AS NombreProveedor,\n"
+
+        . "    p.PrecioCompra,\n"
+
+        . "    p.PrecioVenta,\n"
+
+        . "    p.CantidadStock,\n"
+
+        . "    p.Imagen,\n"
+
+        . "    c.DesCategoria\n"
+
+        . "FROM\n"
+
+        . "    producto p\n"
+
+        . "INNER JOIN categoria c ON\n"
+
+        . "    p.CategoriaID = c.CategoriaID\n"
+
+        . "LEFT JOIN proveedores pr ON\n"
+
+        . "    p.ProveedorID = pr.ProveedorID;";
     $result = $conn->query($sql);
     echo "<table id='SQLTable'>";
     echo "<tr>";
@@ -36,21 +73,23 @@
     echo "<th>Precio de Venta</th>";
     echo "<th>Stock</th>";
     echo "<th>Categoria</th>";
+    echo "<th>Imagen</th>";
     echo "<th>Acciones</th>";
     echo "</tr>";
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>" . $row["ProductoID"] . "</td>";
-            echo "<td>" . $row["Nombre"] . "</td>";
-            echo "<td>" . $row["Descripción"] . "</td>";
-            echo "<td>" . $row["Modelo"] . "</td>";
-            echo "<td>" . $row["NúmeroSerie"] . "</td>";
-            echo "<td>" . $row["ProveedorID"] . "</td>";
-            echo "<td>" . $row["PrecioCompra"] . "</td>";
-            echo "<td>" . $row["PrecioVenta"] . "</td>";
-            echo "<td>" . $row["CantidadStock"] . "</td>";
-            echo "<td>" . $row["CategoriaID"] . "</td>";
+            echo "<td>" . (isset($row["NombreProducto"]) ? $row["NombreProducto"] : "") . "</td>";
+            echo "<td>" . (isset($row["Descripción"]) ? $row["Descripción"] : "") . "</td>";
+            echo "<td>" . (isset($row["Modelo"]) ? $row["Modelo"] : "") . "</td>";
+            echo "<td>" . (isset($row["NúmeroSerie"]) ? $row["NúmeroSerie"] : "") . "</td>";
+            echo "<td>" . (isset($row["NombreProveedor"]) ? $row["NombreProveedor"] : "") . "</td>";
+            echo "<td>" . (isset($row["PrecioCompra"]) ? $row["PrecioCompra"] : "") . "</td>";
+            echo "<td>" . (isset($row["PrecioVenta"]) ? $row["PrecioVenta"] : "") . "</td>";
+            echo "<td>" . (isset($row["CantidadStock"]) ? $row["CantidadStock"] : "") . "</td>";
+            echo "<td>" . (isset($row["DesCategoria"]) ? $row["DesCategoria"] : "") . "</td>";
+            echo "<td><img src='../../{$row["Imagen"]}' alt='Imagen del Producto' style='width: 50px; height: 50px;'></td>";
             echo "<td><a href='edit.php?id=" . $row["ProductoID"] . "'>Editar</a> | <a href='delete.php?id=" . $row["ProductoID"] . "'>Eliminar</a></td>";
             echo "</tr>";
         }
@@ -66,7 +105,7 @@
 
     <div class="add" id="add" style="display: none;">
         <h3>Agregar Nuevo Producto</h3>
-        <form action="insert_product.php" method="POST">
+        <form action="insert_product.php" method="POST" id="addproduct" enctype="multipart/form-data">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
 
@@ -84,7 +123,7 @@
                 <?php
 
                 include '../includes/db.php';
-                $query = "SELECT * FROM Proveedores";
+                $query = "SELECT * FROM proveedores";
                 $resultado = $conn->query($query);
                 while ($row = $resultado->fetch_assoc()) {
                     echo "<option value='" . $row['ProveedorID'] . "'>" . $row['Nombre'] . "</option>";
@@ -98,7 +137,7 @@
                 <?php
 
                 include '../includes/db.php';
-                $query = "SELECT * FROM Categoria";
+                $query = "SELECT * FROM categoria";
                 $resultado = $conn->query($query);
                 while ($row = $resultado->fetch_assoc()) {
                     echo "<option value='" . $row['CategoriaID'] . "'>" . $row['DesCategoria'] . "</option>";
@@ -117,14 +156,15 @@
             <input type="number" id="stock" name="stock" required>
 
             <label for="imagen">Imagen:</label>
-            <input type="file" id="imagen" name="imagen" required>
+            <input type="file" id="imagen" name="imagen" class="form-control-file" required>
             <br>
             <br>
-            <button type="submit" class="btn btn-success">Agregar Producto</button>
+            <input type="submit" class="btn btn-success" value="Agregar Producto" onclick="insertproduct(event)">
         </form>
     </div>
 </div>
 
+<br>
 
 <script>
     function showAddForm() {
@@ -136,6 +176,31 @@
         //cambiar contenido del boton
         var button = document.getElementById("addButton");
         button.innerHTML = (button.innerHTML === "Agregar Producto") ? "Tabla" : "Agregar Producto";
+    }
+
+    function insertproduct(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var form = document.getElementById('addproduct');
+        var formData = new FormData(form);
+
+        fetch('insert_product.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "success") {
+                    alert(data.message);
+                    window.location.href = "products.php";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 </script>
 <script src="../js/sqltab.js"></script>

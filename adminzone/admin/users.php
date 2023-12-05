@@ -20,7 +20,7 @@
     </div>
     <?php
     include '../includes/db.php';
-    $sql = "SELECT * FROM Usuarios";
+    $sql = "SELECT * FROM usuarios";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         echo "<table id='SQLTable'>";
