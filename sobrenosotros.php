@@ -47,6 +47,11 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
     <!--  -->
     <div id="banner">
         <div class="header-title">
+                <h1 data-aos="fade-up">
+                "Transforma tu realidad con TecnoGadget, donde la tecnología cobra vida."
+                </h1>
+        </div>
+        <div class="header-title">
             <h1 data-aos="fade-up">Vision</h1>
             <p class="paragraph" data-aos="fade-up">
             "Ser la principal fuente de inspiración y soluciones tecnológicas para nuestros clientes, 
