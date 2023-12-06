@@ -1,3 +1,10 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+ob_start();
+$config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +45,7 @@
         <div class="formulario">
             <h1>Contactanos</h1>
             <h3>Envianos un mensaje, alguien de nuestro equipo se pondra en contacto con usted, para ello llene los campos siguientes:</h3>
-            <form action="submeter-formulario.php" method="post">
+            <form action="contactanos.php" method="post">
                 <p>
                     <label for="nombre" class="colocar_nombre">Nombre completo
                         <span class="obligatorio">*</span>
@@ -49,17 +56,12 @@
                     <label for="email" class="colocar_email">Correo Electronico
                         <span class="obligatorio">*</span>
                     </label>
-                    <input type="email" name="introducir_email" id="email" required="obligatorio" placeholder="Escribe tu Email">
+                    <input type="email" name="email" id="email" required="obligatorio" placeholder="Escribe tu Email">
                 </p>
                 <p>
                     <label for="telefone" class="colocar_telefono">Teléfono
                     </label>
                     <input type="tel" name="introducir_telefono" id="telefono" placeholder="Escribe tu teléfono">
-                </p>
-                <p>
-                    <label for="website" class="colocar_website">Sitio web
-                    </label>
-                    <input type="url" name="introducir_website" id="website" placeholder="Escribe la URL de tu web">
                 </p>
                 <p>
                     <label for="asunto" class="colocar_asunto">Asunto
@@ -80,6 +82,64 @@
                     <span class="obligatorio"> * </span>Por favor llene los campos obliatorios
                 </p>
             </form>
+            <?php
+                use PHPMailer\PHPMailer\PHPMailer;
+                use PHPMailer\PHPMailer\SMTP;
+                use PHPMailer\PHPMailer\Exception;
+            
+                require 'PHPMailer/src/Exception.php';
+                require 'PHPMailer/src/PHPMailer.php';
+                require 'PHPMailer/src/SMTP.php';
+
+                if (isset($_POST['email'])) {
+                    $email = $_POST["email"];
+
+                    $mail = new PHPMailer;
+                    try {
+                        //Server settings
+                        //Enable verbose debug output
+                        $mail->SMTPDebug=0;
+                        $mail->isSMTP();                                            //Send using SMTP
+                        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                        $mail->Username   = 'adrianalonso.a4@gmail.com';                     //SMTP username
+                        $mail->Password   = 'wtld iaxc ojfx dnbe';                               //SMTP password
+                        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                        //Recipients
+                        $mail->setFrom('adrianalonso.a4@gmail.com', 'InnovaCodeTech');
+                        $mail->addAddress($email);     //Add a recipient
+
+                        //Content
+                        $mail->isHTML(true);                                  //Set email format to HTML
+                        $mail->addAttachment("img/logo-2.png", "logo-2.png");
+                        $mail->Body = 'Embedded Image: <img alt="PHPMailer" src="cid:my-attach"> Here is an image!';
+                        $mail->Subject = 'Gracias por contactarnos';
+                        $mail->CharSet = 'UTF-8';
+                        $mail->Body  = 'Gracias por ponerte en contacto con nosotros, su solicitud esta siendo procesada.<br> 
+                        Un miembro de nuestro equipo se pondra en contacto con usted dentro de las proximas 48 horas, agradecemos su paciencia.
+                        <br>Atentamente,<br>
+                        TecnoGadget';
+
+                        // Adjuntar la firma
+                        $mail->addAttachment('../img/firma.png', 'firma.png');
+
+                        $mail->send();
+                    } catch (Exception $e) {
+                    }
+                }
+            ?>
+
+            <?php
+                if (isset($_POST['email'])) {
+                    ?>
+                    <div class="alert alert-success" role="alert">
+                    Su solicitud ha sido recibida, le enviamos un correo electronico de confirmacion.
+                    </div>
+                    <?php
+                }
+            ?>
         </div>
     </div>
 

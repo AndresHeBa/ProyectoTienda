@@ -1,3 +1,10 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+ob_start();
+$config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+?>
 <?php include '../includes/header.php'; ?>
 <link rel="stylesheet" href="../css/style.css">
 
@@ -16,11 +23,13 @@
             <option value="4">Número de contacto</option>
             <option value="5">Correo</option>
             <option value="6">Cuenta</option>
+            <option value="7">IsAdmin</option>
+
         </select>
     </div>
     <?php
     include '../includes/db.php';
-    $sql = "SELECT * FROM Usuarios";
+    $sql = "SELECT * FROM usuarios";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         echo "<table id='SQLTable'>";
@@ -32,6 +41,7 @@
         echo "<th>Número de contacto</th>";
         echo "<th>Correo</th>";
         echo "<th>Cuenta</th>";
+        echo "<th>Estado</th>";
         echo "<th>Acciones</th>";
         echo "</tr>";
         while ($row = $result->fetch_assoc()) {
@@ -43,6 +53,7 @@
             echo "<td>" . $row["NúmeroContacto"] . "</td>";
             echo "<td>" . $row["Correo"] . "</td>";
             echo "<td>" . $row["Cuenta"] . "</td>";
+            echo "<td>" . $row["Estado"] . "</td>";
             echo "<td><a href='edit.php?id=" . $row["ClienteID"] . "'>Editar</a> | <a href='delete.php?id=" . $row["ClienteID"] . "'>Eliminar</a></td>";
             echo "</tr>";
         }
