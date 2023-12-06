@@ -104,11 +104,12 @@
                     while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
                         if ($fila['CategoriaID'] === $_POST['category']) {
                             $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta']*($fila['PrecioCompra'])*(0.01)));
+                            $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta']*($fila['PrecioCompra'])*(0.01)));
+                        echo '<div class="item">';
                             if ($fila['PrecioCompra'] > 0) {
                                 echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
                                 echo '<span class="texto-item" style="color: red;">'.round($fila['PrecioCompra']).'%</span>';
                             }
-                            echo '<div class="item">';
                             echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
                             echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
                             echo '<span class="precio-item">'.$precioFin.'</span>';
