@@ -58,8 +58,12 @@
         <div class="login" id="login" style="display: block;" transition-style="in:wipe:up">
             <h1>Login</h1>
             <form action="loginu.php" method="POST" id="loginFrom">
-                <input type="text" name="usuario" placeholder="Usuario" required>
-                <input type="password" name="passwordl" placeholder="Contraseña" required>
+                <input type="text" name="usuario" placeholder="Usuario" value="<?php if (isset($_COOKIE["username"])) {
+                                                                        echo $_COOKIE["username"];
+                                                                    } ?>" required>
+                <input type="password" name="passwordl" placeholder="Contraseña" value="<?php if (isset($_COOKIE["password"])) {
+                                                                            echo $_COOKIE["password"];
+                                                                        } ?>" required>
                 <!-- <a href="recuperar.php">¿Olvidaste tu contraseña?</a> -->
                 <br>
                 <img id="captcha" src="captcha.php" alt="Captcha Image" />
