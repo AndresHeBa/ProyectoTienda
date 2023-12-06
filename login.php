@@ -58,14 +58,17 @@
         <div class="login" id="login" style="display: block;" transition-style="in:wipe:up">
             <h1>Login</h1>
             <form action="loginu.php" method="POST" id="loginFrom">
-                <input type="text" name="usuario" placeholder="Usuario" required>
-                <input type="password" name="passwordl" placeholder="Contraseña" required>
+                <input type="text" name="usuario" placeholder="Usuario" value="<?php if (isset($_COOKIE["username"])) {
+                                                                        echo $_COOKIE["username"];
+                                                                    } ?>" required>
+                <input type="password" name="passwordl" placeholder="Contraseña" value="<?php if (isset($_COOKIE["password"])) {
+                                                                            echo $_COOKIE["password"];
+                                                                        } ?>" required>
                 <!-- <a href="recuperar.php">¿Olvidaste tu contraseña?</a> -->
                 <br>
                 <img id="captcha" src="captcha.php" alt="Captcha Image" />
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
-                <!-- <label for="remember">Recuérdame</label>
-                <input type="checkbox" name="remember" id="remember" value="1"> -->
+                <input type="checkbox" name="remember" id="remember">Recuérdame
                 <input type="hidden" name="loginop" id="loginop" value="0">
                 <input type="submit" value="Ingresar" onclick="loginUser(event)">
             </form>
@@ -99,13 +102,13 @@
             </form>
         </div>
 
-         <!--bloqueado  -->
-            <div class="bloqueado" id="bloqueado" style="display: none;" transition-style="in:wipe:down">
-                <h1>Usuario bloqueado</h1>
-                <p>Ha excedido el número de intentos permitidos. Por favor, reactive su cuenta</p>
-                <button onclick="redirectToInicioPage()">Inicio</button>
-                <button onclick="redirectToRecuperarPage()">Recuperar contraseña</button>
-            </div>
+        <!--bloqueado  -->
+        <div class="bloqueado" id="bloqueado" style="display: none;" transition-style="in:wipe:down">
+            <h1>Usuario bloqueado</h1>
+            <p>Ha excedido el número de intentos permitidos. Por favor, reactive su cuenta</p>
+            <button onclick="redirectToInicioPage()">Inicio</button>
+            <button onclick="redirectToRecuperarPage()">Recuperar contraseña</button>
+        </div>
 
     </div>
     <!-- Footer -->
@@ -117,7 +120,7 @@
         var btnLogin = document.getElementById("btn-login");
         var registro = document.getElementById("regist");
         var login = document.getElementById("login");
-        var loginAttempts = 0;
+        var loginAttempts = 1;
         document.getElementById("loginop").value = loginAttempts;
 
 
