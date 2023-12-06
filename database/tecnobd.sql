@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2023 a las 01:41:57
+-- Servidor: localhost
+-- Tiempo de generación: 06-12-2023 a las 05:13:31
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -160,16 +160,18 @@ CREATE TABLE `usuarios` (
   `Contraseña` varchar(40) DEFAULT NULL,
   `Cuenta` varchar(30) DEFAULT NULL,
   `PreguntaID` int(11) DEFAULT NULL,
-  `RespuestaP` varchar(50) DEFAULT NULL
+  `RespuestaP` varchar(50) DEFAULT NULL,
+  `Estado` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`) VALUES
-(1, 1, 'Andrés', 'Vicente Riva Palacio 238', '+524492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado'),
-(2, 0, 'Andrés', 'Vicente Riva Palacio 238', '4492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado');
+INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`, `Estado`) VALUES
+(1, 1, 'Andrés', 'Vicente Riva Palacio 238', '+524492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado', 'activo'),
+(2, 0, 'Andrés', 'Vicente Riva Palacio 238', '4492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado', 'activo'),
+(3, 0, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '+52 449 543 6109', 'adrianalonso.a4@gmail.com', 'e9d1d42e658461e23c02ca01d57bf7b31d9d4f51', 'YuunoDev', 4, 'Azul', 'activo');
 
 -- --------------------------------------------------------
 
@@ -275,7 +277,7 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
