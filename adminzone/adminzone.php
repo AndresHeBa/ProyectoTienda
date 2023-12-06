@@ -1,3 +1,10 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+ob_start();
+$config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,7 +16,12 @@
 </head>
 <body>
 
-<?php include 'includes/header.php'; ?>
+<header>
+    <h1>Tecnogadget</h1>
+    <nav>
+        <a href="../index.php">Inicio</a>
+    </nav>
+</header>
 
 <div class="container">
     <h2>Bienvenido a Tecnogadget - Panel de Administración</h2>

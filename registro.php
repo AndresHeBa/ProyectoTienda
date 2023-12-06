@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pregunta = $_POST['pregunta'];
     $respuesta = $_POST['respuesta'];
 
-    $query = "INSERT INTO `Usuarios`(
+    $query = "INSERT INTO `usuarios`(
                 `IsAdmin`,
                 `Nombre`,
                 `Dirección`,
