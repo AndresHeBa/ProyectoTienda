@@ -99,13 +99,13 @@
             </form>
         </div>
 
-         <!--bloqueado  -->
-            <div class="bloqueado" id="bloqueado" style="display: none;" transition-style="in:wipe:down">
-                <h1>Usuario bloqueado</h1>
-                <p>Ha excedido el número de intentos permitidos. Por favor, reactive su cuenta</p>
-                <button onclick="redirectToInicioPage()">Inicio</button>
-                <button onclick="redirectToRecuperarPage()">Recuperar contraseña</button>
-            </div>
+        <!--bloqueado  -->
+        <div class="bloqueado" id="bloqueado" style="display: none;" transition-style="in:wipe:down">
+            <h1>Usuario bloqueado</h1>
+            <p>Ha excedido el número de intentos permitidos. Por favor, reactive su cuenta</p>
+            <button onclick="redirectToInicioPage()">Inicio</button>
+            <button onclick="redirectToRecuperarPage()">Recuperar contraseña</button>
+        </div>
 
     </div>
     <!-- Footer -->
@@ -117,7 +117,7 @@
         var btnLogin = document.getElementById("btn-login");
         var registro = document.getElementById("regist");
         var login = document.getElementById("login");
-        var loginAttempts = 0;
+        var loginAttempts = 1;
         document.getElementById("loginop").value = loginAttempts;
 
 

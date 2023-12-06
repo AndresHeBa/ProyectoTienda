@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 `Contraseña`,
                 `Cuenta`,
                 `PreguntaID`,
-                `RespuestaP`
+                `RespuestaP`,
+                `Estado`
             )
             VALUES(
                 '0',
@@ -34,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 '$usuario',
                 '$pregunta',
                 '$respuesta'
+                'activo'
             )";
 
     // Execute the query
