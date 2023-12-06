@@ -36,9 +36,11 @@
                     <li><a href="ayuda.php">Ayuda</a></li>
                     <?php
                         if (isset($_SESSION["usuario"])) {
-                            echo "<li><a href='vacante.php'>Trabaja Con Nosotros</a></li>";
                             echo "<li><a href='#'>". $_SESSION["usuario"]."</a></li>";
                             echo "<li><a href='logout.php'>Logout</a></li>";
+                            if ($_SESSION["admin"] === 1) {
+                                echo "<li><a href='adminzone/adminzone.php'>Admin</a></li>";
+                            }
                         } else {
                             echo "<li><a href='login.php'>Login</a></li>";
                         }
