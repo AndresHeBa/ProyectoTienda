@@ -1,4 +1,9 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+ob_start();
+$config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 require_once 'adminzone/includes/db.php';
 
 // Check if the form is submitted
@@ -40,7 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($result->num_rows > 0) {
                     // Login successful
-                    $response = array('status' => 'success', 'message' => 'Login successful');
+                    $response = array('status' => 'success', 'message' => 'User logged in successfully');
+                    $_SESSION["usuario"] = $username;
+                    $fila = $result->fetch_assoc();
+                    $_SESSION["admin"] = $fila["IsAdmin"];
+
+                    header("refresh:3;url=principal.php");
                 } else {
                     // Login failed
                     $response = array('status' => 'error', 'message' => 'Login failed');
@@ -70,4 +80,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Close the database connection
 $conn->close();
-?>
