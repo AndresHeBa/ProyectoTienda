@@ -118,7 +118,8 @@
         var registro = document.getElementById("regist");
         var login = document.getElementById("login");
         var loginAttempts = 0;
-        var loginop = document.getElementById("loginop");
+        document.getElementById("loginop").value = loginAttempts;
+
 
         function showFormreg() {
             registro.style.display = "block";
