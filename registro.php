@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 '$password',
                 '$usuario',
                 '$pregunta',
-                '$respuesta'
+                '$respuesta',
                 'activo'
             )";
 

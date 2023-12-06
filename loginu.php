@@ -9,12 +9,13 @@ require_once 'adminzone/includes/db.php';
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     if (($_POST['captcha_code'] === $_COOKIE['captcha'])) {
         setcookie("captcha", "", time() - 3600);
         $username = $_POST['usuario'];
         $password = sha1($_POST['passwordl']);
+        $password2 = $_POST['passwordl'];
         $loginop = $_POST['loginop'];
+
 
         $query = "SELECT * FROM `usuarios` WHERE `Cuenta` = ? AND `Contraseña` = ? AND `Estado` = 'bloqueado';";
         $stmt = $conn->prepare($query);
@@ -42,7 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bind_param('ss', $username, $password);
                 $stmt->execute();
                 $result = $stmt->get_result();
-
+                if (!empty($_POST["remember"])) {
+                    setcookie("username", $username, time() + 3600);
+                    setcookie("password", $password2, time() + 3600);
+                } else {
+                    setcookie("username", "");
+                    setcookie("password", "");
+                }
 
                 if ($result->num_rows > 0) {
                     // Login successful
