@@ -4,6 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ob_start();
 $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+
 require_once 'adminzone/includes/db.php';
 
 // Check if the form is submitted
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result->num_rows > 0) {
             $response = array('status' => 'bc', 'message' => 'Cuenta bloqueada');
         } else {
-            if ($loginop > 3) {
+            if ($loginop >= 3) {
                 $query = "UPDATE `usuarios` SET `Estado` = 'bloqueado' WHERE `Cuenta` = ?;";
                 $stmt = $conn->prepare($query);
                 $stmt->bind_param('s', $username);
