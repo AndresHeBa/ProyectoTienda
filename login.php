@@ -64,8 +64,7 @@
                 <br>
                 <img id="captcha" src="captcha.php" alt="Captcha Image" />
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
-                <!-- <label for="remember">Recuérdame</label>
-                <input type="checkbox" name="remember" id="remember" value="1"> -->
+                <input type="checkbox" name="remember" id="remember">Recuérdame
                 <input type="hidden" name="loginop" id="loginop" value="0">
                 <input type="submit" value="Ingresar" onclick="loginUser(event)">
             </form>
