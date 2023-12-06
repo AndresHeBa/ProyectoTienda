@@ -34,13 +34,20 @@
 </head>
 
 <body>
+
+    <!-- siempre al iniciar marcar login -->
+    <script>
+        window.onload = function() {
+            showFormlog();
+        }
+    </script>
     <!-- Header -->
     <header>
         <?php
-            include "header.php";
+        include "header.php";
         ?>
     </header>
-    
+
     <!-- registro dinamico -->
     <div class="regs">
         <div class="prove_butt">
@@ -53,8 +60,13 @@
             <form action="loginu.php" method="POST" id="loginFrom">
                 <input type="text" name="usuario" placeholder="Usuario" required>
                 <input type="password" name="passwordl" placeholder="Contraseña" required>
+                <!-- <a href="recuperar.php">¿Olvidaste tu contraseña?</a> -->
+                <br>
                 <img id="captcha" src="captcha.php" alt="Captcha Image" />
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
+                <!-- <label for="remember">Recuérdame</label>
+                <input type="checkbox" name="remember" id="remember" value="1"> -->
+                <input type="hidden" name="loginop" id="loginop" value="0">
                 <input type="submit" value="Ingresar" onclick="loginUser(event)">
             </form>
         </div>
@@ -86,17 +98,27 @@
                 <input type="submit" value="Registrar" onclick="registerUser(event)">
             </form>
         </div>
-        
+
+         <!--bloqueado  -->
+            <div class="bloqueado" id="bloqueado" style="display: none;" transition-style="in:wipe:down">
+                <h1>Usuario bloqueado</h1>
+                <p>Ha excedido el número de intentos permitidos. Por favor, reactive su cuenta</p>
+                <button onclick="redirectToInicioPage()">Inicio</button>
+                <button onclick="redirectToRecuperarPage()">Recuperar contraseña</button>
+            </div>
+
     </div>
     <!-- Footer -->
     <?php
-        include "footer.php"
+    include "footer.php"
     ?>
     <script>
         var btnRegistro = document.getElementById("btn-registro");
         var btnLogin = document.getElementById("btn-login");
         var registro = document.getElementById("regist");
         var login = document.getElementById("login");
+        var loginAttempts = 0;
+        var loginop = document.getElementById("loginop");
 
         function showFormreg() {
             registro.style.display = "block";
@@ -148,27 +170,54 @@
 
             var form = document.getElementById('loginFrom');
             var formData = new FormData(form);
-
             fetch('loginu.php', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json()) // Parse as JSON
+                .then(response => response.json())
                 .then(data => {
-                    // Handle the response data
-                    console.log(data);
-
                     if (data.status === "success") {
                         alert("Usuario loggeado exitosamente");
                         window.location.href = "index.php";
-                    }else {
-                        alert("Usuario o contraseña incorrectos");
+                        loginAttempts = 0; // Restablecer intentos después de un inicio de sesión exitoso
+                    } else if (data.status === "error") {
+                        alert("Usuario o contraseña incorrectos\n Intentos restantes: " + (3 - loginAttempts));
+                        loginAttempts++;
+                        document.getElementById("loginop").value = loginAttempts;
+                        if (loginAttempts > 3) {
+                            showBlockedButtons();
+                        }
+                        // Manejar cuenta bloqueada
+                    } else if (data.status === "bc") {
+                        showBlockedButtons();
+                    } else if (data.status === "error-captcha") {
+                        alert("Captcha incorrecto");
+                    } else {
+                        alert("Error desconocido");
                     }
+
                 })
                 .catch(error => {
-                    // Handle errors, e.g., show an error message
                     console.error('Error:', error);
                 });
+
+        }
+
+        function showBlockedButtons() {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("bloqueado").style.display = "block";
+            //esconder botones
+            btnRegistro.style.display = "none";
+            btnLogin.style.display = "none";
+
+        }
+
+        function redirectToRecuperarPage() {
+            window.location.href = "recuperar.php";
+        }
+
+        function redirectToInicioPage() {
+            window.location.href = "index.php";
         }
     </script>
 
