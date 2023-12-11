@@ -5,11 +5,17 @@ if (session_status() == PHP_SESSION_NONE) {
 ob_start();
 $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 // sacar id del usuario
-$nameuser = $_SESSION["usuario"];
-include 'adminzone/includes/db.php';
-$sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
-$result = $conn->query($sql);
-$iduser = $result->fetch_assoc()['ClienteID'];
+if (isset($_SESSION['usuario'])) {
+    $nameuser = $_SESSION["usuario"];
+    include 'adminzone/includes/db.php';
+    $sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
+    $result = $conn->query($sql);
+    $iduser = $result->fetch_assoc()['ClienteID'];
+}else{
+    header("Location: login.php");
+    exit();
+
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $productId = $_POST['product_id'];
