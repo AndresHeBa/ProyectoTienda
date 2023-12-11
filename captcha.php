@@ -47,7 +47,7 @@ for ($i = 0; $i < strlen($captchaTexto); $i++) {
 
     imagettftext($image, 20, rand(-15, 15), $initial + $i * $letter_space, rand(20, 40), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captchaTexto[$i]);
 }
-header('Content-type: image/png');
+header('Content-type: image/jpg');
 imagepng($image);
 imagedestroy($image);
 
