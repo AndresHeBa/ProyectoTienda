@@ -66,7 +66,7 @@
                                                                                         } ?>" required>
                 <!-- <a href="recuperar.php">¿Olvidaste tu contraseña?</a> -->
                 <br>
-                <img id="captcha" class="captcha-image" src="captcha.php" alt="<?php echo $_COOKIE['captcha']; ?>" /><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
+                <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image"/><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
                 <input type="checkbox" name="remember" id="remember">Recuérdame
                 <input type="hidden" name="loginop" id="loginop" value="0">
