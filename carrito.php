@@ -4,7 +4,12 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ob_start();
 $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
-
+// sacar id del usuario
+$nameuser = $_SESSION["usuario"];
+include 'adminzone/includes/db.php';
+$sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
+$result = $conn->query($sql);
+$iduser = $result->fetch_assoc()['ClienteID'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $productId = $_POST['product_id'];
@@ -27,17 +32,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             'precio' => $product['PrecioVenta'],
         );
 
-        $iduser= 1; 
-        $cantidadVendida = 1; 
-        $activo=1;
-        $estado='En carrito';
-            //              INSERT INTO `carrito`(`ClienteID`, `ProductoID`, `CantidadVendida`, `PrecioVenta`, `CuponID`, `Estado`, `Activo`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
+        $cantidadVendida = 1;
+        $activo = 1;
+        $estado = 'En carrito';
+        // INSERT INTO `carrito`(`ClienteID`, `ProductoID`, `CantidadVendida`, `PrecioVenta`, `CuponID`, `Estado`, `Activo`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
         $insertarDetalle = "INSERT INTO carrito (ClienteID ,ProductoID, CantidadVendida, PrecioVenta, Estado, Activo) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($insertarDetalle);
-        $stmt->bind_param("iiidsi", $iduser, $productId, $cantidadVendida, $product['PrecioVenta'],$estado,$activo );
+        $stmt->bind_param("iiidsi", $iduser, $productId, $cantidadVendida, $product['PrecioVenta'], $estado, $activo);
         $stmt->execute();
-        
+
         if ($stmt->affected_rows > 0) {
+            header("Location: carrito.php");
             echo "Producto agregado al carrito";
         } else {
             echo "Error al agregar producto al carrito";
@@ -51,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
     $conn->close();
 }
+
 ?>
 
 
@@ -78,8 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/carrito.css">
-    
+
 </head>
+
 <body>
 
     <!-- Header -->
@@ -91,61 +98,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     </header>
 
     <div class="header-title">
-    <h1>Carrito</h1>
-        </div>
-        <section class="contenedor">
-     <!-- Carrito de Compras -->
-     <div class="carrito" id="carrito">
+        <h1>Carrito</h1>
+    </div>
+    <section class="contenedor">
+        <!-- Carrito de Compras -->
+        <div class="carrito" id="carrito">
             <div class="header-carrito">
                 <h2>Tu Carrito</h2>
             </div>
             <div class="carrito-items">
-                <div class="carrito-item">
-                    <img src="img/amd9.jpg" width="80px" alt="">
-                    <div class="carrito-item-detalles">
-                        <span class="carrito-item-titulo">AMD Rayzen 9</span>
-                        <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="1" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                        <span class="carrito-item-precio">$00,000,00</span>
-                    </div>
-                   <span class="btn-eliminar">
-                        <i class="fa-solid fa-trash"></i>
-                   </span>
-                </div>
-                <div class="carrito-item">
-                    <img src="img/amd9.jpg" width="80px" alt="">
-                    <div class="carrito-item-detalles">
-                        <span class="carrito-item-titulo">Amd Rayzen 9</span>
-                        <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                        <span class="carrito-item-precio">$00,000,00</span>
-                    </div>
-                   <button class="btn-eliminar">
-                        <i class="fa-solid fa-trash"></i>
-                   </button>
-                </div>
-                 
+                <?php
+                include 'adminzone/includes/db.php';
+
+                $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen
+                    FROM carrito c
+                    JOIN producto p ON c.ProductoID = p.ProductoID
+                    WHERE c.ClienteID = 1 AND c.Estado = 'En carrito'";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($product = $result->fetch_assoc()) {
+                        echo '<div class="carrito-item">
+                            <img src="' . $product['Imagen'] . '" width="80px" alt="">
+                            <div class="carrito-item-detalles">
+                                <span class="carrito-item-titulo">' . $product['Nombre'] . '</span>
+                                <div class="selector-cantidad">
+                                    <i class="fa-solid fa-minus restar-cantidad"></i>
+                                    <input type="text" value="' . $product['CantidadVendida'] . '" class="carrito-item-cantidad" disabled>
+                                    <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                </div>
+                                <span class="carrito-item-precio">$' . $product['PrecioVenta'] . '</span>
+                            </div>
+                            <span class="btn-eliminar">
+                                <i class="fa-solid fa-trash"></i>
+                            </span>
+                        </div>';
+                    }
+                } else {
+                    echo "Carrito vacío";
+                }
+
+                ?>
+
             </div>
             <div class="carrito-total">
-                <div class="fila">
-                    <strong>Tu Total</strong>
-                    <span class="carrito-precio-total">
-                        $000,000,00
-                    </span>
-                </div>
+                <?php
+                //precio sin descuento
+                $sql = "SELECT SUM(p.PrecioVenta * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID = 1 AND c.Estado = 'En carrito'";
+
+                $result = $conn->query($sql);
+
+                if ($result) {
+                    $total = $result->fetch_assoc()['total'];
+                    echo '<div class="fila">
+                            <strong>Total sin descuento</strong>
+                            <span class="carrito-precio-total">
+                                $' . $total . '
+                            </span>
+                        </div>';
+                } else {
+                    echo "Carrito vacío o error en la consulta: " . $conn->error;
+                }
+
+
+                //sacar el total de la suma de los productos y si tiene descuento aplicarlo
+                $sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID = 1 AND c.Estado = 'En carrito'";
+
+                $result = $conn->query($sql);
+
+                if ($result) {
+                    $total = $result->fetch_assoc()['total'];
+                    echo '<div class="fila">
+                            <strong>Total</strong>
+                            <span class="carrito-precio-total">
+                                $' . $total . '
+                            </span>
+                        </div>';
+                } else {
+                    echo "Carrito vacío o error en la consulta: " . $conn->error;
+                }
+
+
+                $conn->close();
+                ?>
                 <button class="btn-pagar" onclick="redirectToPago()">Pagar <i class="fa-solid fa-bag-shopping"></i> </button>
             </div>
         </div>
-   
-</section>
 
-    
+    </section>
+
+
     <!-- Footer -->
     <?php
     include 'footer.php';
