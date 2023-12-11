@@ -4,7 +4,49 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ob_start();
 $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+    $productId = $_POST['product_id'];
+
+    include 'adminzone/includes/db.php';
+
+    $sql = "SELECT * FROM producto WHERE ProductoID = $productId";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $product = $result->fetch_assoc();
+
+        if (!isset($_SESSION['carrito'])) {
+            $_SESSION['carrito'] = array();
+        }
+
+        $_SESSION['carrito'][] = array(
+            'id' => $product['ProductoID'],
+            'nombre' => $product['Nombre'],
+            'precio' => $product['PrecioVenta'],
+        );
+
+        $ventaId = 1; 
+        $cantidadVendida = 1; 
+
+        $insertarDetalle = "INSERT INTO detallesventa (DetalleVentaID, VentaID, ProductoID, CantidadVendida, PrecioVenta) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insertarDetalle);
+        $stmt->bind_param("iiid", $ventaId, $productId, $cantidadVendida, $product['PrecioVenta']);
+        $stmt->execute();
+        $stmt->close();
+
+        header("Location: carrito.php");
+        exit();
+    } else {
+        echo "Producto no encontrado";
+    }
+
+    $conn->close();
+}
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,7 +131,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
                         $000,000,00
                     </span>
                 </div>
-                <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i> </button>
+                <button class="btn-pagar" onclick="redirectToPago()">Pagar <i class="fa-solid fa-bag-shopping"></i> </button>
             </div>
         </div>
    
@@ -100,6 +142,11 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
     <?php
     include 'footer.php';
     ?>
+    <script>
+        function redirectToPago() {
+            window.location.href = "metodo_pago.php";
+        }
+    </script>
 </body>
 
 </html>

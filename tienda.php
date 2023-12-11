@@ -46,131 +46,98 @@
     </header>
 
 <!-- productos -->
-<div class="header-title">
+        <div class="header-title">
             <h1>Productos</h1>
         </div>
+
+
+        <section class="filters-container in-line"
+        aria-labelledby="filters-title">            
+            <aside class= "filters-aside">
+
+                <!--Encabezado del Filtro-->
+                <div class="filters-heading-container in-line">
+
+                    <div class="filters-title">
+                        <h4 aria-label= "Agilice la búsqueda del producto utilizando:">
+                            FILTROS</h4>
+                    </div>
+                </div>
+
+                <!-- Inicio de Busqueda -->
+                <form action="tienda.php" method="post">
+                    
+
+                <!-- Inicio para filtrar por categoria -->
+                <fieldset class="filters-category-container ">
+                    <div class="checkboxes-container input-category-container">
+
+                        <label for= "discosduros" class="input-category in-line">
+                            <input type="checkbox"
+                                class=" filter filter-category"
+                                name="category"
+                                value="1"
+                                id= "discosduros">
+                            </input>
+                            <h5>DISCOS DUROS</h5>
+                        </label>
+                        <label for= "procesadores" class="input-category in-line">
+                            <input type="checkbox"
+                                class="filter filter-category"
+                                name="category" 
+                                value="2"
+                                id= "procesadores">
+                            </input>
+                            <h5>PROCESADORES</h5>
+                        </label>
+                        <button type="submit" class="btn btn-secondary">Filtrar</button>
+                        
+    
+                </fieldset>
+
+                </form>
+                    
+            </aside>
+        </section>
     <section class="contenedor">
     <!-- Contenedor de elementos -->
     <div class="contenedor-items">
         <?php
-            $sql = 'select * from producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
+            $sql = 'SELECT * FROM producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
             $resultado = $conn -> query($sql); //aplicamos sentencia
-            if ($resultado -> num_rows){ //si la consulta genera registros
-                    while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
-                        echo '<div class="item">';
-                            echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
-                            echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
-                            echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
-                            echo '<span class="texto-item">'.$fila['Descripción'].'</span>';
-                            echo '<div class="selector-cantidad">
-                                    <i class="fa-solid fa-minus restar-cantidad"></i>
-                                    <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                                    <i class="fa-solid fa-plus sumar-cantidad"></i>
-                                  </div>
-                                  <button class="boton-item">Agregar al Carrito</button>';
-                            echo '<span class="texto-item">Stock: '.$fila['CantidadStock'].'</span>';
-                        echo '</div>';
-                    }   
-                    echo '</table">';
-                echo '</div>';
-            }
-            else{
-                echo "no hay datos";
-            }
-        ?>
-            <!-- <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/barracuda_1tb.webp" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Procesador RYZEN 9 5900X</span>
-                <img src="img/amd9.jpg" alt="" class="img-item">
-                <span class="precio-item">$5,620</span>
-                <div class="selector-cantidad">
-                            <i class="fa-solid fa-minus restar-cantidad"></i>
-                            <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                            <i class="fa-solid fa-plus sumar-cantidad"></i>
-                        </div>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
-        </div> -->
-</section>
+            if ($resultado->num_rows) {
+                while ($fila = $resultado->fetch_assoc()) {
+                    $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['PrecioCompra']) * (0.01)));
 
-         
-    
+                    echo '<div class="item">';
+                    echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
+                    if ($fila['PrecioCompra'] > 0) {
+                        echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
+                        echo '<span class="texto-item" style="color: red;">' . round($fila['PrecioCompra']) . '%</span>';
+                    }
+                    echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
+                    echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
+                    echo '<span class="precio-item">' . $precioFin . '</span>';
+                    echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
+                    echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
+                              <i class="fa-solid fa-minus restar-cantidad"></i>
+                              <input type="text" value="1" class="carrito-item-cantidad" disabled>
+                              <i class="fa-solid fa-plus sumar-cantidad"></i>
+                          </div>
+                          <form action="carrito.php" method="post">
+                              <input type="hidden" name="product_id" value="' . $fila['ProductoID'] . '">
+                              <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
+                          </form>';
+                    echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
+                    echo '</a>';
+                    
+                    echo '</div>';
+                }
+            } else {
+                echo "No hay datos";
+            }
+            ?>
+</section>
 
     <!-- Animaciones : AOS-->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -185,6 +152,39 @@
 
 
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cantidadSelectors = document.querySelectorAll('.selector-cantidad');
+
+            cantidadSelectors.forEach(function (selector) {
+                const productId = selector.getAttribute('data-product-id');
+                const inputCantidad = selector.querySelector('.carrito-item-cantidad');
+                const restarBtn = selector.querySelector('.restar-cantidad');
+                const sumarBtn = selector.querySelector('.sumar-cantidad');
+
+                restarBtn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    let cantidad = parseInt(inputCantidad.value);
+                    if (cantidad > 1) {
+                        cantidad--;
+                        inputCantidad.value = cantidad;
+                    }
+                });
+
+                sumarBtn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    let cantidad = parseInt(inputCantidad.value);
+                    let stock = parseInt(selector.getAttribute('data-stock'));
+                    if (cantidad < stock) {
+                        cantidad++;
+                        inputCantidad.value = cantidad;
+                    }
+                });
+            });
+        });
+    </script>
+
+
     <!-- Footer -->
     <?php
     include 'footer.php';
