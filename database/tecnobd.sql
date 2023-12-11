@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 06-12-2023 a las 05:13:31
+-- Tiempo de generación: 11-12-2023 a las 03:28:45
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -18,8 +18,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `tecnobd`
+-- Base de datos: `tecnobdp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `CarritoID` int(11) NOT NULL,
+  `ClienteID` int(11) DEFAULT NULL,
+  `ProductoID` int(11) DEFAULT NULL,
+  `CantidadVendida` int(11) DEFAULT NULL,
+  `PrecioVenta` decimal(10,2) DEFAULT NULL,
+  `CuponID` int(11) DEFAULT NULL,
+  `Estado` varchar(20) DEFAULT 'En carrito',
+  `Activo` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -29,7 +46,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categoria` (
   `CategoriaID` int(11) NOT NULL,
-  `DesCategoria` varchar(80) DEFAULT NULL
+  `DesCategoria` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -48,16 +65,57 @@ INSERT INTO `categoria` (`CategoriaID`, `DesCategoria`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detallesventa`
+-- Estructura de tabla para la tabla `cupon`
 --
 
-CREATE TABLE `detallesventa` (
-  `DetalleVentaID` int(11) NOT NULL,
-  `VentaID` int(11) DEFAULT NULL,
-  `ProductoID` int(11) DEFAULT NULL,
-  `CantidadVendida` int(11) DEFAULT NULL,
-  `PrecioVenta` decimal(10,2) DEFAULT NULL
+CREATE TABLE `cupon` (
+  `CuponID` int(11) NOT NULL,
+  `Codecup` varchar(10) DEFAULT NULL,
+  `DesCupon` varchar(150) DEFAULT NULL,
+  `Descuento` int(11) NOT NULL,
+  `Mensaje` varchar(100) NOT NULL,
+  `CategoriaID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `cupon`
+--
+
+INSERT INTO `cupon` (`CuponID`, `Codecup`, `DesCupon`, `Descuento`, `Mensaje`, `CategoriaID`) VALUES
+(1, 'PR0C354D0R', 'hace un 10% de descuento en productos de  procesadores', 10, 'cupon promocional canjeaeo', 2),
+(2, 'F4N4V1D4D', 'hace un 50% de descuento en discos duros', 50, 'cupon festivo canjeado', 1),
+(3, 'M45T3CN0', 'hace un 15% de descuento en toda la tienda', 15, 'cupon de amor canjeado', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pagos`
+--
+
+CREATE TABLE `pagos` (
+  `PagosID` int(11) NOT NULL,
+  `Tarjeta` varchar(30) DEFAULT NULL,
+  `NumTar` int(11) DEFAULT NULL,
+  `Vencimiento` varchar(10) DEFAULT NULL,
+  `CVV` int(11) DEFAULT NULL,
+  `Envio` varchar(150) DEFAULT NULL,
+  `Descr` varchar(150) DEFAULT NULL,
+  `ClienteID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`PagosID`, `Tarjeta`, `NumTar`, `Vencimiento`, `CVV`, `Envio`, `Descr`, `ClienteID`) VALUES
+(1, 'Pepe Botella', 1234567890, '25/24', 864, '', '', 1),
+(2, 'Patricio Estrella', 2147483647, '02/25', 953, 'Av. Convención Estrada', '', 2),
+(3, 'Boeponja', 2147483647, '23/27', 125, 'Mural Literario #123', 'Una casa con puertas y ventanas', 2),
+(4, 'Macareno', 4737, '30/27', 906, 'Ciudad Costera', 'Vivo por el puerto', 1),
+(5, 'Macareno', 4737, '30/27', 906, 'Ciudad Costera', 'Vivo por el puerto', 1),
+(6, 'Salala', 2147483647, '09/38', 369, 'Ciudad Costera', 'Mi casa', 1),
+(7, 'Salala', 2147483647, '09/38', 369, 'Ciudad Costera', 'Mi casa', 2),
+(8, 'andres', 23456789, '23/25', 562, 'hidalgo buena vista', 'casa con porton amarillo', 1);
 
 -- --------------------------------------------------------
 
@@ -161,7 +219,7 @@ CREATE TABLE `usuarios` (
   `Cuenta` varchar(30) DEFAULT NULL,
   `PreguntaID` int(11) DEFAULT NULL,
   `RespuestaP` varchar(50) DEFAULT NULL,
-  `Estado` varchar(20) NOT NULL
+  `Estado` varchar(10) NOT NULL DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -169,9 +227,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`, `Estado`) VALUES
-(1, 1, 'Andrés', 'Vicente Riva Palacio 238', '+524492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado', 'activo'),
-(2, 0, 'Andrés', 'Vicente Riva Palacio 238', '4492163434', 'herediaandres040@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'SeñorDonAndres', 4, 'Morado', 'activo'),
-(3, 0, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '+52 449 543 6109', 'adrianalonso.a4@gmail.com', 'e9d1d42e658461e23c02ca01d57bf7b31d9d4f51', 'YuunoDev', 4, 'Azul', 'activo');
+(1, 0, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '(449) 543-6109', 'adrianalonso.a4@gmail.com', 'e9d1d42e658461e23c02ca01d57bf7b31d9d4f51', 'YuunoDev', 4, 'azul', 'activo'),
+(2, 0, 'Erik', 'Lomas Turbias', '4495451413', 'erikalbadavila@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'ErikUni', 1, 'chicharo', 'activo'),
+(3, 0, 'Erik', 'Lomas Turbias', '4495451413', 'erikalbadavila@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'ErikUni', 1, 'chicharo', 'activo');
 
 -- --------------------------------------------------------
 
@@ -183,13 +241,23 @@ CREATE TABLE `ventas` (
   `VentaID` int(11) NOT NULL,
   `Fecha` date DEFAULT NULL,
   `Hora` time DEFAULT NULL,
-  `ClienteID` int(11) DEFAULT NULL,
-  `PrecioVentaTotal` decimal(10,2) DEFAULT NULL
+  `CarritoID` int(11) DEFAULT NULL,
+  `PrecioVentaTotal` decimal(10,2) DEFAULT NULL,
+  `PagosID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD PRIMARY KEY (`CarritoID`),
+  ADD KEY `ClienteID` (`ClienteID`),
+  ADD KEY `ProductoID` (`ProductoID`),
+  ADD KEY `CuponID` (`CuponID`);
 
 --
 -- Indices de la tabla `categoria`
@@ -198,12 +266,18 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`CategoriaID`);
 
 --
--- Indices de la tabla `detallesventa`
+-- Indices de la tabla `cupon`
 --
-ALTER TABLE `detallesventa`
-  ADD PRIMARY KEY (`DetalleVentaID`),
-  ADD KEY `VentaID` (`VentaID`),
-  ADD KEY `ProductoID` (`ProductoID`);
+ALTER TABLE `cupon`
+  ADD PRIMARY KEY (`CuponID`),
+  ADD KEY `fk_cupon_categoria` (`CategoriaID`);
+
+--
+-- Indices de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD PRIMARY KEY (`PagosID`),
+  ADD KEY `ClienteID` (`ClienteID`);
 
 --
 -- Indices de la tabla `preguntas`
@@ -217,7 +291,7 @@ ALTER TABLE `preguntas`
 ALTER TABLE `producto`
   ADD PRIMARY KEY (`ProductoID`),
   ADD KEY `ProveedorID` (`ProveedorID`),
-  ADD KEY `fk_Producto_Categoria` (`CategoriaID`);
+  ADD KEY `CategoriaID` (`CategoriaID`);
 
 --
 -- Indices de la tabla `proveedores`
@@ -230,18 +304,25 @@ ALTER TABLE `proveedores`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`ClienteID`),
-  ADD KEY `fk_Pregunta_Usuario` (`PreguntaID`);
+  ADD KEY `PreguntaID` (`PreguntaID`);
 
 --
 -- Indices de la tabla `ventas`
 --
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`VentaID`),
-  ADD KEY `ClienteID` (`ClienteID`);
+  ADD KEY `PagosID` (`PagosID`),
+  ADD KEY `fk_carrito_ventas` (`CarritoID`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  MODIFY `CarritoID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -250,10 +331,16 @@ ALTER TABLE `categoria`
   MODIFY `CategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `detallesventa`
+-- AUTO_INCREMENT de la tabla `cupon`
 --
-ALTER TABLE `detallesventa`
-  MODIFY `DetalleVentaID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cupon`
+  MODIFY `CuponID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  MODIFY `PagosID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -290,30 +377,44 @@ ALTER TABLE `ventas`
 --
 
 --
--- Filtros para la tabla `detallesventa`
+-- Filtros para la tabla `carrito`
 --
-ALTER TABLE `detallesventa`
-  ADD CONSTRAINT `DetallesVenta_ibfk_1` FOREIGN KEY (`VentaID`) REFERENCES `ventas` (`VentaID`),
-  ADD CONSTRAINT `DetallesVenta_ibfk_2` FOREIGN KEY (`ProductoID`) REFERENCES `producto` (`ProductoID`);
+ALTER TABLE `carrito`
+  ADD CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`ClienteID`) REFERENCES `usuarios` (`ClienteID`),
+  ADD CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`ProductoID`) REFERENCES `producto` (`ProductoID`),
+  ADD CONSTRAINT `carrito_ibfk_3` FOREIGN KEY (`CuponID`) REFERENCES `cupon` (`CuponID`);
+
+--
+-- Filtros para la tabla `cupon`
+--
+ALTER TABLE `cupon`
+  ADD CONSTRAINT `fk_cupon_categoria` FOREIGN KEY (`CategoriaID`) REFERENCES `categoria` (`CategoriaID`);
+
+--
+-- Filtros para la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`ClienteID`) REFERENCES `usuarios` (`ClienteID`);
 
 --
 -- Filtros para la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD CONSTRAINT `Producto_ibfk_1` FOREIGN KEY (`ProveedorID`) REFERENCES `proveedores` (`ProveedorID`),
-  ADD CONSTRAINT `fk_Producto_Categoria` FOREIGN KEY (`CategoriaID`) REFERENCES `categoria` (`CategoriaID`);
+  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`ProveedorID`) REFERENCES `proveedores` (`ProveedorID`),
+  ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`CategoriaID`) REFERENCES `categoria` (`CategoriaID`);
 
 --
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_Pregunta_Usuario` FOREIGN KEY (`PreguntaID`) REFERENCES `preguntas` (`PreguntaID`);
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`PreguntaID`) REFERENCES `preguntas` (`PreguntaID`);
 
 --
 -- Filtros para la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  ADD CONSTRAINT `Ventas_ibfk_1` FOREIGN KEY (`ClienteID`) REFERENCES `usuarios` (`ClienteID`);
+  ADD CONSTRAINT `fk_carrito_ventas` FOREIGN KEY (`CarritoID`) REFERENCES `carrito` (`CarritoID`),
+  ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`PagosID`) REFERENCES `pagos` (`PagosID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
