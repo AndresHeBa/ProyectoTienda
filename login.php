@@ -59,14 +59,14 @@
             <h1>Login</h1>
             <form action="loginu.php" method="POST" id="loginFrom">
                 <input type="text" name="usuario" placeholder="Usuario" value="<?php if (isset($_COOKIE["username"])) {
-                                                                        echo $_COOKIE["username"];
-                                                                    } ?>" required>
+                                                                                    echo $_COOKIE["username"];
+                                                                                } ?>" required>
                 <input type="password" name="passwordl" placeholder="Contraseña" value="<?php if (isset($_COOKIE["password"])) {
-                                                                            echo $_COOKIE["password"];
-                                                                        } ?>" required>
+                                                                                            echo $_COOKIE["password"];
+                                                                                        } ?>" required>
                 <!-- <a href="recuperar.php">¿Olvidaste tu contraseña?</a> -->
                 <br>
-                <img id="captcha" src="captcha.php" alt="Captcha Image" />
+                <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image" /><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
                 <input type="checkbox" name="remember" id="remember">Recuérdame
                 <input type="hidden" name="loginop" id="loginop" value="0">
@@ -123,6 +123,10 @@
         var loginAttempts = 1;
         document.getElementById("loginop").value = loginAttempts;
 
+        var refreshButton = document.querySelector(".refresh-captcha");
+        refreshButton.onclick = function() {
+            document.querySelector(".captcha-image").src = 'captcha.php?' + Date.now();
+        }
 
         function showFormreg() {
             registro.style.display = "block";

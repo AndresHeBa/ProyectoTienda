@@ -4,6 +4,11 @@ body{
 	font-family: 'Poppins', sans-serif;
 }
 
+.refresh-captcha {
+	cursor: pointer;
+	margin-left: 10px;
+	font-size: 30px;
+}
 
 .regs{	
 	font-family:Arial, Helvetica, sans-serif;
