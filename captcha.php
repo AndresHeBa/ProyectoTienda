@@ -35,7 +35,7 @@ for ($i = 0; $i < 10; $i++) {
 $black = imagecolorallocate($image, 0, 0, 0);
 $white = imagecolorallocate($image, 255, 255, 255);
 $textcolors = [$black, $white];
-$fonts = [dirname(__FILE__) . '/fonts/DeadStock-Demo.ttf', dirname(__FILE__) . '/fonts/bluefires_sample.ttf', dirname(__FILE__) . '/fonts/VampiroOne-Regular.ttf',dirname(__FILE__) . '/fonts/KaushanScript-Regular.ttf'];
+$fonts = [dirname(__FILE__) . '/fonts/DeadStock-Demo.ttf', dirname(__FILE__) . '/fonts/bluefires_sample.ttf', dirname(__FILE__) . '/fonts/VampiroOne-Regular.ttf', dirname(__FILE__) . '/fonts/KaushanScript-Regular.ttf'];
 // Define la longitud del texto (5 caracteres).
 $captchaTexto = generarTextoAleatorio(5);
 
@@ -48,7 +48,5 @@ for ($i = 0; $i < strlen($captchaTexto); $i++) {
     imagettftext($image, 20, rand(-15, 15), $initial + $i * $letter_space, rand(20, 40), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captchaTexto[$i]);
 }
 header('Content-type: image/jpg');
-imagepng($image);
+imagejpeg($image);
 imagedestroy($image);
-
-?>
