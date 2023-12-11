@@ -5,6 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 ob_start();
 $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $productId = $_POST['product_id'];
 
@@ -26,14 +27,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             'precio' => $product['PrecioVenta'],
         );
 
-        $ventaId = 1; 
+        $iduser= 1; 
         $cantidadVendida = 1; 
-
-        $insertarDetalle = "INSERT INTO detallesventa (DetalleVentaID, VentaID, ProductoID, CantidadVendida, PrecioVenta) VALUES (?, ?, ?, ?)";
+        $activo=1;
+        $estado='En carrito';
+            //              INSERT INTO `carrito`(`ClienteID`, `ProductoID`, `CantidadVendida`, `PrecioVenta`, `CuponID`, `Estado`, `Activo`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
+        $insertarDetalle = "INSERT INTO carrito (ClienteID ,ProductoID, CantidadVendida, PrecioVenta, Estado, Activo) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($insertarDetalle);
-        $stmt->bind_param("iiid", $ventaId, $productId, $cantidadVendida, $product['PrecioVenta']);
+        $stmt->bind_param("iiidsi", $iduser, $productId, $cantidadVendida, $product['PrecioVenta'],$estado,$activo );
         $stmt->execute();
-        $stmt->close();
+        
+        if ($stmt->affected_rows > 0) {
+            echo "Producto agregado al carrito";
+        } else {
+            echo "Error al agregar producto al carrito";
+        }
 
         header("Location: carrito.php");
         exit();
