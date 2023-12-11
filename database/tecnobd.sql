@@ -155,7 +155,7 @@ CREATE TABLE `producto` (
   `PrecioCompra` decimal(10,2) DEFAULT NULL,
   `PrecioVenta` decimal(10,2) DEFAULT NULL,
   `CantidadStock` int(11) DEFAULT NULL,
-  `Imagen` varchar(30) DEFAULT NULL,
+  `Imagen` varchar(100) DEFAULT NULL,
   `CategoriaID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
