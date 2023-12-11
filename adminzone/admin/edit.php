@@ -16,15 +16,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES["imagenNew"]) && !(em
             $numeroSerie = $_POST['numeroSerieE'];
             $proveedor = $_POST['proveedorE'];
             $categoria = $_POST['categoriaE'];
-            $precioCompra = $_POST['precioCompraE'];
+            $descuento = $_POST['descuentoE'];
             $precioVenta = $_POST['precioVentaE'];
             $stock = $_POST['stockE'];
             $imagenbor = $_POST['imgenE'];
             unlink("../../" . $imagenbor);
             $imgen = "img/" . basename($_FILES["imagenNew"]["name"]);
-            $query = "UPDATE producto SET Nombre=?, Descripción=?, Modelo=?, NúmeroSerie=?, ProveedorID=?, CategoriaID=?, PrecioCompra=?, PrecioVenta=?, CantidadStock=?, Imagen=? WHERE ProductoID=?";
+            $query = "UPDATE producto SET Nombre=?, Descripción=?, Modelo=?, NúmeroSerie=?, ProveedorID=?, CategoriaID=?, Descuento=?, PrecioVenta=?, CantidadStock=?, Imagen=? WHERE ProductoID=?";
             $stmt = $conn->prepare($query);
-            $stmt->bind_param('ssssiiisssi', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $imgen, $id);
+            $stmt->bind_param('ssssiiisssi', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $descuento, $precioVenta, $stock, $imgen, $id);
             $stmt->execute();
 
             //verificar cuantas filas se vieron afectadas
@@ -48,12 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES["imagenNew"]) && !(em
     $numeroSerie = $_POST['numeroSerieE'];
     $proveedor = $_POST['proveedorE'];
     $categoria = $_POST['categoriaE'];
-    $precioCompra = $_POST['precioCompraE'];
+    $descuento = $_POST['descuentoE'];
     $precioVenta = $_POST['precioVentaE'];
     $stock = $_POST['stockE'];
-    $query = "UPDATE producto SET Nombre=?, Descripción=?, Modelo=?, NúmeroSerie=?, ProveedorID=?, CategoriaID=?, PrecioCompra=?, PrecioVenta=?, CantidadStock=? WHERE ProductoID=?";
+    $query = "UPDATE producto SET Nombre=?, Descripción=?, Modelo=?, NúmeroSerie=?, ProveedorID=?, CategoriaID=?, descuento=?, PrecioVenta=?, CantidadStock=? WHERE ProductoID=?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('ssssiiisss', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $id);
+    $stmt->bind_param('ssssiiisss', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $descuento, $precioVenta, $stock, $id);
     $stmt->execute();
 
     // verificar cuántas filas se vieron afectadas

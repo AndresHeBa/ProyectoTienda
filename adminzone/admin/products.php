@@ -6,10 +6,9 @@ ob_start();
 $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 ?>
 <!DOCTYPE html>
-<?php include '../includes/header.php'; ?>
-
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/style.css">
+<?php include '../includes/header.php'; ?>
 <div class="container">
     <h2>Administración de Productos</h2>
     <div class="prove_butt">
@@ -46,7 +45,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 
         . "    pr.Nombre AS NombreProveedor,\n"
 
-        . "    p.PrecioCompra,\n"
+        . "    p.Descuento,\n"
 
         . "    p.PrecioVenta,\n"
 
@@ -76,7 +75,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
     echo "<th>Modelo</th>";
     echo "<th>Número de Serie</th>";
     echo "<th>Proveedor</th>";
-    echo "<th>Precio de Compra</th>";
+    echo "<th>Descuento</th>";
     echo "<th>Precio de Venta</th>";
     echo "<th>Stock</th>";
     echo "<th>Categoria</th>";
@@ -92,7 +91,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             echo "<td>" . (isset($row["Modelo"]) ? $row["Modelo"] : "") . "</td>";
             echo "<td>" . (isset($row["NúmeroSerie"]) ? $row["NúmeroSerie"] : "") . "</td>";
             echo "<td>" . (isset($row["NombreProveedor"]) ? $row["NombreProveedor"] : "") . "</td>";
-            echo "<td>" . (isset($row["PrecioCompra"]) ? $row["PrecioCompra"] : "") . "</td>";
+            echo "<td>" . (isset($row["Descuento"]) ? $row["Descuento"] : "0") . "%</td>";
             echo "<td>" . (isset($row["PrecioVenta"]) ? $row["PrecioVenta"] : "") . "</td>";
             echo "<td>" . (isset($row["CantidadStock"]) ? $row["CantidadStock"] : "") . "</td>";
             echo "<td>" . (isset($row["DesCategoria"]) ? $row["DesCategoria"] : "") . "</td>";
@@ -153,8 +152,8 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
                 ?>
             </select>
 
-            <label for="precioCompra">Precio de Compra:</label>
-            <input type="number" step="0.01"  id="precioCompra" name="precioCompra" required>
+            <label for="descuento">Descuento:</label>
+            <input type="number" id="descuento" name="descuento" required>
 
             <label for="precioVenta">Precio de Venta:</label>
             <input type="number" step="0.01"  id="precioVenta" name="precioVenta" required>
@@ -215,8 +214,8 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
                 ?>
             </select>
 
-            <label for="precioCompraE">Precio de Compra:</label>
-            <input type="number" step="0.01" id="precioCompraE" name="precioCompraE" required>
+            <label for="descuentoE">Descuento:</label>
+            <input type="number" id="descuentoE" name="descuentoE" required>
 
             <label for="precioVentaE">Precio de Venta:</label>
             <input type="number" step="0.01" id="precioVentaE" name="precioVentaE" required>
@@ -262,7 +261,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             document.getElementById("numeroSerie").value = "";
             document.getElementById("proveedor").value = "";
             document.getElementById("categoria").value = "";
-            document.getElementById("precioCompra").value = "";
+            document.getElementById("descuento").value = "";
             document.getElementById("precioVenta").value = "";
             document.getElementById("stock").value = "";
             //quitar si se subio una imagen pero se dejo de editar
@@ -329,7 +328,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             document.getElementById("numeroSerieE").value = "";
             document.getElementById("proveedorE").value = "";
             document.getElementById("categoriaE").value = "";
-            document.getElementById("precioCompraE").value = "";
+            document.getElementById("descuentoE").value = "";
             document.getElementById("precioVentaE").value = "";
             document.getElementById("stockE").value = "";
             document.getElementById("imgact").src = "";
@@ -364,7 +363,7 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
                     document.getElementById("numeroSerieE").value = data.product.NúmeroSerie;
                     document.getElementById("proveedorE").value = data.product.ProveedorID;
                     document.getElementById("categoriaE").value = data.product.CategoriaID;
-                    document.getElementById("precioCompraE").value = data.product.PrecioCompra;
+                    document.getElementById("descuentoE").value = data.product.PrecioCompra;
                     document.getElementById("precioVentaE").value = data.product.PrecioVenta;
                     document.getElementById("stockE").value = data.product.CantidadStock;
                     document.getElementById("imgact").src = "../../" + data.product.Imagen;

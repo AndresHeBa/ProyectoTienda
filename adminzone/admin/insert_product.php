@@ -15,13 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES["imagen"]) && !(empty
             $numeroSerie = $_POST['numeroSerie'];
             $proveedor = $_POST['proveedor'];
             $categoria = $_POST['categoria'];
-            $precioCompra = $_POST['precioCompra'];
+            $descuento = $_POST['descuento'];
             $precioVenta = $_POST['precioVenta'];
             $stock = $_POST['stock'];
-            $query = "INSERT INTO producto (Nombre, Descripción, Modelo, NúmeroSerie, ProveedorID, CategoriaID, PrecioCompra, PrecioVenta, CantidadStock, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO producto (Nombre, Descripción, Modelo, NúmeroSerie, ProveedorID, CategoriaID, Descuento, PrecioVenta, CantidadStock, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $imagen = "img/" . basename($_FILES["imagen"]["name"]); // "img/imagen.jpg
             $stmt = $conn->prepare($query);
-            $stmt->bind_param('ssssiiisss', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $precioCompra, $precioVenta, $stock, $imagen);
+            $stmt->bind_param('ssssiiisss', $nombre, $descripcion, $modelo, $numeroSerie, $proveedor, $categoria, $descuento, $precioVenta, $stock, $imagen);
             $stmt->execute();
 
             // Verificar cuántas filas se vieron afectadas

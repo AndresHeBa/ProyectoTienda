@@ -53,7 +53,11 @@
                     <a href="carrito.php">
                         <i class="las la-shopping-cart"></i>
                         <?php
-                         include 'carritonum.php';
+                            if(isset($_SESSION["usuario"])){
+                                include "carritonum.php";
+                            }else{
+                                echo "<span class='hm-count-cart'>0</span>";
+                            }
                         ?>
                         
                     </a>
