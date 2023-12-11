@@ -2,7 +2,7 @@
 
 function generarTextoAleatorio($longitud)
 {
-    $caracteres = "abcdefghijkmnñlopqrstwxyz";
+    $caracteres = "0123456789abcdefghijklmnopqrstuvwxyz";
     $cadena = "";
 
     while (strlen($cadena) < $longitud) {
@@ -39,7 +39,8 @@ $fonts = [dirname(__FILE__) . '/fonts/DeadStock-Demo.ttf', dirname(__FILE__) . '
 // Define la longitud del texto (5 caracteres).
 $captchaTexto = generarTextoAleatorio(5);
 
-setcookie("captcha", $captchaTexto, time() + 300); // La cookie expirará en 5 minutos
+setcookie("captcha", urlencode($captchaTexto), time() + 300); // La cookie expirará en 5 minutos
+
 
 for ($i = 0; $i < strlen($captchaTexto); $i++) {
     $letter_space = 170 / strlen($captchaTexto);
