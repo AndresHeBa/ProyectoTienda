@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen
                     FROM carrito c
                     JOIN producto p ON c.ProductoID = p.ProductoID
-                    WHERE c.ClienteID = 1 AND c.Estado = 'En carrito'";
+                    WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
