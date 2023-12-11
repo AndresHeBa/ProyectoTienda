@@ -75,6 +75,16 @@
         </div>
     </div>
 
+    <div class="card zoom" style="margin-top: 30px;">
+        <a href="login.php">
+            <img src="img/CuponTec.png" class="card-img img_cat" style="width: 250px; height: auto;" alt="...">
+        </a>
+        <div class="card-footer foot_cat">
+            Cupon de descuento para nuevos usuarios
+        </div>
+    </div>
+
+
     <!-- Categorias -->
 
     <div id="categorias">
