@@ -50,3 +50,4 @@ for ($i = 0; $i < strlen($captchaTexto); $i++) {
 header('Content-type: image/jpg');
 imagejpeg($image);
 imagedestroy($image);
+?>
