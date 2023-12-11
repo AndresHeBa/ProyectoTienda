@@ -107,13 +107,13 @@
             $resultado = $conn -> query($sql); //aplicamos sentencia
             if ($resultado->num_rows) {
                 while ($fila = $resultado->fetch_assoc()) {
-                    $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['PrecioCompra']) * (0.01)));
+                    $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)));
 
                     echo '<div class="item">';
                     echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
-                    if ($fila['PrecioCompra'] > 0) {
+                    if ($fila['Descuento'] > 0) {
                         echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
-                        echo '<span class="texto-item" style="color: red;">' . round($fila['PrecioCompra']) . '%</span>';
+                        echo '<span class="texto-item" style="color: red;">' . round($fila['Descuento']) . '%</span>';
                     }
                     echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
                     echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
