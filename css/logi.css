@@ -1,6 +1,6 @@
-body{
-	height: 100%; 
-    /* background-color:rgb(250, 45, 45);  */
+body {
+	height: 100%;
+	/* background-color:rgb(250, 45, 45);  */
 	font-family: 'Poppins', sans-serif;
 }
 
@@ -10,100 +10,103 @@ body{
 	font-size: 30px;
 }
 
-.regs{	
-	font-family:Arial, Helvetica, sans-serif;
-	width: 460px; 
-    height: auto;
-    margin: 80px auto;
-	border-radius: 10px;  
+.regs {
+	font-family: Arial, Helvetica, sans-serif;
+	width: 460px;
+	height: auto;
+	margin: 80px auto;
+	border-radius: 10px;
 	padding-top: 30px;
-	padding-bottom: 20px;  
-    background-color: #ffffff; 
-    padding-left: 30px; 
+	padding-bottom: 20px;
+	background-color: #ffffff;
+	padding-left: 30px;
 }
 
 
-.regs input{
-	background-color: #c7c7c7; 
-	width: 400px; 
-	height: 40px; 
-	border-radius: 5px;  
-	border-style: solid; 
-	border-width: 1px; 
-	border-color: #c9c9c9; 
-	margin-top: 10px;  
+.regs input {
+	background-color: #c7c7c7;
+	width: 400px;
+	height: 40px;
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #c9c9c9;
+	margin-top: 10px;
 	padding-left: 10px;
-    margin-bottom: 20px; 
+	margin-bottom: 20px;
 }
 
 
-.regs textarea{
-    background-color: #bbbbbb; 
-	width: 400px; 
-	height: 150px; 
-	border-radius: 5px;  
-	border-style: solid; 
-	border-width: 1px; 
-	border-color: #fd3333; 
-	margin-top: 10px;  
+.regs textarea {
+	background-color: #bbbbbb;
+	width: 400px;
+	height: 150px;
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #fd3333;
+	margin-top: 10px;
 	padding-left: 10px;
-    margin-bottom: 20px; 
-    padding-top: 15px; 
+	margin-bottom: 20px;
+	padding-top: 15px;
 }
 
 
-.regs label{
-    display: block; 
-	float: center; 	
+.regs label {
+	display: block;
+	float: center;
 }
 
 
-.regs button{
-	height: 45px; 
+.regs button {
+	height: 45px;
 	padding-left: 5px;
-	padding-right: 5px; 	
-	margin-bottom: 10px; 
-	margin-top: 10px; 	
+	padding-right: 5px;
+	margin-bottom: 10px;
+	margin-top: 10px;
 	text-transform: uppercase;
-	background-color: rgb(221, 34, 34); 
-	border-color: #d61f1f; 
-	border-style: solid; 
-	border-radius: 10px;	
-	width: 405px;   
-    cursor: pointer;
+	background-color: rgb(221, 34, 34);
+	border-color: #d61f1f;
+	border-style: solid;
+	border-radius: 10px;
+	width: 405px;
+	cursor: pointer;
 }
 
 
-.regs button, p{
-	color: #ffffff; 
+.regs button,
+p {
+	color: #ffffff;
 }
 
 
-.regs span{
-	color: #ebebeb; 
+.regs span {
+    margin-top: 5px; /* Ajusta el espacio entre el input y el mensaje de validación */
+    font-size: 14px; /* Tamaño de fuente ajustado */
+	margin-bottom: 5px;
 }
 
 .prove_butt {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-bottom: 10px; 
-    width: 400px; 
-	height: 40px;   
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin-bottom: 10px;
+	width: 400px;
+	height: 40px;
 }
 
 .prove_butt button:first-child {
-    margin-right: 10px; 
+	margin-right: 10px;
 }
 
 .prove_butt button {
-    background-color: #333;
-    color: #fff;
-    padding: 6px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 200px;
+	background-color: #333;
+	color: #fff;
+	padding: 6px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 200px;
 }
 
 input[type='checkbox'] {

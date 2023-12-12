@@ -84,9 +84,10 @@
                 <input type="tel" name="telefono" placeholder="Teléfono" pattern="\(\d{3}\) \d{3}[-\s]\d{4}" title="Un número de teléfono válido consta de un código de 3 cifras entre paréntesis, un espacio, las tres primeras cifras del número, un espacio o guión (-) y cuatro cifras más" required>
                 <input type="text" name="email" placeholder="Email" required>
                 <input type="text" name="usuario" placeholder="Usuario" required>
-                <input type="password" name="password" id="password" placeholder="Contraseña" onblur="validarContrasenas()" required>
-                <input type="password" name="password2" id="password2" placeholder="Confirmar Contraseña" oninput="validarContrasenas()" required>
-                <span id="mensaje-contrasenas"></span>
+                <input type="password" name="password" id="password" placeholder="Contraseña" oninput="validatecorrectPassword()" required>
+                <p id="mensaje2"></p>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar Contraseña" oninput="validatePassword()" required>
+                <p id="mensaje"></p>
                 <select name="pregunta">
                     <?php
                     include 'adminzone/includes/db.php';
@@ -116,6 +117,7 @@
     <?php
     include "footer.php"
     ?>
+    <script src="js/validarpassword.js"></script>
     <script>
         var btnRegistro = document.getElementById("btn-registro");
         var btnLogin = document.getElementById("btn-login");
@@ -137,19 +139,6 @@
         function showFormlog() {
             login.style.display = "block";
             registro.style.display = "none";
-        }
-
-        function validarContrasenas() {
-            var password = document.getElementById("password").value;
-            var password2 = document.getElementById("password2").value;
-            var mensaje = document.getElementById("mensaje-contrasenas");
-
-            if (password !== password2) {
-                mensaje.innerHTML = "Las contraseñas no coinciden.";
-                mensaje.style.color = "red";
-            } else {
-                mensaje.innerHTML = "";
-            }
         }
 
         function registerUser(event) {

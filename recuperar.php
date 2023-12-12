@@ -39,7 +39,6 @@
         <label for="usuario">Usuario:</label>
         <input type="text" name="usuario" required>
         <label for="pregunta">Pregunta de Seguridad:</label>
-        <span id="mensaje-contrasenas"></span>
         <select name="pregunta">
             <?php
             include 'adminzone/includes/db.php';
@@ -54,15 +53,25 @@
         <label for="respuesta">Respuesta:</label>
         <input type="text" name="respuesta" required>
 
-        <label for="nueva_contraseña">Nueva Contraseña:</label>
-        <input type="password" name="nueva_contraseña" required>
+        <label for="password">Nueva Contraseña:</label>
+        <input type="password" name="password" id="password" oninput="validatecorrectPassword()" required>
+        <p id="mensaje2"></p>
+
+        <label for="confirmPassword">Repetir Contraseña:</label>
+        <!-- cuando este escribiendo la nueva contraseña -->
+        <input type="password" name="confirmPassword" id="confirmPassword" oninput="validatePassword()" required>
+        <!-- mensaje de validacion -->
+        <br>
+        <p id="mensaje"></p>
 
         <input type="submit" value="Recuperar Cuenta">
     </form>
 
+    <script src="js/validarpassword.js"></script>
+
     <?php include 'footer.php'; ?>
 
-    
+
 </body>
 
 </html>

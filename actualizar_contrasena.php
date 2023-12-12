@@ -5,16 +5,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
     $pregunta = $_POST['pregunta'];
     $respuesta = $_POST['respuesta'];
-    $nueva_contraseña = $_POST['nueva_contraseña'];
+    $password = $_POST['password'];
+    
 
-    if (empty($usuario) || empty($pregunta) || empty($respuesta) || empty($nueva_contraseña)) {
+    if (empty($usuario) || empty($pregunta) || empty($respuesta) || empty($password)) {
         $response = array('status' => 'error', 'message' => 'Por favor, complete todos los campos');
     } else {
         $query = "SELECT * FROM `usuarios` WHERE `Cuenta` = '$usuario' AND `PreguntaID` = '$pregunta' AND `RespuestaP` = '$respuesta'";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
-            $hashed_password = sha1($nueva_contraseña);
+            $hashed_password = sha1($password);
             $update_query = "UPDATE `usuarios` SET `Contraseña` = '$hashed_password', `Estado` = 'activo' WHERE `Cuenta` = '$usuario'";
             $update_result = $conn->query($update_query);
 

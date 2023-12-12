@@ -1,11 +1,20 @@
 <?php
-/*
 session_start();
 
-if (!isset($_SESSION['ClienteID'])) {
+if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
     exit();
-}*/
+}
+
+?>
+
+<?php
+function obtenerPrecioTotal() {
+    // Se borro todo lo que tenia para aplicar el total a pagar ptm
+    return 100.00;
+}
+
+$precioTotal = obtenerPrecioTotal();
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +43,7 @@ if (!isset($_SESSION['ClienteID'])) {
 
 </head>
 
-<body>
+<body onload='calcularCostoEnvio()'>
 
     <header>
         <?php
@@ -73,14 +82,23 @@ if (!isset($_SESSION['ClienteID'])) {
             </div>
             <div class="mb-3">
                 <label for="Region" class="form-label">Region</label>
-                <select class="form-select" id="Region" name="Region" required>
+                <select class="form-select" id="Region" name="Region" required onchange="calcularImpuestos()">
                     <option value="default">-</option>
                     <option value="Mex">Mexico</option>
                     <option value="EU">Estados Unidos</option>
                 </select>
-                <span class="carrito-precio-total">
-                    Se hara un cargo de envio segun tu region.
+                <span class="mb-3">
+                    Se hará un cargo de envío según tu región.
                 </span>
+            </div>
+            <input type="hidden" id="impuesto" name="impuesto" value="0">
+            <div class="mb-3">
+                <label for="TipoEnvio" class="form-label">Tipo de Envío</label>
+                <select class="form-select" id="TipoEnvio" name="TipoEnvio" required onchange="calcularCostoEnvio()">
+                    <option value="local">Local (Gratis)</option>
+                    <option value="nacional">Nacional ($50)</option>
+                    <option value="global">Global ($100)</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="Envio" class="form-label">Direccion de entrega</label>
@@ -94,15 +112,19 @@ if (!isset($_SESSION['ClienteID'])) {
                 <button type="button" class="btn btn-secondary" onclick="aplicarCupon()">Aplicar Cupón</button>
                 <input type="hidden" id="cuponAplicado" name="cuponAplicado" value="0">
                 <?php
-                    echo '<input type="hidden" id="precioTotal" name="precioTotal" value="' . $precioTotal . '">';
+                    echo '<input type="hidden" id="precioVenta" name="precioVenta" value="' . $precioTotal . '">';
+                    echo '<div class="fila">';
+                    echo '<strong>Tu Total</strong>';
+                    echo '<span class="carrito-precio-total">$' . number_format($precioTotal, 2) . '</span>';
+                    echo '</div>';
                 ?>
             </div>
-            <div class="fila">
+            <!--<div class="fila">
                 <strong>Tu Total</strong>
                 <span class="carrito-precio-total">
                     $000,000,00
                 </span>
-            </div>
+            </div>-->
             <button type="submit" class="btn btn-primary">Pagar</button>
         </form>
     </div>
@@ -112,22 +134,85 @@ if (!isset($_SESSION['ClienteID'])) {
     include "footer.php"
     ?>
     <script>
+        function calcularImpuestos() {
+            var regionSelect = document.getElementById("Region");
+            var precioTotalInput = document.getElementById("precioVenta");
+            var impuestoInput = document.getElementById("impuesto");
+            var impuestoPorcentaje = 0;
+
+            if (regionSelect.value === "Mex") {
+                impuestoPorcentaje = 0.16;
+            } else if (regionSelect.value === "EU") {
+                impuestoPorcentaje = 0.08;
+            } else {
+                impuestoPorcentaje = 0;
+            }
+
+            var precioTotal = parseFloat(precioTotalInput.value);
+            var impuesto = precioTotal * impuestoPorcentaje;
+            var nuevoPrecioTotal = precioTotal + impuesto;
+
+            impuestoInput.value = impuesto.toFixed(2);
+
+            document.querySelector(".carrito-precio-total").innerText = "$" + nuevoPrecioTotal.toFixed(2);
+        }
+
+        function calcularCostoEnvio() {
+            var tipoEnvioSelect = document.getElementById("TipoEnvio");
+            var precioTotalInput = document.getElementById("precioVenta");
+            var impuestoInput = document.getElementById("impuesto");
+            var impuestoPorcentaje = 0;
+            var precioTotal = parseFloat(precioTotalInput.value);
+            var impuesto = precioTotal * impuestoPorcentaje;
+            var costoEnvio = 0;
+            if (tipoEnvioSelect.value === "nacional") {
+                costoEnvio = 50.00;
+            } else if (tipoEnvioSelect.value === "global") {
+                costoEnvio = 100.00;
+            }
+
+            var nuevoPrecioTotal = precioTotal + impuesto + costoEnvio;
+
+            impuestoInput.value = impuesto.toFixed(2);
+
+            document.querySelector(".carrito-precio-total").innerText = "$" + nuevoPrecioTotal.toFixed(2);
+        }
+
         function aplicarCupon() {
             var cuponInput = document.getElementById("Cupon");
             var cuponAplicadoInput = document.getElementById("cuponAplicado");
-            var precioTotalInput = document.getElementById("precioTotal");
+            var precioTotalInput = document.getElementById("precioVenta");
 
             // Validar cupón
-            if (cuponAplicadoInput.value === "0" && cuponInput.value.trim() === "M45T3CN0") {
+            if (cuponAplicadoInput.value === "0") {
                 var precioTotal = parseFloat(precioTotalInput.value);
-                var descuento = precioTotal * 0.15;
+                var descuento = 0;
+                if (cuponInput.value.trim() === "M45T3CN0") {
+                    descuento = precioTotal * 0.15;
+                    alert("Cupón de nuevo usuario aplicado");
+                }
+                else if (cuponInput.value.trim() === "F4N4V1D4D") {
+                    // Agregar el descuento del 50% en discos duros
+                    descuento = precioTotal * 0.5;
+                    alert("Cupón navideño aplicado(50% de descuento en discos duros) ¡Feliz Navida!");
+                }
+                else if (cuponInput.value.trim() === "PR0C354D0R") {
+                    // Agregar el descuento del 10% den procesadores
+                    descuento = precioTotal * 0.1;
+                    alert("Cupón promocional aplicado(10% de descuento en procesadores)");
+                }
+                else {
+                    alert("Cupón no reconocido o no válido");
+                    return;
+                }
+
                 var nuevoPrecioTotal = precioTotal - descuento;
+                precioTotalInput.value = nuevoPrecioTotal.toFixed(2);
                 cuponAplicadoInput.value = "1";
                 cuponInput.disabled = true;
-                alert("Cupón de nuevo usuario aplicado");
                 document.querySelector(".carrito-precio-total").innerText = "$" + nuevoPrecioTotal.toFixed(2);
             } else {
-                alert("Cupón erroneo o no válido");
+                alert("Solo se permite aplicar un cupón por compra.");
             }
         }
     </script>
