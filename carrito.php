@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             }
         } else {
             $estado = 'En carrito';
+            $activo = 1;
             $insertarDetalle = "INSERT INTO carrito (ClienteID ,ProductoID, CantidadVendida, PrecioVenta, Estado, Activo) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insertarDetalle);
             $stmt->bind_param("iiidsi", $iduser, $productId, $productQuantity, $product['PrecioVenta'], $estado, $activo);
@@ -217,6 +218,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
         function redirectToPago() {
             window.location.href = "metodo_pago.php";
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cantidadSelectors = document.querySelectorAll('.selector-cantidad');
+
+            cantidadSelectors.forEach(function (selector) {
+                const productId = selector.getAttribute('data-product-id');
+                const inputCantidad = selector.querySelector('.carrito-item-cantidad');
+                const restarBtn = selector.querySelector('.restar-cantidad');
+                const sumarBtn = selector.querySelector('.sumar-cantidad');
+                const stock = parseInt(selector.getAttribute('data-stock'));
+
+                restarBtn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    let cantidad = parseInt(inputCantidad.value);
+                    if (cantidad > 1) {
+                        cantidad--;
+                        inputCantidad.value = cantidad;
+                        updateHiddenQuantityInput(productId, cantidad);
+                    }
+                });
+
+                sumarBtn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    let cantidad = parseInt(inputCantidad.value);
+
+                    if (cantidad < stock) {
+                        cantidad++;
+                        inputCantidad.value = cantidad;
+                        updateHiddenQuantityInput(productId, cantidad);
+                    } else {
+                        alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
