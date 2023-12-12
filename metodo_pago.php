@@ -88,16 +88,16 @@ $precioTotal = obtenerPrecioTotal();
                     <option value="EU">Estados Unidos</option>
                 </select>
                 <span class="mb-3">
-                    Se hará un cargo de envío según tu región.
+                    Se hará un cargo de impuesto según tu región.
                 </span>
             </div>
             <input type="hidden" id="impuesto" name="impuesto" value="0">
             <div class="mb-3">
                 <label for="TipoEnvio" class="form-label">Tipo de Envío</label>
                 <select class="form-select" id="TipoEnvio" name="TipoEnvio" required onchange="calcularCostoEnvio()">
-                    <option value="local">Local (Gratis)</option>
-                    <option value="nacional">Nacional ($50)</option>
-                    <option value="global">Global ($100)</option>
+                    <option value="0">Local (Gratis)</option>
+                    <option value="50">Nacional ($50)</option>
+                    <option value="100">Global ($100)</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -164,12 +164,7 @@ $precioTotal = obtenerPrecioTotal();
             var impuestoPorcentaje = 0;
             var precioTotal = parseFloat(precioTotalInput.value);
             var impuesto = precioTotal * impuestoPorcentaje;
-            var costoEnvio = 0;
-            if (tipoEnvioSelect.value === "nacional") {
-                costoEnvio = 50.00;
-            } else if (tipoEnvioSelect.value === "global") {
-                costoEnvio = 100.00;
-            }
+            var costoEnvio = tipoEnvioSelect.value;
 
             var nuevoPrecioTotal = precioTotal + impuesto + costoEnvio;
 

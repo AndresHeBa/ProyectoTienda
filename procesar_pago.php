@@ -22,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precioTotal = $_POST['precioVenta'];
     $impuesto = $_POST['impuesto'];
     
+    $_SESSION['tipoEnvio'] = $_POST["TipoEnvio"];
+    $_SESSION['banco'] = $_POST["TipoTarjeta"];
     $totalPagar = $precioTotal + $impuesto;
 
     $cuponInput = isset($_POST['Cupon']) ? $_POST['Cupon'] : NULL;
