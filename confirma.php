@@ -55,10 +55,14 @@ $iduser = $result->fetch_assoc()['ClienteID'];
         <div class="envio-message-container" id="envio-message-container">
             <h1>¡Pago Exitoso!</h1>
             <p>Gracias por tu compra. El pago se ha realizado con éxito.</p>
+            <p>Se te enviara un correo con los detalles de tu pedido.</p>
             <!-- <i class="fa-solid fa-truck-fast"></i> -->
             <?php
                 //mostar direccion de envio
                 $envio = $_SESSION['envio'];
+                $tipo = $_SESSION['tipoEnvio'];
+                $impuesto = 0;
+                $banco = $_SESSION['banco'];
                 $tipo = $_SESSION['tipoEnvio'];
                 $impuesto = 0;
                 $banco = $_SESSION['banco'];
@@ -72,7 +76,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                 <div class="carrito-items">
                     <?php
                     
-                    $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
+                    $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento, p.Descuento
                             FROM carrito c
                             JOIN producto p ON c.ProductoID = p.ProductoID
                             WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
@@ -132,13 +136,11 @@ $iduser = $result->fetch_assoc()['ClienteID'];
             </div>
             <?php
                 //borrar sesion de envio
-                // unset($_SESSION['envio']);
+                unset($_SESSION['envio']);
 
                 //actualizar carrito
                 $updateCarrito = "UPDATE carrito SET Estado = 'Pagado' WHERE ClienteID = '$iduser' AND Estado = 'En carrito' ";
                 $conn->query($updateCarrito);
-
-                $conn->close();
             ?>
         </div>
     </main>

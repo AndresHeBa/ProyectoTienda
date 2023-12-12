@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION["usuario"] = $username;
                     $fila = $result->fetch_assoc();
                     $_SESSION["admin"] = $fila["IsAdmin"];
-
+                    $_SESSION['correo'] = $fila["Correo"];
                     header("refresh:3;url=principal.php");
                 } else {
                     // Login failed
