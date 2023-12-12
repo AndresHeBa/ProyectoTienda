@@ -161,6 +161,9 @@
                                 }
                                 echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
                                 echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
+                                if ($fila['Descuento'] > 0) {
+                                    echo '<span class="precio-orig">' . $fila['PrecioVenta'] . '</span>';
+                                }
                                 echo '<span class="precio-item">' . $precioFin . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
