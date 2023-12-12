@@ -55,6 +55,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
         <div class="envio-message-container" id="envio-message-container">
             <h1>¡Pago Exitoso!</h1>
             <p>Gracias por tu compra. El pago se ha realizado con éxito.</p>
+            <p>Se te enviara un correo con los detalles de tu pedido.</p>
             <!-- <i class="fa-solid fa-truck-fast"></i> -->
             <?php
                 //mostar direccion de envio
@@ -133,11 +134,49 @@ $iduser = $result->fetch_assoc()['ClienteID'];
             <?php
                 //borrar sesion de envio
                 // unset($_SESSION['envio']);
+                
+                // Correo
+                $correo = $_SESSION['correo'];
+                if (isset($correo)) {
+                    $email = $correo;
+
+                    try {
+                        //Server settings
+                        //Enable verbose debug output
+                        $mail->SMTPDebug=0;
+                        $mail->isSMTP();                                            //Send using SMTP
+                        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                        $mail->Username   = 'adrianalonso.a4@gmail.com';                     //SMTP username
+                        $mail->Password   = 'wtld iaxc ojfx dnbe';                               //SMTP password
+                        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                        //Recipients
+                        $mail->setFrom('adrianalonso.a4@gmail.com', 'InnovaCodeTech');
+                        $mail->addAddress($email);     //Add a recipient
+
+                        //Content
+                        $mail->isHTML(true);                                  //Set email format to HTML
+                        $mail->addAttachment("img/logo-2.png", "logo-2.png");
+                        $mail->Body = 'Embedded Image: <img alt="PHPMailer" src="cid:my-attach"> Here is an image!';
+                        $mail->Subject = 'Gracias por contactarnos';
+                        $mail->CharSet = 'UTF-8';
+                        $mail->Body  = 'Gracias por ponerte en contacto con nosotros, su solicitud esta siendo procesada.<br> 
+                        Un miembro de nuestro equipo se pondra en contacto con usted dentro de las proximas 48 horas, agradecemos su paciencia.
+                        <br>Atentamente,<br>
+                        TecnoGadget';
+
+
+                        $mail->send();
+                    } catch (Exception $e) {
+                    }
+                }
 
                 //actualizar carrito
                 $updateCarrito = "UPDATE carrito SET Estado = 'Pagado' WHERE ClienteID = '$iduser' AND Estado = 'En carrito' ";
                 $conn->query($updateCarrito);
-
+                
                 $conn->close();
             ?>
         </div>
