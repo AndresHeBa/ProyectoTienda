@@ -272,6 +272,40 @@ aside {
     
 }
 
+.envio-message-container{
+    text-align: center;
+    padding: 20px;
+}
+
+/* Estilo para el título */
+.envio-message-container h1 {
+    color: #28a745; /* Verde para indicar éxito */
+}
+
+/* Estilo para el mensaje de agradecimiento */
+.envio-message-container p {
+    font-size: 20px;
+    color: #333;
+}
+
+.envio-message-container i {
+    font-size: 200px;
+}
+
+/* Estilo para la dirección de envío */
+.envio-message-container .envio-message {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Estilo para la dirección de envío */
+.envio-message-container .envio-message2 {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
 /* SECCION RESPONSIVE */
 @media screen and (max-width: 850px) {
     .contenedor {

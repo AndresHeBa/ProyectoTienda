@@ -1,20 +1,21 @@
 <?php
-     
-     if (session_status() == PHP_SESSION_NONE) {
-         session_start();
-     }
-     ob_start();
-     $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 
-     include 'adminzone/includes/db.php';
-     $nameuser = $_SESSION["usuario"];
-     $sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
-     $result = $conn->query($sql);
-     $iduser = $result->fetch_assoc()['ClienteID'];
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+ob_start();
+$config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+
+include 'adminzone/includes/db.php';
+$nameuser = $_SESSION["usuario"];
+$sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
+$result = $conn->query($sql);
+$iduser = $result->fetch_assoc()['ClienteID'];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,25 +40,31 @@
     <!-- Estilos -->
     <link rel="stylesheet" href="css/tienda.css">
 </head>
+
 <body>
     <!-- Header -->
     <header>
-    <?php
+        <?php
         include 'header.php';
         ?>
-        <h1>¡Pago Exitoso!</h1>
+
     </header>
 
     <main>
-        <p>Gracias por tu compra. El pago se ha realizado con éxito.</p>
-        <?php
+        <div class="envio-message-container" id="envio-message-container">
+            <h1>¡Pago Exitoso!</h1>
+            <p>Gracias por tu compra. El pago se ha realizado con éxito.</p>
+            <i class="fa-solid fa-truck-fast"></i>
+            <?php
             //mostar direccion de envio
             $envio = $_SESSION['envio'];
-            echo "<p>El envio se realizara a la siguiente direccion: $envio</p>";
-            
+            echo "<p id='envio-message' class='envio-message'>El envio se realizara a la siguiente direccion:</p>";
+            echo "<p id='envio-message2' class='envio-message2'>$envio</p>";
+
             //borrar sesion de envio
             unset($_SESSION['envio']);
-        ?>
+            ?>
+        </div>
     </main>
 
     <footer>
@@ -67,5 +74,5 @@
         ?>
     </footer>
 </body>
-</html>
 
+</html>
