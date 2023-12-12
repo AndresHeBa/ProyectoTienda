@@ -1,0 +1,9 @@
+.preguntas{
+    width: 70% !important;
+    margin: 0 auto;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: rgb(133, 133, 133);
+    color: rgb(211, 211, 211);
+}

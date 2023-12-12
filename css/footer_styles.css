@@ -64,3 +64,82 @@
 .letrita{
     font-size: smaller;
 }
+
+.foo-row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.foo-row .foo-col{
+    width: 50%;
+}
+
+.foo-row .foo-col:last-child{
+    margin-left: 50px;
+}
+
+.foo-row .foo-col:first-child{
+    margin-right: 50px;
+}
+
+.foo-row .foo-col h2{
+    color: #E3E3E3;
+    line-height: 40px;
+
+    font-size: 33px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+form .f-input{
+    width: 100%;
+    position: relative;
+}
+
+form .f-input input{
+    width: 100%;
+    display: block;
+    padding: 16px 30px;
+    background: #2C2B2B;
+    border: none;
+    padding-right: 50px;
+    font-size: 15px;
+    border-radius: 25px;
+    outline: 0;
+    color: #A7A1A1;
+}
+
+form .f-input .hm-btn-round{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border: none;
+    font-size: 18px;margin-right: 3px;
+    cursor: pointer;
+}
+
+.hm-btn{
+    display: inline-block;
+    position: relative;
+    padding: 12px 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    outline: 0;
+
+}
+
+.btn-primary{
+    background: var(--color-principal);
+    color: #fff;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.btn-primary:hover{
+    background: var(--color-primary-hover);
+}

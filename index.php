@@ -1,3 +1,13 @@
+<?php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    ob_start();
+    $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
+
+    include 'adminzone/includes/db.php'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <!-- Favicon -->
-    <link rel="icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 
     <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,6 +31,7 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/tienda.css">
 </head>
 
 <body>
@@ -35,7 +46,7 @@
 
     <!-- Carrusel -->
 
-    <div class="banner">
+    <div id="banner">
         <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -64,6 +75,16 @@
         </div>
     </div>
 
+    <div class="card zoom" style="margin-top: 30px;">
+        <a href="login.php">
+            <img src="img/CuponTec.png" class="card-img img_cat" style="width: 250px; height: auto;" alt="...">
+        </a>
+        <div class="card-footer foot_cat">
+            Cupon de descuento para nuevos usuarios
+        </div>
+    </div>
+
+
     <!-- Categorias -->
 
     <div id="categorias">
@@ -90,20 +111,69 @@
         </div>
     </div>
 
-    <!-- Nuevos Productos -->
+    <!-- Productos Destacados -->
     <div class="nuevos">
         <div class="header-title">
-            <h1>Nuevos Productos</h1>
+            <h1>Productos Destacados</h1>
+        </div>
+        <section class="contenedor">
+        <!-- Contenedor de elementos -->
+        <div class="contenedor-items">
+            <?php
+                $sql = 'select * from producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
+                $resultado = $conn -> query($sql); //aplicamos sentencia
+                $paro=0;
+                if ($resultado -> num_rows){ //si la consulta genera registros
+                        while( $fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
+                            echo '<div class="item">';
+                                echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
+                                echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
+                                echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
+                                echo '<span class="texto-item">'.$fila['Descripción'].'</span>';
+                                echo '<div class="selector-cantidad">
+                                        <i class="fa-solid fa-minus restar-cantidad"></i>
+                                        <input type="text" value="3" class="carrito-item-cantidad" disabled>
+                                        <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                    </div>
+                                    <button class="boton-item">Agregar al Carrito</button>';
+                                echo '<span class="texto-item">Stock: '.$fila['CantidadStock'].'</span>';
+                            echo '</div>';
+                            $paro+=1;
+                            if ($paro >3) {
+                                break;
+                            }
+                        }   
+                        echo '</table">';
+                    echo '</div>';
+                }
+                else{
+                    echo "no hay datos";
+                }
+            ?>
         </div>
     </div>
 
     <!-- Ofertas -->
-    <div class="ofertas">
+    <!-- <div class="ofertas">
         <div class="header-title">
             <h1>Ofertas</h1>
         </div>
-    </div>
+    </div> -->
 
+    <!-- Animaciones : AOS-->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <!-- Mi Script -->
+    <script src="js/app.js"></script>
+
+    <script>
+    
+        AOS.init({
+            duration: 1200,
+        })
+
+
+    </script>
     <!-- Footer -->
     <?php
     include 'footer.php';

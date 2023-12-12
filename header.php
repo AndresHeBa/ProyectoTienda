@@ -1,63 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header</title>
-    <link rel="stylesheet" href="css/header_style.css">
-</head>
+<link rel="stylesheet" href="css/header_style.css">
+<!-- FUENTE GOOGLE FONTS : Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<body>
-    <!-- <header>
-        <div class="row menu z-3">
-            <div class="col-4 head logo_head">
-                <img id="logo" src="img/logo_transparent.png" alt="" height="60px">
+<!-- ICONS: Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
+<!-- ICONS: Line Awesome -->
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+<!-- Animaciones AOS -->
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+
+
+<!-- PHPMailer -->
+<?php
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+
+    require 'PHPMailer/src/Exception.php';
+    require 'PHPMailer/src/PHPMailer.php';
+    require 'PHPMailer/src/SMTP.php';
+
+    $mail = new PHPMailer;
+?>
+
+<!-- =================================
+           HEADER MENU
+        ================================== -->
+<div class="hm-header">
+
+    <div class="container">
+        <div class="header-menu">
+
+            <div class="hm-logo">
+                <a href="index.php">
+                    <img class="img-logo" src="img/logo_transparent-2.png" alt="">
+                </a>
             </div>
-            <div class="col head">
-                <ul id="enlaces">
-                    <li><a href="principal.php">Inicio</a></li>
-                    <li><a href="">Tienda</a></li>
-                    <li><a href="">Sobre Nosotros</a></li>
-                    <li><a href="">Contactanos</a></li>
-                    <li><a href="">Ayuda</a></li>
-                    <li><a href=""><i class="fa-solid fa-cart-shopping fa-2xl"></i></a></li>
-                    <li><a href="">Iniciar Sesion</a></li>
+
+            <nav class="hm-menu">
+                <ul>
+                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="tienda.php">Tienda</a></li>
+                    <li><a href="sobrenosotros.php">Nosotros</a></li>
+                    <li><a href="contactanos.php">Contactanos</a></li>
+                    <li><a href="ayuda.php">Ayuda</a></li>
+                    <?php
+                    if (isset($_SESSION["usuario"])) {
+                        echo "<li><a href='#'>" . $_SESSION["usuario"] . "</a></li>";
+                        echo "<li><a href='logout.php'>Logout</a></li>";
+                        if ($_SESSION["admin"] === 1) {
+                            echo "<li><a href='adminzone/adminzone.php'>Admin</a></li>";
+                        }
+                    } else {
+                        echo "<li><a href='login.php'>Login</a></li>";
+                    }
+
+                    ?>
                 </ul>
-            </div>
-        </div>
-    </header> -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img id="logo" src="img/logo_transparent.png" alt="" height="50px"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.php">Inicio</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Tienda</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="sobrenosotros.php">Sobre Nosotros</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Contactanos</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Ayuda</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Iniciar Sesion</a>
-                </li>
-            </ul>
-            <a href=""><i class="fa-solid fa-cart-shopping fa-2xl icono"></i></a>
-            </div>
-        </div>
-    </nav>
-</body>
 
-</html>
+
+                <div class="hm-icon-cart">
+                    <a href="carrito.php">
+                        <i class="las la-shopping-cart"></i>
+                        <?php
+                            if(isset($_SESSION["usuario"])){
+                                include "carritonum.php";
+                            }else{
+                                echo "<span class='hm-count-cart'>0</span>";
+                            }
+                        ?>
+                        
+                    </a>
+                </div>
+
+                <div class="icon-menu">
+                    <button type="button"><i class="fas fa-bars"></i></button>
+                </div>
+
+            </nav>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- =================================
+   HEADER MENU Movil
+================================== -->
+<div class="header-menu-movil">
+    <button class="cerrar-menu"><i class="fas fa-times"></i></button>
+    <ul>
+        <li><a href="index.php">Inicio</a></li>
+        <li><a href="#">Tienda</a></li>
+        <li><a href="sobrenosotros.php">Nosotros</a></li>
+        <li><a href="contactanos.php">Contactanos</a></li>
+        <li><a href="#">Ayuda</a></li>
+    </ul>
+</div>
+
+<!-- Animaciones : AOS-->
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<!-- Mi Script -->
+<script src="js/app.js"></script>
+
+<script>
+    AOS.init({
+        duration: 1200,
+    })
+</script>
