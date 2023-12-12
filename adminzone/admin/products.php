@@ -281,7 +281,6 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.status === "success") {
                     alert(data.message);
                     window.location.href = "products.php";
@@ -300,7 +299,6 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.status === "success") {
                     alert(data.message);
                     window.location.href = "products.php";
@@ -354,7 +352,6 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.status === "success") {
                     document.getElementById("id").value = data.product.ProductoID;
                     document.getElementById("nombreE").value = data.product.Nombre;
@@ -390,7 +387,6 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.status === "success") {
                     alert(data.message);
                     window.location.href = "products.php";
