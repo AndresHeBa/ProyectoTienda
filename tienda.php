@@ -133,7 +133,7 @@
                                 if ($fila['Descuento'] > 0) {
                                     echo '<span class="precio-orig">$' . round($fila['PrecioVenta'],2) . '</span>';
                                 }
-                                echo '<span class="precio-item">' . round($precioFin,2) . '</span>';
+                                echo '<span class="precio-item">$' . round($precioFin,2) . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
                                         <i class="fa-solid fa-minus restar-cantidad"></i>
