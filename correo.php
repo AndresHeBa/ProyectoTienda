@@ -15,13 +15,15 @@
         use PHPMailer\PHPMailer\SMTP;
         use PHPMailer\PHPMailer\Exception;
       
-        require 'PHPMailer/Exception.php';
-        require 'PHPMailer/PHPMailer.php';
-        require 'PHPMailer/SMTP.php';
+        require 'PHPMailer/src/Exception.php';
+        require 'PHPMailer/src/PHPMailer.php';
+        require 'PHPMailer/src/SMTP.php';
+
 
         
 
         $mail = new PHPMailer;
+        $email = $_POST["email"];
         try {
             //Server settings
             //Enable verbose debug output
@@ -42,12 +44,12 @@
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Gracias por contactarnos';
             $mail->CharSet = 'UTF-8';
-            $mail->Body  = 'Gracias por ponerte en contacto con nosotros, 
+            $mail->Body  = 'Gracias por suscribirte a nuestra pagina, como agradecimiento aqui tienes un cupon para un descuento del 10% en cualquier compra <br> 
             Atentamente,<br>
             TecnoGadget';
 
-            // Adjuntar la firma
-            $mail->addAttachment('../img/firma.png', 'firma.png');
+            // Adjuntar cupon
+            $mail->addAttachment('img/CuponCorreo.png', 'CuponCorreo.png');
 
             $mail->send();
         } catch (Exception $e) {

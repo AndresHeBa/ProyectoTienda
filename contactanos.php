@@ -83,18 +83,10 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
                 </p>
             </form>
             <?php
-                use PHPMailer\PHPMailer\PHPMailer;
-                use PHPMailer\PHPMailer\SMTP;
-                use PHPMailer\PHPMailer\Exception;
-            
-                require 'PHPMailer/src/Exception.php';
-                require 'PHPMailer/src/PHPMailer.php';
-                require 'PHPMailer/src/SMTP.php';
 
                 if (isset($_POST['email'])) {
                     $email = $_POST["email"];
 
-                    $mail = new PHPMailer;
                     try {
                         //Server settings
                         //Enable verbose debug output
@@ -122,8 +114,6 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
                         <br>Atentamente,<br>
                         TecnoGadget';
 
-                        // Adjuntar la firma
-                        $mail->addAttachment('../img/firma.png', 'firma.png');
 
                         $mail->send();
                     } catch (Exception $e) {

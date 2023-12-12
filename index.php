@@ -111,10 +111,10 @@
         </div>
     </div>
 
-    <!-- Nuevos Productos -->
+    <!-- Productos Destacados -->
     <div class="nuevos">
         <div class="header-title">
-            <h1>Nuevos Productos</h1>
+            <h1>Productos Destacados</h1>
         </div>
         <section class="contenedor">
         <!-- Contenedor de elementos -->

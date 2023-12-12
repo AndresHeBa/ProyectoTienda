@@ -13,6 +13,20 @@
 <!-- Animaciones AOS -->
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 
+
+<!-- PHPMailer -->
+<?php
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+
+    require 'PHPMailer/src/Exception.php';
+    require 'PHPMailer/src/PHPMailer.php';
+    require 'PHPMailer/src/SMTP.php';
+
+    $mail = new PHPMailer;
+?>
+
 <!-- =================================
            HEADER MENU
         ================================== -->
