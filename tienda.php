@@ -167,7 +167,7 @@
                                 if ($fila['Descuento'] > 0) {
                                     echo '<span class="precio-orig">$'. round($fila['PrecioVenta'],2) . '</span>';
                                 }
-                                echo '<span class="precio-item">' . round($precioFin,2) . '</span>';
+                                echo '<span class="precio-item">$' . round($precioFin,2) . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
                                         <i class="fa-solid fa-minus restar-cantidad"></i>
@@ -213,6 +213,7 @@
                 const inputCantidad = selector.querySelector('.carrito-item-cantidad');
                 const restarBtn = selector.querySelector('.restar-cantidad');
                 const sumarBtn = selector.querySelector('.sumar-cantidad');
+                const stock = parseInt(selector.getAttribute('data-stock'));
 
                 restarBtn.addEventListener('click', function (event) {
                     event.preventDefault();
@@ -226,10 +227,12 @@
                 sumarBtn.addEventListener('click', function (event) {
                     event.preventDefault();
                     let cantidad = parseInt(inputCantidad.value);
-                    let stock = parseInt(selector.getAttribute('data-stock'));
+
                     if (cantidad < stock) {
                         cantidad++;
                         inputCantidad.value = cantidad;
+                    } else {
+                        alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
                     }
                 });
             });
