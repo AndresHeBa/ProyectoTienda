@@ -6,8 +6,11 @@
      ob_start();
      $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 
-     include 'adminzone/includes/db.php'
-       
+     include 'adminzone/includes/db.php';
+     $nameuser = $_SESSION["usuario"];
+     $sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
+     $result = $conn->query($sql);
+     $iduser = $result->fetch_assoc()['ClienteID'];
 ?>
 
 <!DOCTYPE html>
@@ -48,10 +51,12 @@
     <main>
         <p>Gracias por tu compra. El pago se ha realizado con éxito.</p>
         <?php
-        if (isset($_SESSION['Direccion'])) {
-            echo '<p>El pedido será entregado a la siguiente dirección:</p>';
-            echo '<p>' . $_SESSION['Envio'] . '</p>';
-        }
+            //mostar direccion de envio
+            $envio = $_SESSION['envio'];
+            echo "<p>El envio se realizara a la siguiente direccion: $envio</p>";
+            
+            //borrar sesion de envio
+            unset($_SESSION['envio']);
         ?>
     </main>
 
