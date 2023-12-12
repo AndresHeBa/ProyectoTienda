@@ -184,7 +184,22 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                                 h3{
                                     text-align:center;
                                     color:rgb(134,15,90);
-                                    }';
+                                    }
+                                    </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>Proceso de solicitud</h1>
+                                <p>Gracias por ponerte en contacto con nosotros, su solicitud esta siendo procesada.<br> 
+                                Un miembro de nuestro equipo se pondra en contacto con usted dentro de las proximas 48 horas, agradecemos su paciencia.
+                                  <br>
+                                <br>Atentamente<br>
+                                  <br>
+                                    
+                                <h3>TecnoGadget<h/3> </p>
+                            </div>
+                        </body>
+                        </html>';
 
 
                         $mail->send();
