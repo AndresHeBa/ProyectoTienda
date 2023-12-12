@@ -11,14 +11,14 @@ if (isset($_SESSION['usuario'])) {
     $sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
     $result = $conn->query($sql);
     $iduser = $result->fetch_assoc()['ClienteID'];
-}else{
+} else {
     header("Location: login.php");
     exit();
-
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $productId = $_POST['product_id'];
+    $productQuantity = $_POST['product_' . $productId . '_quantity'];
 
     include 'adminzone/includes/db.php';
 
@@ -28,32 +28,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     if ($result->num_rows > 0) {
         $product = $result->fetch_assoc();
 
-        if (!isset($_SESSION['carrito'])) {
-            $_SESSION['carrito'] = array();
-        }
-
-        $_SESSION['carrito'][] = array(
-            'id' => $product['ProductoID'],
-            'nombre' => $product['Nombre'],
-            'precio' => $product['PrecioVenta'],
-        );
-
-        $cantidadVendida = 1;
-        $activo = 1;
-        $estado = 'En carrito';
-        // INSERT INTO `carrito`(`ClienteID`, `ProductoID`, `CantidadVendida`, `PrecioVenta`, `CuponID`, `Estado`, `Activo`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
-        $insertarDetalle = "INSERT INTO carrito (ClienteID ,ProductoID, CantidadVendida, PrecioVenta, Estado, Activo) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($insertarDetalle);
-        $stmt->bind_param("iiidsi", $iduser, $productId, $cantidadVendida, $product['PrecioVenta'], $estado, $activo);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            header("Location: carrito.php");
-            echo "Producto agregado al carrito";
+        $sql = "SELECT * FROM carrito WHERE ClienteID = $iduser AND ProductoID = $productId AND Estado = 'En carrito'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            //saber cuentos productos similares hay en el carrito
+            $sql = "SELECT SUM(CantidadVendida) AS total FROM carrito WHERE ClienteID = $iduser AND ProductoID = $productId AND Estado = 'En carrito'";
+            $result = $conn->query($sql);
+            $total = $result->fetch_assoc()['total'];
+            //si la cantidad que se quiere agregar es mayor a la cantidad que hay en el carrito
+            if ($total + $productQuantity > $product['CantidadStock']) {
+                //si es mayor se agrega la cantidad que falta para llegar al limite
+                $productQuantity = $product['CantidadStock']-$total;
+            }
+            //si la cantidad que se quiere agregar es menor a la cantidad que hay en el carrito
+            $sql = "UPDATE carrito SET CantidadVendida = CantidadVendida + $productQuantity WHERE ClienteID = $iduser AND ProductoID = $productId AND Estado = 'En carrito'";
+            $result = $conn->query($sql);
+            if ($result) {
+                header("Location: carrito.php");
+                echo "Producto agregado al carrito";
+            } else {
+                echo "Error al agregar producto al carrito";
+            }
         } else {
-            echo "Error al agregar producto al carrito";
-        }
+            $estado = 'En carrito';
+            $insertarDetalle = "INSERT INTO carrito (ClienteID ,ProductoID, CantidadVendida, PrecioVenta, Estado, Activo) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($insertarDetalle);
+            $stmt->bind_param("iiidsi", $iduser, $productId, $productQuantity, $product['PrecioVenta'], $estado, $activo);
+            $stmt->execute();
 
+            if ($stmt->affected_rows > 0) {
+                header("Location: carrito.php");
+                echo "Producto agregado al carrito";
+            } else {
+                echo "Error al agregar producto al carrito";
+            }
+        }
         header("Location: carrito.php");
         exit();
     } else {
@@ -64,8 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 }
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -119,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen
                     FROM carrito c
                     JOIN producto p ON c.ProductoID = p.ProductoID
-                    WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
+                    WHERE c.ClienteID = " . $iduser . " AND c.Estado = 'En carrito'";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -150,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             <div class="carrito-total">
                 <?php
                 //precio sin descuento
-                $sql = "SELECT SUM(p.PrecioVenta * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
+                $sql = "SELECT SUM(p.PrecioVenta * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID = " . $iduser . " AND c.Estado = 'En carrito'";
 
                 $result = $conn->query($sql);
 
@@ -159,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                     echo '<div class="fila">
                             <strong>Total sin descuento</strong>
                             <span class="carrito-precio-total">
-                                $' . round($total,2) . '
+                                $' . round($total, 2) . '
                             </span>
                         </div>';
                 } else {
@@ -168,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
 
                 //sacar el total de la suma de los productos y si tiene descuento aplicarlo
-                $sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =".$iduser." AND c.Estado = 'En carrito'";
+                $sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =" . $iduser . " AND c.Estado = 'En carrito'";
 
                 $result = $conn->query($sql);
 
@@ -177,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                     echo '<div class="fila">
                             <strong>Total</strong>
                             <span class="carrito-precio-total">
-                                $' . round($total,2) . '
+                                $' . round($total, 2) . '
                             </span>
                         </div>';
                 } else {

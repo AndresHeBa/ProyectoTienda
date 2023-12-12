@@ -176,6 +176,8 @@
                                     </div>
                                     <form action="carrito.php" method="post">
                                         <input type="hidden" name="product_id" value="' . $fila['ProductoID'] . '">
+                                        <input type="hidden" name="product_' . $fila['ProductoID'] . '_quantity" value="1" class="hidden-quantity-input">
+
                                         <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
                                     </form>';
                                 echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
@@ -221,6 +223,7 @@
                     if (cantidad > 1) {
                         cantidad--;
                         inputCantidad.value = cantidad;
+                        updateHiddenQuantityInput(productId, cantidad);
                     }
                 });
 
@@ -231,12 +234,20 @@
                     if (cantidad < stock) {
                         cantidad++;
                         inputCantidad.value = cantidad;
+                        updateHiddenQuantityInput(productId, cantidad);
                     } else {
                         alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
                     }
                 });
             });
         });
+
+        function updateHiddenQuantityInput(productId, quantity) {
+        const hiddenInput = document.querySelector('input[name="product_' + productId + '_quantity"]');
+        if (hiddenInput) {
+            hiddenInput.value = quantity;
+        }
+    }
     </script>
 
 

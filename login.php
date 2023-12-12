@@ -64,7 +64,7 @@
                 <input type="password" name="passwordl" placeholder="Contraseña" value="<?php if (isset($_COOKIE["password"])) {
                                                                                             echo $_COOKIE["password"];
                                                                                         } ?>" required>
-                <!-- <a href="recuperar.php">¿Olvidaste tu contraseña?</a> -->
+                <a href="recuperar.php">¿Olvidaste tu contraseña?</a>
                 <br>
                 <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image"/><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
