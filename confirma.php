@@ -162,10 +162,29 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                         $mail->Body = 'Embedded Image: <img alt="PHPMailer" src="cid:my-attach"> Here is an image!';
                         $mail->Subject = 'Gracias por contactarnos';
                         $mail->CharSet = 'UTF-8';
-                        $mail->Body  = 'Gracias por ponerte en contacto con nosotros, su solicitud esta siendo procesada.<br> 
-                        Un miembro de nuestro equipo se pondra en contacto con usted dentro de las proximas 48 horas, agradecemos su paciencia.
-                        <br>Atentamente,<br>
-                        TecnoGadget';
+                        $mail->Body  = '<html>
+                        <head>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    background-color: #f4f4f4;
+                                    color: #333;
+                                }
+                                .container {
+                                    max-width: 600px;
+                                    margin: 0 auto;
+                                    padding: 20px;
+                                    background-color: #fff;
+                                    border-radius: 5px;
+                                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                }
+                                h1 {
+                                    color: #007bff;
+                                }
+                                h3{
+                                    text-align:center;
+                                    color:rgb(134,15,90);
+                                    }';
 
 
                         $mail->send();
