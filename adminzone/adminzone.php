@@ -13,7 +13,6 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
     <link rel="stylesheet" href="https://unpkg.com/transition-style">
     <title>Tecnogadget - Panel de Administración</title>
 </head>
