@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 <?php
                 include 'adminzone/includes/db.php';
 
-                $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen
+                $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
                     FROM carrito c
                     JOIN producto p ON c.ProductoID = p.ProductoID
                     WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
@@ -124,6 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
                 if ($result->num_rows > 0) {
                     while ($product = $result->fetch_assoc()) {
+                        $precioFin = $product['PrecioVenta'];
                         echo '<div class="carrito-item">
                             <img src="' . $product['Imagen'] . '" width="80px" alt="">
                             <div class="carrito-item-detalles">
@@ -132,8 +133,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                                     <i class="fa-solid fa-minus restar-cantidad"></i>
                                     <input type="text" value="' . $product['CantidadVendida'] . '" class="carrito-item-cantidad" disabled>
                                     <i class="fa-solid fa-plus sumar-cantidad"></i>
-                                </div>
-                                <span class="carrito-item-precio">$' . round($product['PrecioVenta']) . '</span>
+                                </div>';
+                                if ($product['Descuento'] > 0) {
+                                    echo  '<span class="carrito-item-orig">$' . round($product['PrecioVenta'],2) . '</span>';
+                                    $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
+                                }
+                                echo  '
+                                <span class="carrito-item-precio">$' . round($precioFin,2) . '</span>
                             </div>
                             <span class="btn-eliminar">
                                 <i class="fa-solid fa-trash"></i>
