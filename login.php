@@ -68,7 +68,8 @@
                 <br>
                 <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image"/><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
-                <input type="checkbox" name="remember" id="remember">Recuérdame
+                <input type="checkbox" name="remember" id="remember" value="1" <?php if (isset($_COOKIE["remember"])) { echo 'checked'; } ?>>Recuérdame
+
                 <input type="hidden" name="loginop" id="loginop" value="0">
                 <input type="submit" value="Ingresar" onclick="loginUser(event)">
             </form>

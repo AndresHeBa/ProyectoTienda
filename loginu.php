@@ -46,9 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!empty($_POST["remember"])) {
                     setcookie("username", $username, time() + 3600);
                     setcookie("password", $password2, time() + 3600);
+                    setcookie("remember", 1, time() + 3600); // Puedes ajustar el tiempo según tus necesidades
                 } else {
                     setcookie("username", "");
                     setcookie("password", "");
+                    setcookie("remember", "", time() - 3600);
                 }
 
                 if ($result->num_rows > 0) {
