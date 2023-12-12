@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                                     <input type="text" value="' . $product['CantidadVendida'] . '" class="carrito-item-cantidad" disabled>
                                     <i class="fa-solid fa-plus sumar-cantidad"></i>
                                 </div>
-                                <span class="carrito-item-precio">$' . $product['PrecioVenta'] . '</span>
+                                <span class="carrito-item-precio">$' . round($product['PrecioVenta']) . '</span>
                             </div>
                             <span class="btn-eliminar">
                                 <i class="fa-solid fa-trash"></i>
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                     echo '<div class="fila">
                             <strong>Total sin descuento</strong>
                             <span class="carrito-precio-total">
-                                $' . $total . '
+                                $' . round($total,2) . '
                             </span>
                         </div>';
                 } else {
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                     echo '<div class="fila">
                             <strong>Total</strong>
                             <span class="carrito-precio-total">
-                                $' . $total . '
+                                $' . round($total,2) . '
                             </span>
                         </div>';
                 } else {

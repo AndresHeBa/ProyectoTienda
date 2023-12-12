@@ -39,6 +39,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/tienda.css">
+    <link rel="stylesheet" href="css/carrito.css">
 </head>
 
 <body>
@@ -54,15 +55,67 @@ $iduser = $result->fetch_assoc()['ClienteID'];
         <div class="envio-message-container" id="envio-message-container">
             <h1>¡Pago Exitoso!</h1>
             <p>Gracias por tu compra. El pago se ha realizado con éxito.</p>
-            <i class="fa-solid fa-truck-fast"></i>
+            <!-- <i class="fa-solid fa-truck-fast"></i> -->
             <?php
-            //mostar direccion de envio
-            $envio = $_SESSION['envio'];
-            echo "<p id='envio-message' class='envio-message'>El envio se realizara a la siguiente direccion:</p>";
-            echo "<p id='envio-message2' class='envio-message2'>$envio</p>";
+                //mostar direccion de envio
+                $envio = $_SESSION['envio'];
+                echo "<p id='envio-message' class='envio-message'>El envio se realizara a la siguiente direccion:</p>";
+                echo "<p id='envio-message2' class='envio-message2'>$envio</p>";
+            ?>
+            <div class="carrito" id="carrito">
+                <div class="header-carrito">
+                    <h2>Tu Orden</h2>
+                </div>
+                <div class="carrito-items">
+                    <?php
+                    
+                    $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen
+                            FROM carrito c
+                            JOIN producto p ON c.ProductoID = p.ProductoID
+                            WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
+                    $result = $conn->query($sql);
 
-            //borrar sesion de envio
-            unset($_SESSION['envio']);
+                    if ($result->num_rows > 0){
+                        while ($product = $result->fetch_assoc()) {
+                            echo '<div class="carrito-item">
+                                <img src="' . $product['Imagen'] . '" width="80px" alt="">
+                                <div class="carrito-item-detalles">
+                                    <span class="carrito-item-titulo">' . $product['Nombre'] . '</span>
+                                    <span class="carrito-item-precio">$' . round($product['PrecioVenta'],2) . '</span>
+                                </div>
+                            </div>';
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="carrito-total">
+                    <?php
+                        //sacar el total de la suma de los productos y si tiene descuento aplicarlo
+                        $sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =".$iduser." AND c.Estado = 'En carrito'";
+
+                        $result = $conn->query($sql);
+
+                        if ($result) {
+                            $total = $result->fetch_assoc()['total'];
+                            echo '<div class="fila">
+                                    <strong>Total</strong>
+                                    <span class="carrito-precio-total">
+                                        $' . round($total,2) . '
+                                    </span>
+                                </div>';
+                        } else {
+                            echo "Carrito vacío o error en la consulta: " . $conn->error;
+                        }
+                    ?>
+                </div>
+            </div>
+            <?php
+                //borrar sesion de envio
+                unset($_SESSION['envio']);
+
+                //actualizar carrito
+                $updateCarrito = "UPDATE carrito SET Estado = 'Pagado' WHERE ClienteID = '$iduser' AND Estado = 'En carrito' ";
+                $conn->query($updateCarrito);
             ?>
         </div>
     </main>

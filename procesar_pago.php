@@ -43,9 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 WHERE ClienteID = '$iduser' AND Estado='En carrito'";
         $conn->query($insertVenta);
 
-        // Actualizar productos en carrito a "En carrito"
-        $updateCarrito = "UPDATE carrito SET Estado = 'Pagado' WHERE ClienteID = '$iduser' AND Estado = 'En carrito' ";
-        $conn->query($updateCarrito);
+        //Aqui estaba actualizar carrito
 
         // Marcar el cupón como usado en carrito
         $updateCupon = "UPDATE carrito SET CuponID = (SELECT CuponID FROM cupon WHERE Codecup = '$cuponInput') WHERE ClienteID = '$iduser' AND CuponID IS NULL";

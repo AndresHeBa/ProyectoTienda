@@ -119,7 +119,7 @@
                 if (isset($_POST['category'])) {
                     while ($fila = $resultado->fetch_assoc()) {
                         if ($_POST['category'] === $fila['CategoriaID']) {
-                            $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)));
+                            $precioFin = round($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)),2);
     
                             if ($precioFin >= $min && $precioFin <= $max) {
                                 echo '<div class="item">';
@@ -130,7 +130,10 @@
                                 }
                                 echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
                                 echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
-                                echo '<span class="precio-item">' . $precioFin . '</span>';
+                                if ($fila['Descuento'] > 0) {
+                                    echo '<span class="precio-orig">$' . round($fila['PrecioVenta'],2) . '</span>';
+                                }
+                                echo '<span class="precio-item">' . round($precioFin,2) . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
                                         <i class="fa-solid fa-minus restar-cantidad"></i>
@@ -150,7 +153,7 @@
                     }
                 }else{
                     while ($fila = $resultado->fetch_assoc()) {
-                        $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)));
+                        $precioFin = round($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)),2);
                         
                         if ($precioFin >= $min && $precioFin <= $max) {
                                 echo '<div class="item">';
@@ -162,9 +165,9 @@
                                 echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
                                 echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
                                 if ($fila['Descuento'] > 0) {
-                                    echo '<span class="precio-orig">' . $fila['PrecioVenta'] . '</span>';
+                                    echo '<span class="precio-orig">$'. round($fila['PrecioVenta'],2) . '</span>';
                                 }
-                                echo '<span class="precio-item">' . $precioFin . '</span>';
+                                echo '<span class="precio-item">' . round($precioFin,2) . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
                                         <i class="fa-solid fa-minus restar-cantidad"></i>
