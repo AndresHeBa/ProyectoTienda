@@ -18,9 +18,10 @@
     <script src="https://kit.fontawesome.com/bfdec4dace.js" crossorigin="anonymous"></script>
 
     <!-- Estilos -->
-    <!-- <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/sobrenos_styles.css"> -->
     <link rel="stylesheet" href="css/logi.css">
+
+    <!-- Alertas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- transiciones -->
     <link rel="stylesheet" href="https://unpkg.com/transition-style">

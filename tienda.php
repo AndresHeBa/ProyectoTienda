@@ -130,7 +130,7 @@
                                 }
                                 echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
                                 echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
-                                echo '<span class="precio-item">' . $precioFin . '</span>';
+                                echo '<span class="precio-item">$' . $precioFin . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
                                         <i class="fa-solid fa-minus restar-cantidad"></i>
@@ -162,9 +162,9 @@
                                 echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
                                 echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
                                 if ($fila['Descuento'] > 0) {
-                                    echo '<span class="precio-orig">' . $fila['PrecioVenta'] . '</span>';
+                                    echo '<span class="precio-orig">$' . $fila['PrecioVenta'] . '</span>';
                                 }
-                                echo '<span class="precio-item">' . $precioFin . '</span>';
+                                echo '<span class="precio-item">$' . $precioFin . '</span>';
                                 echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
                                 echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
                                         <i class="fa-solid fa-minus restar-cantidad"></i>
@@ -210,6 +210,7 @@
                 const inputCantidad = selector.querySelector('.carrito-item-cantidad');
                 const restarBtn = selector.querySelector('.restar-cantidad');
                 const sumarBtn = selector.querySelector('.sumar-cantidad');
+                const stock = parseInt(selector.getAttribute('data-stock'));
 
                 restarBtn.addEventListener('click', function (event) {
                     event.preventDefault();
@@ -223,10 +224,12 @@
                 sumarBtn.addEventListener('click', function (event) {
                     event.preventDefault();
                     let cantidad = parseInt(inputCantidad.value);
-                    let stock = parseInt(selector.getAttribute('data-stock'));
+
                     if (cantidad < stock) {
                         cantidad++;
                         inputCantidad.value = cantidad;
+                    } else {
+                        alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
                     }
                 });
             });

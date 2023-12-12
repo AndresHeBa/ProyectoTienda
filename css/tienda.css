@@ -1,12 +1,12 @@
-body{
+body {
     font-family: 'Poppins', sans-serif;
 }
 
-h3{
+h3 {
     font-size: 0.9em;
 }
 
-#banner{
+#banner {
     margin-top: 30px;
     width: 100%;
     z-index: 99;
@@ -14,7 +14,7 @@ h3{
 
 /* Separador */
 
-.separ{
+.separ {
     height: 1px;
     width: 60%;
     margin: 0 auto;
@@ -24,23 +24,23 @@ h3{
 
 /* Carrusel */
 
-#myCarousel{
+#myCarousel {
     margin: 0 auto;
     width: 80%;
 }
 
-#myCarousel:hover{
+#myCarousel:hover {
     cursor: pointer;
 }
 
 /* Titulos */
 
-.header-title{
+.header-title {
     margin-top: 3%;
     /* margin-bottom: 50px; */
 }
 
-.header-title h1{
+.header-title h1 {
     color: #444A47;
     position: relative;
     text-align: center;
@@ -49,11 +49,12 @@ h3{
     padding-bottom: 16px;
 }
 
-.header-title h1::after{
+.header-title h1::after {
     content: '';
     width: 76px;
     height: 5px;
-    background: rgb(199, 27, 27);;
+    background: rgb(199, 27, 27);
+    ;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -64,29 +65,29 @@ h3{
 
 /* Categorias */
 
-.cartas{
+.cartas {
     display: flex;
     justify-content: space-around;
 }
 
-.img_cat{
+.img_cat {
     height: 200px;
     width: 150px;
     margin: 0 auto;
 }
 
-.card{
+.card {
     width: 250px;
     margin: 0 auto;
     border-width: 0;
 }
 
-.card:hover{
+.card:hover {
     border-width: 1px;
     cursor: pointer;
 }
 
-.foot_cat{
+.foot_cat {
     border-width: 0;
     text-align: center;
     background: white;
@@ -94,91 +95,102 @@ h3{
 
 /* Animacion Zoom */
 .zoom {
-    transition: transform .2s; /* Animation */
+    transition: transform .2s;
+    /* Animation */
 }
-  
+
 .zoom:hover {
-    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    transform: scale(1.05);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 /* Buscador de articulos */
 #input-search {
-	height: 40px;
-	width: 200px;
-	line-height: 40px;
-	padding: 0 20px;
-	border: 0px;
-	border-bottom: 2px solid rgb(238, 62, 62);
-	background-color: transparent;
-	position: relative;
+    height: 40px;
+    width: 200px;
+    line-height: 40px;
+    padding: 0 20px;
+    border: 0px;
+    border-bottom: 2px solid rgb(238, 62, 62);
+    background-color: transparent;
+    position: relative;
 }
 
 .input-category-container {
-	/* margin-top: 15px;
+    /* margin-top: 15px;
     display: flex;
     flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start; */
 }
+
 .input-category {
-	justify-content: flex-start;
-	margin-top: 10px;
-	cursor: pointer;
+    justify-content: flex-start;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .checkboxes-container {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .in-line-product {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
 }
+
 .in-line-product .product-img-container {
-	min-width: 250px;
+    min-width: 250px;
 }
 
 
 /* FILTROS */
 aside {
-	padding: 15px;
-	
+    padding: 15px;
+
 }
+
 .filters-container {
     display: flex;
     flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
+    align-items: center;
+    justify-content: space-around;
 }
+
 .filters-heading-container {
-	justify-content: space-between;
+    justify-content: space-between;
 }
+
 .filters-title {
-	/* font-size: 14px; */
+    /* font-size: 14px; */
     text-align: center;
     margin-top: 10px;
 }
+
 .filters-search-container {
-	margin-top: 15px;
-	margin-bottom: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
+
 .filters-review-container {
-	margin-top: 30px;
+    margin-top: 30px;
 }
+
 .filter {
-	margin: 0px 10px;
+    margin: 0px 10px;
     margin-right: 30px;
 }
+
 .filters-review {
-	color: rgb(221, 30, 30);
+    color: rgb(221, 30, 30);
 }
 
 
 
-.contenedor{
+.contenedor {
     max-width: 1200px;
     padding: 10px;
     margin: auto;
@@ -186,20 +198,22 @@ aside {
     justify-content: space-between;
     /* oculto lo que queda fuera del .contenedor */
     contain: paint;
-    
+
 }
+
 /* SECCION CONTENEDOR DE ITEMS */
-.contenedor .contenedor-items{
+.contenedor .contenedor-items {
     margin-top: 30px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    grid-gap:30px;
+    grid-gap: 30px;
     grid-row-gap: 30px;
     /* width: 60%; */
     width: 100%;
     transition: .3s;
 }
-.contenedor .contenedor-items .item{
+
+.contenedor .contenedor-items .item {
     max-width: 200px;
     margin: auto;
     border: 1px solid #666;
@@ -207,27 +221,32 @@ aside {
     padding: 20px;
     transition: .3s;
 }
-.contenedor .contenedor-items .item .img-item{
+
+.contenedor .contenedor-items .item .img-item {
     width: 100%;
 }
-.contenedor .contenedor-items .item:hover{
+
+.contenedor .contenedor-items .item:hover {
     box-shadow: 0 0 10px #666;
     scale: 1.05;
 }
-.contenedor .contenedor-items .item .titulo-item{
+
+.contenedor .contenedor-items .item .titulo-item {
     display: block;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
 }
-.contenedor .contenedor-items .item .precio-item{
+
+.contenedor .contenedor-items .item .precio-item {
     display: block;
     text-align: center;
     font-weight: bold;
     font-size: 22px;
 }
 
-.precio-orig{
+
+.precio-orig {
     display: block;
     text-align: center;
     font-weight: normal;
@@ -236,37 +255,44 @@ aside {
     font-size: 16px;
 }
 
-.contenedor .contenedor-items .item .texto-item{
+.contenedor .contenedor-items .item .texto-item {
     display: block;
     text-align: center;
     font-size: 15px;
 }
 
-.contenedor .contenedor-items .item .boton-item{
+.item {
+    color: #000;
+}
+
+.contenedor .contenedor-items .boton-item {
     display: block;
     margin: 10px auto;
     border: none;
-    background-color:rgb(199, 27, 27);;
+    background-color: rgb(199, 27, 27);
+    ;
     color: #fff;
     padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.selector-cantidad{
+.selector-cantidad {
     display: inline-block;
     margin-left: 25px;
 }
-.carrito-item-cantidad{
+
+.carrito-item-cantidad {
     border: none;
     font-size: 18px;
     background-color: transparent;
     display: inline-block;
-    width:30px;
+    width: 30px;
     padding: 5px;
     text-align: center;
 }
-.selector-cantidad i{
+
+.selector-cantidad i {
     font-size: 18px;
     width: 32px;
     height: 32px;
@@ -274,21 +300,20 @@ aside {
     text-align: center;
     border-radius: 50%;
     border: 1px solid #000;
-    cursor: pointer;    
+    cursor: pointer;
 }
 
-.btn-filtros{
-    
-}
+.btn-filtros {}
 
-.envio-message-container{
+.envio-message-container {
     text-align: center;
     padding: 20px;
 }
 
 /* Estilo para el título */
 .envio-message-container h1 {
-    color: #28a745; /* Verde para indicar éxito */
+    color: #28a745;
+    /* Verde para indicar éxito */
 }
 
 /* Estilo para el mensaje de agradecimiento */
@@ -318,27 +343,60 @@ aside {
 /* SECCION RESPONSIVE */
 @media screen and (max-width: 850px) {
     .contenedor {
-      display: block;
+        display: block;
     }
-    .contenedor-items{
+
+    .contenedor-items {
         width: 100% !important;
     }
-    .carrito{
+
+    .carrito {
         width: 100%;
     }
+
     .filters-review {
-		margin: 5px;
-	}
+        margin: 5px;
+    }
+
     .view-buttons-container {
-		display: none;
-	}
-	.close-filters-btn,
-	.open-filters-btn {
-		display: flex;
-	}
+        display: none;
+    }
+
+    .close-filters-btn,
+    .open-filters-btn {
+        display: flex;
+    }
+
     #input-search,
-	.filters-review,
-	.clear-btn {
-		color: white;
-	}
-  }
+    .filters-review,
+    .clear-btn {
+        color: white;
+    }
+}
+
+.contenedor .contenedor-items .item .boton-item{
+    color: #fff;
+}
+
+.contenedor .contenedor-items .item .titulo-item,
+.contenedor .contenedor-items .item .precio-item,
+.contenedor .contenedor-items .item .texto-item,
+.contenedor .contenedor-items .item .precio-orig {
+    color: #444A47;
+    /* Establece el color de texto que desees */
+}
+
+.filters-title h4 {
+    color: #444A47;
+    /* Establece el color de texto que desees */
+}
+
+.filters-review {
+    color: rgb(221, 30, 30);
+    /* Establece el color de texto que desees */
+}
+
+.btn-filtros {
+    color: #fff;
+    /* Establece el color de texto que desees */
+}
