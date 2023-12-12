@@ -140,13 +140,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                                     <i class="fa-solid fa-minus restar-cantidad"></i>
                                     <input type="text" value="' . $product['CantidadVendida'] . '" class="carrito-item-cantidad" disabled>
                                     <i class="fa-solid fa-plus sumar-cantidad"></i>
-                                </div>';
+                                </div> 
+                                <div>';
                                 if ($product['Descuento'] > 0) {
                                     echo  '<span class="carrito-item-orig">$' . round($product['PrecioVenta'],2) . '</span>';
                                     $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
                                 }
-                                echo  '
+                                echo '
                                 <span class="carrito-item-precio">$' . round($precioFin,2) . '</span>
+                                </div>
                             </div>
                             <span class="btn-eliminar">
                                 <i class="fa-solid fa-trash"></i>
