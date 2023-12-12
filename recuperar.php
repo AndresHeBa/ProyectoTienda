@@ -64,13 +64,39 @@
         <br>
         <p id="mensaje"></p>
 
-        <input type="submit" value="Recuperar Cuenta">
+        <input type="submit" value="Recuperar Cuenta" onclick="passwordact(event)">
     </form>
 
     <script src="js/validarpassword.js"></script>
+    <script>
+
+        function passwordact(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var form = document.getElementById('regs');
+        var formData = new FormData(form);
+
+        fetch('actualizar_contrasena.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert(data.message);
+                    window.location.href = "login.php";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    </script>
 
     <?php include 'footer.php'; ?>
-
 
 </body>
 
