@@ -51,16 +51,15 @@
         </div>
 
 
-        <section class="filters-container in-line"
+        <section class="filters-container"
         aria-labelledby="filters-title">            
-            <aside class= "filters-aside">
+            
 
                 <!--Encabezado del Filtro-->
-                <div class="filters-heading-container in-line">
+                <div class="filters-heading-container">
 
                     <div class="filters-title">
-                        <h4 aria-label= "Agilice la búsqueda del producto utilizando:">
-                            FILTROS</h4>
+                            <h4>FILTROS</h4>
                     </div>
                 </div>
 
@@ -79,7 +78,7 @@
                                 value="1"
                                 id= "discosduros">
                             </input>
-                            <h5>DISCOS DUROS</h5>
+                            <h6>Discos Duros</h6>
                         </label>
                         <label for= "procesadores" class="input-category in-line">
                             <input type="checkbox"
@@ -88,16 +87,20 @@
                                 value="2"
                                 id= "procesadores">
                             </input>
-                            <h5>PROCESADORES</h5>
+                            <h6>Procesadores</h6>
                         </label>
-                        <button type="submit" class="btn btn-secondary">Filtrar</button>
+                        <br><br>
+                        <input class="form-control" type="text" name="min" placeholder="Precio Minimo">
+                        <br>
+                        <input class="form-control" type="text" name="max" placeholder="Precio Maximo">
+                        <br>
+                        <button type="submit" class="btn btn-secondary btn-filtros">Filtrar</button>
                         
     
                 </fieldset>
 
                 </form>
                     
-            </aside>
         </section>
     <section class="contenedor">
     <!-- Contenedor de elementos -->
@@ -106,32 +109,75 @@
             $sql = 'SELECT * FROM producto';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
             $resultado = $conn -> query($sql); //aplicamos sentencia
             if ($resultado->num_rows) {
-                while ($fila = $resultado->fetch_assoc()) {
-                    $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)));
-
-                    echo '<div class="item">';
-                    echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
-                    if ($fila['Descuento'] > 0) {
-                        echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
-                        echo '<span class="texto-item" style="color: red;">' . round($fila['Descuento']) . '%</span>';
+                if (isset($_POST['min']) && $_POST['min'] >= 0 && isset($_POST['max']) ) {
+                    $min = $_POST['min'];
+                    $max = $_POST['max'];
+                }else{
+                    $min = 1;
+                    $max = 99999;
+                }
+                if (isset($_POST['category'])) {
+                    while ($fila = $resultado->fetch_assoc()) {
+                        if ($_POST['category'] === $fila['CategoriaID']) {
+                            $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)));
+    
+                            if ($precioFin >= $min && $precioFin <= $max) {
+                                echo '<div class="item">';
+                                echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
+                                if ($fila['Descuento'] > 0) {
+                                    echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
+                                    echo '<span class="texto-item" style="color: red;">' . round($fila['Descuento']) . '%</span>';
+                                }
+                                echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
+                                echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
+                                echo '<span class="precio-item">' . $precioFin . '</span>';
+                                echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
+                                echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
+                                        <i class="fa-solid fa-minus restar-cantidad"></i>
+                                        <input type="text" value="1" class="carrito-item-cantidad" disabled>
+                                        <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                    </div>
+                                    <form action="carrito.php" method="post">
+                                        <input type="hidden" name="product_id" value="' . $fila['ProductoID'] . '">
+                                        <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
+                                    </form>';
+                                echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
+                                echo '</a>';
+                                
+                                echo '</div>';
+                            }
+                        }
                     }
-                    echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
-                    echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
-                    echo '<span class="precio-item">' . $precioFin . '</span>';
-                    echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
-                    echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
-                              <i class="fa-solid fa-minus restar-cantidad"></i>
-                              <input type="text" value="1" class="carrito-item-cantidad" disabled>
-                              <i class="fa-solid fa-plus sumar-cantidad"></i>
-                          </div>
-                          <form action="carrito.php" method="post">
-                              <input type="hidden" name="product_id" value="' . $fila['ProductoID'] . '">
-                              <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
-                          </form>';
-                    echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
-                    echo '</a>';
-                    
-                    echo '</div>';
+                }else{
+                    while ($fila = $resultado->fetch_assoc()) {
+                        $precioFin = ($fila['PrecioVenta'] - ($fila['PrecioVenta'] * ($fila['Descuento']) * (0.01)));
+                        
+                        if ($precioFin >= $min && $precioFin <= $max) {
+                                echo '<div class="item">';
+                                echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
+                                if ($fila['Descuento'] > 0) {
+                                    echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
+                                    echo '<span class="texto-item" style="color: red;">' . round($fila['Descuento']) . '%</span>';
+                                }
+                                echo '<span class="titulo-item">' . $fila['Nombre'] . '</span>';
+                                echo '<img src="' . $fila['Imagen'] . '" alt="' . $fila['Imagen'] . '" class="img-item">';
+                                echo '<span class="precio-item">' . $precioFin . '</span>';
+                                echo '<span class="texto-item">' . $fila['Descripción'] . '</span>';
+                                echo '<div class="selector-cantidad" data-product-id="' . $fila['ProductoID'] . '" data-stock="' . $fila['CantidadStock'] . '">
+                                        <i class="fa-solid fa-minus restar-cantidad"></i>
+                                        <input type="text" value="1" class="carrito-item-cantidad" disabled>
+                                        <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                    </div>
+                                    <form action="carrito.php" method="post">
+                                        <input type="hidden" name="product_id" value="' . $fila['ProductoID'] . '">
+                                        <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
+                                    </form>';
+                                echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
+                                echo '</a>';
+                                
+                                echo '</div>';
+                            }
+                    }
                 }
             } else {
                 echo "No hay datos";
