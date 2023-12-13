@@ -158,11 +158,12 @@
                 .then(response => response.text()) // Parse as text
                 .then(data => {
                     // Handle the response data, e.g., show a success message
-                    console.log(data);
                     Swal.fire({
                             title: "Usuario registrado exitosamente",
                             icon: "success"
                         });
+                    //recargar pagina
+                    window.location.href = "login.php";
                 })
                 .catch(error => {
                     // Handle errors, e.g., show an error message
