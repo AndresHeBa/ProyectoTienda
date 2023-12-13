@@ -50,24 +50,15 @@
                     </div>
                 </form>
                 <br>
-                <div>
-                    <h6 style="color: #E3E3E3;">Síguenos en nuestras redes sociales</h6>
-                    <a href="https://github.com/AndresHeBa/ProyectoTienda"><i class="fa-brands fa-github fa-2xl" style="color: #000000;"></i></a>
-                    <a href="https://www.facebook.com/people/TecnoGadget/61554191686959/"><i class="fa-brands fa-facebook fa-2xl" style="color: #3b5998;"></i></a>
-                </div>
+
             </div>
 
         </div>
-        <!--
-        ICONOS PARA LA RED SOCIAL
         <div>
-        <h2 style="color: #E3E3E3;">Siguenos <br> en nuestra redes</h2>
-                        <div class="f-input">
-                        <i class="fa-brands fa-facebook"></i>
-                        <i class="fa-brands fa-discord" whidth="120"></i>
-                            </div>
-        -->
-    </div>
+            <h6 style="color: #E3E3E3;">Síguenos en nuestras redes sociales</h6>
+            <a href="https://github.com/AndresHeBa/ProyectoTienda"><i class="fa-brands fa-github fa-2xl" style="color: #000000;"></i></a>
+            <a href="https://www.facebook.com/people/TecnoGadget/61554191686959/"><i class="fa-brands fa-facebook fa-2xl" style="color: #3b5998;"></i></a>
+        </div>
         <div id="menulinks">
             <h3 class="titulofoot">Menú</h3>
             <ul class="listafoot">
