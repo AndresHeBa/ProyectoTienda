@@ -1,0 +1,63 @@
+.container {
+    /* uso de flex horizontal*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* separacion entre campos*/
+    padding: 10px;
+
+
+}
+
+.Resumen {
+    /* tamaño*/
+    width: 50%;
+    /* margen*/
+    margin: 10px;
+    /* uso de flex vertical*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* separacion entre campos*/
+    padding: 10px;
+    /* borde*/
+    border: 1px solid #000;
+    /* redondeado*/
+    border-radius: 10px;
+    /* sombra*/
+    box-shadow: 0px 0px 10px #000;
+
+}
+
+.carrito-producto {
+    /* tamaño */
+    width: 100px;
+    height: 220px;
+    /* uso de flex vertical*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* separacion entre campos*/
+    padding: 10px;
+    /* borde*/
+    border: 1px solid #000;
+    /* redondeado*/
+    border-radius: 10px;
+    /* sombra*/
+    box-shadow: 0px 0px 10px #000;
+    /* tamaño*/
+    width: 50%;
+    /* margen*/
+    margin: 10px;
+}
+
+.carrito-producto img {
+    /* tamaño*/
+    width: 100px;
+    height: 150px;
+    /* margen*/
+    margin: 10px;
+}

@@ -17,7 +17,7 @@ $result = $conn->query($sql);
 $iduser = $result->fetch_assoc()['ClienteID'];
 
 //sacar el total de la suma de los productos y si tiene descuento aplicarlo
-$sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =".$iduser." AND c.Estado = 'En carrito'";
+$sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =" . $iduser . " AND c.Estado = 'En carrito'";
 
 $result = $conn->query($sql);
 if ($result) {
@@ -49,6 +49,7 @@ $precioTotal = $total;
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/pago.css">
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -65,81 +66,97 @@ $precioTotal = $total;
     </header>
 
     <div class="container mt-5">
-        <h1>Pago</h1>
-        <p>Por favor, ingrese la información de su método de pago.</p>
-        <!-- Formulario de Método de Pago -->
-        <form action="procesar_pago.php" method="post">
-            <div class="mb-3">
-                <label for="Tarjeta" class="form-label">Nombre en la Tarjeta</label>
-                <input type="text" class="form-control" id="Tarjeta" name="Tarjeta" required>
-            </div>
-            <div class="mb-3">
-                <label for="TipoTarjeta" class="form-label">Tipo de Tarjeta</label>
-                <select class="form-select" id="TipoTarjeta" name="TipoTarjeta" required>
-                    <option value="default">-</option>
-                    <option value="BBVA">BBVA</option>
-                    <option value="Santander">Santander</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="NumTar" class="form-label">Número de la Tarjeta</label>
-                <input type="text" class="form-control" id="NumTar" name="NumTar" required>
-            </div>
-            <div class="mb-3">
-                <label for="Vencimiento" class="form-label">Fecha de Vencimiento</label>
-                <input type="text" class="form-control" id="Vencimiento" name="Vencimiento" placeholder="MM/AA" required>
-            </div>
-            <div class="mb-3">
-                <label for="CVV" class="form-label">CVV</label>
-                <input type="text" class="form-control" id="CVV" name="CVV" required>
-            </div>
-            <div class="mb-3">
-                <label for="Region" class="form-label">Region</label>
-                <select class="form-select" id="Region" name="Region" required onchange="calcularImpuestos()">
-                    <option value="default">-</option>
-                    <option value="0.16">Mexico</option>
-                    <option value="0.08">Estados Unidos</option>
-                </select>
-                <span class="mb-3">
-                    Se hará un cargo de impuesto según tu región.
-                </span>
-            </div>
-            <input type="hidden" id="impuesto" name="impuesto" value="0">
-            <div class="mb-3">
-                <label for="TipoEnvio" class="form-label">Tipo de Envío</label>
-                <select class="form-select" id="TipoEnvio" name="TipoEnvio" required onchange="calcularCostoEnvio()">
-                    <option value="0">Local (Gratis)</option>
-                    <option value="50">Nacional ($50)</option>
-                    <option value="100">Global ($100)</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="Envio" class="form-label">Direccion de entrega</label>
-                <input type="text" class="form-control" id="Envio" name="Envio" required>
-                <label for="Descr" class="form-label">Se requiere una descripcion del lugar de entrega:</label>
-                <input type="text" class="form-control" id="Descr" name="Descr" required>
-            </div>
-            <div class="mb-3">
-                <label for="Cupon" class="form-label">Aplicar Cupon</label>
-                <input type="text" class="form-control" id="Cupon" name="Cupon" placeholder="Cupon">
-                <button type="button" class="btn btn-secondary" onclick="aplicarCupon()">Aplicar Cupón</button>
-                <input type="hidden" id="cuponAplicado" name="cuponAplicado" value="0">
-                <?php
+        <div>
+            <h1>Pago</h1>
+            <p>Por favor, ingrese la información de su método de pago.</p>
+            <!-- Formulario de Método de Pago -->
+            <form action="procesar_pago.php" method="post">
+                <div class="mb-3">
+                    <label for="Tarjeta" class="form-label">Nombre en la Tarjeta</label>
+                    <input type="text" class="form-control" id="Tarjeta" name="Tarjeta" required>
+                </div>
+                <div class="mb-3">
+                    <label for="TipoTarjeta" class="form-label">Tipo de Tarjeta</label>
+                    <select class="form-select" id="TipoTarjeta" name="TipoTarjeta" required>
+                        <option value="default">-</option>
+                        <option value="BBVA">BBVA</option>
+                        <option value="Santander">Santander</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="NumTar" class="form-label">Número de la Tarjeta</label>
+                    <input type="text" class="form-control" id="NumTar" name="NumTar" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Vencimiento" class="form-label">Fecha de Vencimiento</label>
+                    <input type="text" class="form-control" id="Vencimiento" name="Vencimiento" placeholder="MM/AA" required>
+                </div>
+                <div class="mb-3">
+                    <label for="CVV" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="CVV" name="CVV" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Region" class="form-label">Region</label>
+                    <select class="form-select" id="Region" name="Region" required onchange="calcularImpuestos()">
+                        <option value="default">-</option>
+                        <option value="0.16">Mexico</option>
+                        <option value="0.08">Estados Unidos</option>
+                    </select>
+                    <span class="mb-3">
+                        Se hará un cargo de impuesto según tu región.
+                    </span>
+                </div>
+                <input type="hidden" id="impuesto" name="impuesto" value="0">
+                <div class="mb-3">
+                    <label for="TipoEnvio" class="form-label">Tipo de Envío</label>
+                    <select class="form-select" id="TipoEnvio" name="TipoEnvio" required onchange="calcularCostoEnvio()">
+                        <option value="0">Local (Gratis)</option>
+                        <option value="50">Nacional ($50)</option>
+                        <option value="100">Global ($100)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="Envio" class="form-label">Direccion de entrega</label>
+                    <input type="text" class="form-control" id="Envio" name="Envio" required>
+                    <label for="Descr" class="form-label">Se requiere una descripcion del lugar de entrega:</label>
+                    <input type="text" class="form-control" id="Descr" name="Descr" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Cupon" class="form-label">Aplicar Cupon</label>
+                    <input type="text" class="form-control" id="Cupon" name="Cupon" placeholder="Cupon">
+                    <button type="button" class="btn btn-secondary" onclick="aplicarCupon()">Aplicar Cupón</button>
+                    <input type="hidden" id="cuponAplicado" name="cuponAplicado" value="0">
+                    <?php
                     echo '<input type="hidden" id="precioVenta" name="precioVenta" value="' . $total . '">';
                     echo '<div class="fila">';
                     echo '<strong>Tu Total</strong>';
                     echo '<span class="carrito-precio-total">$' . number_format($precioTotal, 2) . '</span>';
                     echo '</div>';
-                ?>
-            </div>
-            <!--<div class="fila">
-                <strong>Tu Total</strong>
-                <span class="carrito-precio-total">
-                    $000,000,00
-                </span>
-            </div>-->
-            <button type="submit" class="btn btn-primary">Pagar</button>
-        </form>
+                    ?>
+                </div>
+                <button type="submit" class="btn btn-primary">Pagar</button>
+            </form>
+        </div>
+        <div class="Resumen">
+            <h1>Resumen de la Compra</h1>
+            <?php
+            $sql = "SELECT p.ProductoID,p.Imagen, p.Nombre, p.PrecioVenta, p.Descuento, c.CantidadVendida FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =" . $iduser . " AND c.Estado = 'En carrito'";
+            $result = $conn->query($sql);
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="carrito-producto">';
+                    echo '<img  src="' . $row['Imagen'] . '" alt="Producto">';
+                    echo '<div class="carrito-producto-info">';
+                    echo '<span class="carrito-producto-nombre">' . $row['Nombre'] . '</span>';
+                    echo '<span class="carrito-producto-precio">$' . number_format($row['PrecioVenta'] - ($row['PrecioVenta'] * ($row['Descuento'] / 100)), 2) . '</span>';
+                    echo '<span class="carrito-producto-cantidad">Cantidad: ' . $row['CantidadVendida'] . '</span>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            }
+            ?>
+        </div>
+    </div>
     </div>
 
     <!-- Footer -->
@@ -201,8 +218,7 @@ $precioTotal = $total;
                         title: "Cupón de nuevo usuario aplicado",
                         icon: "success"
                     });
-                }
-                else if (cuponInput.value.trim() === "F4N4V1D4D") {
+                } else if (cuponInput.value.trim() === "F4N4V1D4D") {
                     // Agregar el descuento del 50% en discos duros
                     descuento = precioTotal * 0.5;
                     Swal.fire({
@@ -210,16 +226,14 @@ $precioTotal = $total;
                         text: "¡Feliz Navidad!",
                         icon: "success"
                     });
-                }
-                else if (cuponInput.value.trim() === "PR0C354D0R") {
+                } else if (cuponInput.value.trim() === "PR0C354D0R") {
                     // Agregar el descuento del 10% den procesadores
                     descuento = precioTotal * 0.1;
                     Swal.fire({
                         title: "Cupón promocional aplicado(10% de descuento en procesadores)",
                         icon: "success"
                     });
-                }
-                else {
+                } else {
                     Swal.fire({
                         title: "Cupón no reconocido o no válido",
                         icon: "error"
