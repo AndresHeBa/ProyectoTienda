@@ -64,6 +64,8 @@
     </div>
     <div id="nota">
         <p id="notafoot">
+            Esta pagina es un proyecto academico sin fines comerciales
+            <br>
             Copyright <i class="fa-regular fa-copyright fa-sm"></i> 2023 Equipo 4
             <br>
             <span class="letrita">

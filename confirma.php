@@ -289,7 +289,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                                     <span class="nota">$' . number_format($subtotal, 2) . '</span>
                                 </div>
                                 <div class="fila">
-                                    <span class="nota">Subtotal despues del cupón:</span>
+                                    <span class="nota">Subtotal despues del cupon:</span>
                                     <span class="nota">$' . number_format($precio, 2) . '</span>
                                 </div>
                                 <div class="fila">
