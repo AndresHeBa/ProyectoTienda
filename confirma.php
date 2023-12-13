@@ -198,131 +198,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                     // Guardar el PDF en el servidor
                     $pdf->Output(__DIR__ . '/pdf/nota_compra.pdf', 'F');
                 }
-                $email = isset($_SESSION['correo']) ? $_SESSION['correo'] : '';
-                if (!empty($email)) {
-                    try {
-                        $mail = new PHPMailer();
-                        //Server settings
-                        //Enable verbose debug output
-                        $mail->SMTPDebug=0;
-                        $mail->isSMTP();                                            //Send using SMTP
-                        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                        $mail->Username   = 'adrianalonso.a4@gmail.com';                     //SMTP username
-                        $mail->Password   = 'wtld iaxc ojfx dnbe';                               //SMTP password
-                        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
-                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-                        //Recipients
-                        $mail->setFrom('adrianalonso.a4@gmail.com', 'InnovaCodeTech');
-                        $mail->addAddress($email);     //Add a recipient
-                
-                        $mail->addAddress($email);
-                        $mail->isHTML(true);
-                        $mail->Subject = 'Recibo de Compra';
-                        $mail->Body = '<html>
-                        <head>
-                            <style>
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    background-color: #f4f4f4;
-                                    color: #333;
-                                    margin: 0;
-                                    padding: 0;
-                                }
-                                .container {
-                                    max-width: 600px;
-                                    margin: 0 auto;
-                                    padding: 20px;
-                                    background-color: #fff;
-                                    border-radius: 5px;
-                                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                }
-                                h1 {
-                                    color: #007bff;
-                                }
-                                ul {
-                                    list-style-type: none;
-                                    padding: 0;
-                                }
-                                li {
-                                    margin-bottom: 10px;
-                                }
-                                .nota {
-                                    display: block;
-                                    margin-bottom: 5px;
-                                }
-                                .carrito-precio-total {
-                                    font-weight: bold;
-                                    font-size: 18px;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="container">
-                                <h1>Nota de Compra</h1>
-                                <p>Estos son los productos que compro y los detalles de la venta:</p>
-                                <ul>';
-                    $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
-                            FROM carrito c
-                            JOIN producto p ON c.ProductoID = p.ProductoID
-                            WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
-                    $prod = $conn->query($sql);
-                    
-                    if ($prod->num_rows > 0){
-                        while ($product = $prod->fetch_assoc()) {
-                            $precioFin = $product['PrecioVenta'];
-                            if ($product['Descuento'] > 0) {
-                                $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
-                            }
-                            $mail->Body .= '<li>
-                                                <span class="carrito-item-titulo">' . $product['Nombre'] . '</span>
-                                                <span class="carrito-item-precio">$' . number_format($precioFin, 2) . '</span>
-                                            </li>';
-                        }
-                    }
-                    
-                    $mail->Body .= '</ul>
-                                <div class="fila">
-                                    <span class="nota">Subtotal:</span>
-                                    <span class="nota">$' . number_format($subtotal, 2) . '</span>
-                                </div>
-                                <div class="fila">
-                                    <span class="nota">Subtotal después del cupón:</span>
-                                    <span class="nota">$' . number_format($precio, 2) . '</span>
-                                </div>
-                                <div class="fila">
-                                    <span class="nota">Método de Pago:</span>
-                                    <span class="nota">' . $banco . '</span>
-                                </div>
-                                <div class="fila">
-                                    <span class="nota">Precio de Envío:</span>
-                                    <span class="nota">$' . $tipo . '</span>
-                                </div>
-                                <div class="fila">
-                                    <span class="nota">Total de Impuestos:</span>
-                                    <span class="nota">$' . $impuesto . '</span>
-                                </div>
-                                <div class="fila">
-                                    <strong>Total</strong>
-                                    <span class="carrito-precio-total">$' . round($total, 2) . '</span>
-                                </div>
-                                <div class="fila">
-                                    <span class="nota">Dirección de Envío:</span>
-                                    <span class="nota">' . $envio . '</span>
-                                </div>
-                            </div>
-                        </body>
-                    </html>';
-                        $mail->addAttachment(__DIR__ . '/pdf/nota_compra.pdf', 'nota_compra.pdf');
-                
-                        $mail->send();
-                    } catch (Exception $e) {
-                        echo 'Error al enviar el correo: ' . $mail->ErrorInfo;
-                    }
-                } else {
-                    echo 'La dirección de correo electrónico no está disponible.';
-                }
                 // Correo
                 $email = isset($_SESSION['correo']) ? $_SESSION['correo'] : '';
                 if (!empty($email)) {
@@ -448,14 +324,11 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                 } else {
                     echo 'La dirección de correo electrónico no está disponible.';
                 }
-
-                //actualizar carrito
-                $updateCarrito = "UPDATE carrito SET Estado = 'Pagado' WHERE ClienteID = '$iduser' AND Estado = 'En carrito' ";
-                $conn->query($updateCarrito);
                 
                 $conn->close();
             ?>
             <?php
+            include 'adminzone/includes/db.php';
             // restar stock
             $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID = " . $iduser . " AND c.Estado = 'En carrito'";
             $prodResult = $conn->query($sql);
