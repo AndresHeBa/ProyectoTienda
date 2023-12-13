@@ -70,9 +70,11 @@
                                                                                         } ?>" required>
                 <a href="recuperar.php">¿Olvidaste tu contraseña?</a>
                 <br>
-                <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image"/><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
+                <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image" /><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
                 <input type="text" name="captcha_code" placeholder="Captcha" required>
-                <input type="checkbox" name="remember" id="remember" value="1" <?php if (isset($_COOKIE["remember"])) { echo 'checked'; } ?>>Recuérdame
+                <input type="checkbox" name="remember" id="remember" value="1" <?php if (isset($_COOKIE["remember"])) {
+                                                                                    echo 'checked';
+                                                                                } ?>>Recuérdame
 
                 <input type="hidden" name="loginop" id="loginop" value="0">
                 <input type="submit" value="Ingresar" onclick="loginUser(event)">
@@ -159,9 +161,9 @@
                 .then(data => {
                     // Handle the response data, e.g., show a success message
                     Swal.fire({
-                            title: "Usuario registrado exitosamente",
-                            icon: "success"
-                        });
+                        title: "Usuario registrado exitosamente",
+                        icon: "success"
+                    });
                     //recargar pagina
                     window.location.href = "login.php";
                 })
@@ -186,8 +188,10 @@
                         Swal.fire({
                             title: "Sesion Iniciada Exitosamente",
                             icon: "success"
+                        }).then(() => {
+                            window.location.href = "index.php";
                         });
-                        window.location.href = "index.php";
+
                         loginAttempts = 0; // Restablecer intentos después de un inicio de sesión exitoso
                     } else if (data.status === "error") {
                         Swal.fire({
