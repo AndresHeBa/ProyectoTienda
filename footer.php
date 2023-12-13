@@ -56,8 +56,8 @@
         </div>
         <div>
             <h6 style="color: #E3E3E3;">Síguenos en nuestras redes sociales</h6>
-            <a href="https://github.com/AndresHeBa/ProyectoTienda"><i class="fa-brands fa-github fa-2xl" style="color: #000000;"></i></a>
-            <a href="https://www.facebook.com/people/TecnoGadget/61554191686959/"><i class="fa-brands fa-facebook fa-2xl" style="color: #3b5998;"></i></a>
+            <a href="https://github.com/AndresHeBa/ProyectoTienda" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github fa-2xl" style="color: #000000;"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61554097425120" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook fa-2xl" style="color: #3b5998;"></i></a>
         </div>
         <div id="menulinks">
             <h3 class="titulofoot">Menú</h3>
