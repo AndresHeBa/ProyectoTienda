@@ -58,6 +58,16 @@
             </div>
 
         </div>
+        <!--
+        ICONOS PARA LA RED SOCIAL
+        <div>
+        <h2 style="color: #E3E3E3;">Siguenos <br> en nuestra redes</h2>
+                        <div class="f-input">
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-discord" whidth="120"></i>
+                            </div>
+        -->
+    </div>
         <div id="menulinks">
             <h3 class="titulofoot">Menú</h3>
             <ul class="listafoot">
