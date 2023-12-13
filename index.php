@@ -128,15 +128,8 @@
                             echo '<div class="item">';
                                 echo '<span class="titulo-item">'.$fila['Nombre'].'</span>';
                                 echo '<img src="'.$fila['Imagen'].'" alt="'.$fila['Imagen'].'" class="img-item">';
-                                echo '<span class="precio-item">'.$fila['PrecioVenta'].'</span>';
+                                echo '<span class="precio-item"> $'.$fila['PrecioVenta'].'</span>';
                                 echo '<span class="texto-item">'.$fila['Descripción'].'</span>';
-                                echo '<div class="selector-cantidad">
-                                        <i class="fa-solid fa-minus restar-cantidad"></i>
-                                        <input type="text" value="3" class="carrito-item-cantidad" disabled>
-                                        <i class="fa-solid fa-plus sumar-cantidad"></i>
-                                    </div>
-                                    <button class="boton-item">Agregar al Carrito</button>';
-                                echo '<span class="texto-item">Stock: '.$fila['CantidadStock'].'</span>';
                             echo '</div>';
                             $paro+=1;
                             if ($paro >3) {
