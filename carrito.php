@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 <span class="carrito-item-precio">$' . round($precioFin, 2) . '</span>
                 </div>
             </div>
-            <span class="btn-eliminar">
+            <span class="btn-eliminar" onclick="borrarproduct(' . $product['ProductoID'] . ')">
                 <i class="fa-solid fa-trash"></i>
             </span>
         </div>';
@@ -347,6 +347,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
             xhr.open('GET', url + '?iduser=' + iduser, true);
             xhr.send();
+        }
+
+        function borrarproduct(productId) {
+            const xhr = new XMLHttpRequest();
+            const url = 'borrar_producto.php';
+            const iduser = <?php echo $iduser; ?>;
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        let response;
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            // Si la respuesta no es un JSON válido, mostrar un mensaje de error
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Error al procesar la respuesta del servidor',
+                                icon: 'error'
+                            });
+                            return;
+                        }
+
+                        if (response.success) {
+                            // Si la eliminación fue exitosa, puedes recargar la página o realizar alguna acción adicional si es necesario
+                            Swal.fire({
+                                title: 'Éxito',
+                                text: response.message,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            });
+
+                            
+                        } else {
+                            // Mostrar mensaje de error con SweetAlert
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    } else {
+                        // Mostrar mensaje de error con SweetAlert
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al procesar la respuesta del servidor',
+                            icon: 'error'
+                        });
+                    }
+                }
+            };
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('product_id=' + productId + '&iduser=' + iduser);
+
         }
     </script>
 </body>
