@@ -65,9 +65,15 @@
                 <input type="text" name="usuario" placeholder="Usuario" value="<?php if (isset($_COOKIE["username"])) {
                                                                                     echo $_COOKIE["username"];
                                                                                 } ?>" required>
-                <input type="password" name="passwordl" placeholder="Contraseña" value="<?php if (isset($_COOKIE["password"])) {
-                                                                                            echo $_COOKIE["password"];
-                                                                                        } ?>" required>
+
+                <div style="position: relative;">
+                    <input type="password" name="passwordl" id="passwordl" placeholder="Contraseña" value="<?php if (isset($_COOKIE["password"])) {
+                                                                                                                echo $_COOKIE["password"];
+                                                                                                            } ?>" required>
+                    <span class="password-icon" onclick="togglePasswordVisibility('passwordl')">
+                        <i class="fa-solid fa-eye fa-lg" id="eye-icon-passwordl"></i>
+                    </span>
+                </div>
                 <a href="recuperar.php">¿Olvidaste tu contraseña?</a>
                 <br>
                 <img id="captcha" class="captcha-image" src="captcha.php" alt="Captcha Image" /><i class="fa-solid fa-arrows-rotate refresh-captcha"></i>
@@ -90,9 +96,19 @@
                 <input type="tel" name="telefono" placeholder="Teléfono" pattern="\(\d{3}\) \d{3}[-\s]\d{4}" title="Un número de teléfono válido consta de un código de 3 cifras entre paréntesis, un espacio, las tres primeras cifras del número, un espacio o guión (-) y cuatro cifras más" required>
                 <input type="text" name="email" placeholder="Email" required>
                 <input type="text" name="usuario" placeholder="Usuario" required>
-                <input type="password" name="password" id="password" placeholder="Contraseña" oninput="validatecorrectPassword()" required>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" placeholder="Contraseña" oninput="validatecorrectPassword()" required>
+                    <span class="password-icon" onclick="togglePasswordVisibility('password')">
+                        <i class="fa-solid fa-eye fa-lg" id="eye-icon-password"></i>
+                    </span>
+                </div>
                 <p id="mensaje2"></p>
-                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar Contraseña" oninput="validatePassword()" required>
+                <div style="position: relative;">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar Contraseña" oninput="validatePassword()" required>
+                    <span class="password-icon" onclick="togglePasswordVisibility('confirmPassword')">
+                        <i class="fa-solid fa-eye fa-lg" id="eye-icon-confirmPassword"></i>
+                    </span>
+                </div>
                 <p id="mensaje"></p>
                 <select name="pregunta">
                     <?php
@@ -131,6 +147,25 @@
         var login = document.getElementById("login");
         var loginAttempts = 1;
         document.getElementById("loginop").value = loginAttempts;
+
+        function togglePasswordVisibility(passwd) {
+            var passwordInput = document.getElementById(passwd);
+            var eyeIcon = document.getElementById('eye-icon-' + passwd);
+
+            // Cambia el tipo de entrada entre 'password' y 'text'
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                // Cambia el ícono a un ojo abierto cuando se muestra la contraseña de fontawesome
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+
+            } else {
+                passwordInput.type = 'password';
+                // Cambia el ícono a un ojo cerrado cuando se oculta la contraseña
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
 
         var refreshButton = document.querySelector(".refresh-captcha");
         refreshButton.onclick = function() {

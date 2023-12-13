@@ -23,7 +23,7 @@
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.all.min.js"></script>
-    
+
     <!-- transiciones -->
     <link rel="stylesheet" href="https://unpkg.com/transition-style">
 
@@ -56,13 +56,21 @@
         <input type="text" name="respuesta" required>
 
         <label for="password">Nueva Contraseña:</label>
-        <input type="password" name="password" id="password" oninput="validatecorrectPassword()" required>
+        <div style="position: relative;">
+            <input type="password" name="password" id="password" oninput="validatecorrectPassword()" required>
+            <span class="password-icon" onclick="togglePasswordVisibility('password')">
+                <i class="fa-solid fa-eye fa-lg" id="eye-icon-password"></i>
+            </span>
+        </div>
         <p id="mensaje2"></p>
 
         <label for="confirmPassword">Repetir Contraseña:</label>
-        <!-- cuando este escribiendo la nueva contraseña -->
-        <input type="password" name="confirmPassword" id="confirmPassword" oninput="validatePassword()" required>
-        <!-- mensaje de validacion -->
+        <div style="position: relative;">
+            <input type="password" name="confirmPassword" id="confirmPassword" oninput="validatePassword()" required>
+            <span class="password-icon" onclick="togglePasswordVisibility('confirmPassword')">
+                <i class="fa-solid fa-eye fa-lg" id="eye-icon-confirmPassword"></i>
+            </span>
+        </div>
         <br>
         <p id="mensaje"></p>
 
@@ -71,38 +79,55 @@
 
     <script src="js/validarpassword.js"></script>
     <script>
+        function togglePasswordVisibility(passwd) {
+            var passwordInput = document.getElementById(passwd);
+            var eyeIcon = document.getElementById('eye-icon-' + passwd);
+
+            // Cambia el tipo de entrada entre 'password' y 'text'
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                // Cambia el ícono a un ojo abierto cuando se muestra la contraseña de fontawesome
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+
+            } else {
+                passwordInput.type = 'password';
+                // Cambia el ícono a un ojo cerrado cuando se oculta la contraseña
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
 
         function passwordact(event) {
-        event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Prevent the default form submission
 
-        var form = document.getElementById('regs');
-        var formData = new FormData(form);
+            var form = document.getElementById('regs');
+            var formData = new FormData(form);
 
-        fetch('actualizar_contrasena.php', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    Swal.fire({
-                        title: data.message,
-                        icon: "success"
-                    });
-                    window.location.href = "login.php";
-                } else {
-                    Swal.fire({
-                        title: data.message,
-                        icon: "error"
-                    });
-                    
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
+            fetch('actualizar_contrasena.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        Swal.fire({
+                            title: data.message,
+                            icon: "success"
+                        });
+                        window.location.href = "login.php";
+                    } else {
+                        Swal.fire({
+                            title: data.message,
+                            icon: "error"
+                        });
 
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
 
     <?php include 'footer.php'; ?>

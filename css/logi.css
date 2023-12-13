@@ -81,8 +81,10 @@ p {
 
 
 .regs span {
-    margin-top: 5px; /* Ajusta el espacio entre el input y el mensaje de validación */
-    font-size: 14px; /* Tamaño de fuente ajustado */
+	margin-top: 5px;
+	/* Ajusta el espacio entre el input y el mensaje de validación */
+	font-size: 14px;
+	/* Tamaño de fuente ajustado */
 	margin-bottom: 5px;
 }
 
@@ -114,4 +116,12 @@ input[type='checkbox'] {
 	height: 20px;
 	cursor: pointer;
 	margin-right: 10px;
+}
+
+.password-icon {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
 }
