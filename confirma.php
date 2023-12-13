@@ -479,6 +479,9 @@ $iduser = $result->fetch_assoc()['ClienteID'];
 
             $conn->close();
             ?>
+            <div class="text-center mt-4">
+                <a href="pdf/nota_compra.pdf" class="btn btn-primary" target="_blank">Ver Recibo</a>
+            </div>
         </div>
     </main>
 
