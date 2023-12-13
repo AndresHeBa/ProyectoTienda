@@ -41,6 +41,10 @@ $precioTotal = obtenerPrecioTotal();
     <!-- Estilos -->
     <link rel="stylesheet" href="css/carrito.css">
 
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+
 </head>
 
 <body onload='calcularCostoEnvio()'>
@@ -184,20 +188,33 @@ $precioTotal = obtenerPrecioTotal();
                 var descuento = 0;
                 if (cuponInput.value.trim() === "M45T3CN0") {
                     descuento = precioTotal * 0.15;
-                    alert("Cupón de nuevo usuario aplicado");
+                    Swal.fire({
+                        title: "Cupón de nuevo usuario aplicado",
+                        icon: "success"
+                    });
                 }
                 else if (cuponInput.value.trim() === "F4N4V1D4D") {
                     // Agregar el descuento del 50% en discos duros
                     descuento = precioTotal * 0.5;
-                    alert("Cupón navideño aplicado(50% de descuento en discos duros) ¡Feliz Navida!");
+                    Swal.fire({
+                        title: "Cupón navideño aplicado(50% de descuento en discos duros)",
+                        text: "¡Feliz Navidad!",
+                        icon: "success"
+                    });
                 }
                 else if (cuponInput.value.trim() === "PR0C354D0R") {
                     // Agregar el descuento del 10% den procesadores
                     descuento = precioTotal * 0.1;
-                    alert("Cupón promocional aplicado(10% de descuento en procesadores)");
+                    Swal.fire({
+                        title: "Cupón promocional aplicado(10% de descuento en procesadores)",
+                        icon: "success"
+                    });
                 }
                 else {
-                    alert("Cupón no reconocido o no válido");
+                    Swal.fire({
+                        title: "Cupón no reconocido o no válido",
+                        icon: "error"
+                    });
                     return;
                 }
 
@@ -207,7 +224,10 @@ $precioTotal = obtenerPrecioTotal();
                 cuponInput.disabled = true;
                 document.querySelector(".carrito-precio-total").innerText = "$" + nuevoPrecioTotal.toFixed(2);
             } else {
-                alert("Solo se permite aplicar un cupón por compra.");
+                Swal.fire({
+                    title: "Solo se permite aplicar un cupón por compra.",
+                    icon: "warning"
+                });
             }
         }
     </script>

@@ -18,7 +18,11 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
 </head>
 
 <body>
-
+    <?php
+        if (!isset($_SESSION["admin"]) || $_SESSION["admin"] == 0) {
+            header('Location: ../index.php');
+        }
+    ?>
     <header>
         <h1>Tecnogadget</h1>
         <nav>

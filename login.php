@@ -27,6 +27,10 @@
     <!-- transiciones -->
     <link rel="stylesheet" href="https://unpkg.com/transition-style">
 
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+
     <!-- Animate -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
@@ -155,7 +159,10 @@
                 .then(data => {
                     // Handle the response data, e.g., show a success message
                     console.log(data);
-                    alert("Usuario registrado exitosamente");
+                    Swal.fire({
+                            title: "Usuario registrado exitosamente",
+                            icon: "success"
+                        });
                 })
                 .catch(error => {
                     // Handle errors, e.g., show an error message
@@ -175,11 +182,18 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
-                        alert("Usuario loggeado exitosamente");
+                        Swal.fire({
+                            title: "Sesion Iniciada Exitosamente",
+                            icon: "success"
+                        });
                         window.location.href = "index.php";
                         loginAttempts = 0; // Restablecer intentos después de un inicio de sesión exitoso
                     } else if (data.status === "error") {
-                        alert("Usuario o contraseña incorrectos\n Intentos restantes: " + (3 - loginAttempts));
+                        Swal.fire({
+                            icon: "error",
+                            title: "Usuario o contraseña incorrectos",
+                            text: "Intentos restantes: " + (3 - loginAttempts)
+                        });
                         loginAttempts++;
                         document.getElementById("loginop").value = loginAttempts;
                         if (loginAttempts > 3) {
@@ -189,9 +203,16 @@
                     } else if (data.status === "bc") {
                         showBlockedButtons();
                     } else if (data.status === "error-captcha") {
-                        alert("Captcha incorrecto");
+                        Swal.fire({
+                            icon: "error",
+                            title: "Captcha Incorrecto",
+                            text: "Intente de nuevo"
+                        });
                     } else {
-                        alert("Error desconocido");
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error Desconocido"
+                        });
                     }
 
                 })

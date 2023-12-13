@@ -29,6 +29,10 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
     <!-- Estilos -->
     <link rel="stylesheet" href="css/contactanos_styles.css">
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -124,9 +128,13 @@ $config['base_url'] = 'http://' . $_SERVER["SERVER_NAME"];
             <?php
                 if (isset($_POST['email'])) {
                     ?>
-                    <div class="alert alert-success" role="alert">
-                    Su solicitud ha sido recibida, le enviamos un correo electronico de confirmacion.
-                    </div>
+                    <script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Su solicitud ha sido recibida",
+                            text: "Le enviamos un correo electronico de confirmacion"
+                        });
+                    </script>
                     <?php
                 }
             ?>

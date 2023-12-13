@@ -32,6 +32,10 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="css/tienda.css">
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
     
 </head>
 
@@ -236,7 +240,10 @@
                         inputCantidad.value = cantidad;
                         updateHiddenQuantityInput(productId, cantidad);
                     } else {
-                        alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
+                        Swal.fire({
+                            title: "¡Lamentablemente, la cantidad de productos disponibles es insuficiente!",
+                            icon: "warning"
+                        });
                     }
                 });
             });

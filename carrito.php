@@ -104,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.all.min.js"></script>
 
-
 </head>
 
 <body>
@@ -249,7 +248,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                             alert(response.message); // Muestra un mensaje de alerta al usuario
                         }
                     } else {
-                        console.error('Error al actualizar la cantidad');
+                        Swal.fire({
+                            title: "¡Lamentablemente, la cantidad de productos disponibles es insuficiente!",
+                            icon: "warning"
+                        });
                     }
                 }
             };
