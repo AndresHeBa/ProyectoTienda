@@ -58,6 +58,12 @@ $iduser = $result->fetch_assoc()['ClienteID'];
             <p>Se te enviara un correo con los detalles de tu pedido.</p>
             <!-- <i class="fa-solid fa-truck-fast"></i> -->
             <?php
+                $cupon = $_SESSION['cupon'];
+                echo $cupon;
+                $sql = "SELECT * FROM cupon WHERE Codecup = '$cupon'";
+                $resulta = $conn->query($sql);
+                $cupon = $resulta->fetch_assoc()['Descuento'];
+                echo $cupon;
                 //mostar direccion de envio
                 $envio = $_SESSION['envio'];
                 $tipo = $_SESSION['tipoEnvio'];
@@ -77,20 +83,20 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                             FROM carrito c
                             JOIN producto p ON c.ProductoID = p.ProductoID
                             WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
-                    $result = $conn->query($sql);
+                    $prod = $conn->query($sql);
 
-                    if ($result->num_rows > 0){
-                        while ($product = $result->fetch_assoc()) {
+                    if ($prod->num_rows > 0){
+                        while ($product = $prod->fetch_assoc()) {
                             $precioFin = $product['PrecioVenta'];
                             echo '<div class="carrito-item">
                                 <img src="' . $product['Imagen'] . '" width="80px" alt="">
                                 <div class="carrito-item-detalles">
                                     <span class="carrito-item-titulo">' . $product['Nombre'] . '</span>';
                             if ($product['Descuento'] > 0) {
-                                echo  '<span class="carrito-item-orig">$' . round($product['PrecioVenta'],2) . '</span>';
+                                echo  '<span class="carrito-item-orig">$' . number_format($product['PrecioVenta'],2) . '</span>';
                                 $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
                             }
-                            echo  '<span class="carrito-item-precio">$' . round($precioFin,2) . '</span>
+                            echo  '<span class="carrito-item-precio">$' . number_format($precioFin,2) . '</span>
                                 </div>
                             </div>';
                         }
@@ -106,7 +112,18 @@ $iduser = $result->fetch_assoc()['ClienteID'];
 
                         if ($result) {
                             $total = $result->fetch_assoc()['total'];
-                            $total += $tipo;
+                            $subtotal = $total;
+                            $precio = $subtotal - ($subtotal*($cupon/100));
+                            $total = $precio + $tipo + $impuesto;
+
+                            echo '<div class="fila">
+                                    <span class="nota">Subtotal:</span>
+                                    <span class="nota">'. number_format($subtotal,2) .'</span>
+                                </div>';
+                            echo '<div class="fila">
+                                <span class="nota">Subtotal despues del cupon:</span>
+                                <span class="nota">'. $precio .'</span>
+                            </div>';
                             echo '<div class="fila">
                                     <span class="nota">Metodo de Pago:</span>
                                     <span class="nota">'. $banco .'</span>
@@ -135,6 +152,48 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                 //borrar sesion de envio
                 // unset($_SESSION['envio']);
                 
+                //PDF
+                if ($prod) {
+                    require_once('TCPDF-6.6.5/tcpdf.php');
+                    $pdf = new TCPDF();
+                    $pdf->setPrintHeader(false);
+                    $pdf->setPrintFooter(false);
+                    $pdf->AddPage();
+                    $pdf->Ln(10);
+                    
+                    $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
+                            FROM carrito c
+                            JOIN producto p ON c.ProductoID = p.ProductoID
+                            WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
+                    $prod = $conn->query($sql);
+
+                    if ($prod->num_rows > 0){
+                        while ($product = $prod->fetch_assoc()) {
+                            $precioFin = $product['PrecioVenta'];
+                            if ($product['Descuento'] > 0) {
+                                $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
+                            }
+                            $pdf->Cell(0, 10, $product['Nombre'] . ': $' . number_format($precioFin, 2), 0, 1);
+                        }
+                    }
+
+
+
+                    $pdf->Cell(0, 10, 'Subtotal: $' . number_format($subtotal, 2), 0, 1);
+                    $pdf->Cell(0, 10, 'Subtotal despues del cupon: $' . number_format($precio, 2), 0, 1);
+                    $pdf->Cell(0, 10, 'Envío: $' . number_format($tipo, 2), 0, 1);
+                    $pdf->Cell(0, 10, 'Impuesto: $' . number_format($impuesto, 2), 0, 1);
+                    $pdf->Cell(0, 10, 'Total a Pagar: $' . number_format($total, 2), 0, 1);
+                
+                    $pdf->Cell(0, 10, 'Modo de Pago: ' . $banco, 0, 1);
+                
+                    $dirEnvio = isset($envio) ? $envio : 'No especificada';
+                    $pdf->Cell(0, 10, 'Dirección de Envío: ' . $dirEnvio);
+                
+                    // Guardar el PDF en el servidor
+                    $pdf->Output(__DIR__ . '/pdf/nota_compra.pdf', 'F');
+                }
+
                 // Correo
                 $correo = $_SESSION['correo'];
                 if (isset($correo)) {

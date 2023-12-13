@@ -9,12 +9,21 @@ if (!isset($_SESSION['usuario'])) {
 ?>
 
 <?php
-function obtenerPrecioTotal() {
-    // Se borro todo lo que tenia para aplicar el total a pagar ptm
-    return 100.00;
-}
 
-$precioTotal = obtenerPrecioTotal();
+include 'adminzone/includes/db.php';
+$nameuser = $_SESSION["usuario"];
+$sql = "SELECT * FROM usuarios WHERE Cuenta = '$nameuser'";
+$result = $conn->query($sql);
+$iduser = $result->fetch_assoc()['ClienteID'];
+
+//sacar el total de la suma de los productos y si tiene descuento aplicarlo
+$sql = "SELECT SUM((p.PrecioVenta - (p.PrecioVenta * (p.Descuento / 100))) * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID =".$iduser." AND c.Estado = 'En carrito'";
+
+$result = $conn->query($sql);
+if ($result) {
+    $total = $result->fetch_assoc()['total'];
+}
+$precioTotal = $total;
 ?>
 
 <!DOCTYPE html>
@@ -88,8 +97,8 @@ $precioTotal = obtenerPrecioTotal();
                 <label for="Region" class="form-label">Region</label>
                 <select class="form-select" id="Region" name="Region" required onchange="calcularImpuestos()">
                     <option value="default">-</option>
-                    <option value="Mex">Mexico</option>
-                    <option value="EU">Estados Unidos</option>
+                    <option value="0.16">Mexico</option>
+                    <option value="0.08">Estados Unidos</option>
                 </select>
                 <span class="mb-3">
                     Se hará un cargo de impuesto según tu región.
@@ -116,7 +125,7 @@ $precioTotal = obtenerPrecioTotal();
                 <button type="button" class="btn btn-secondary" onclick="aplicarCupon()">Aplicar Cupón</button>
                 <input type="hidden" id="cuponAplicado" name="cuponAplicado" value="0">
                 <?php
-                    echo '<input type="hidden" id="precioVenta" name="precioVenta" value="' . $precioTotal . '">';
+                    echo '<input type="hidden" id="precioVenta" name="precioVenta" value="' . $total . '">';
                     echo '<div class="fila">';
                     echo '<strong>Tu Total</strong>';
                     echo '<span class="carrito-precio-total">$' . number_format($precioTotal, 2) . '</span>';
@@ -221,7 +230,6 @@ $precioTotal = obtenerPrecioTotal();
                 var nuevoPrecioTotal = precioTotal - descuento;
                 precioTotalInput.value = nuevoPrecioTotal.toFixed(2);
                 cuponAplicadoInput.value = "1";
-                cuponInput.disabled = true;
                 document.querySelector(".carrito-precio-total").innerText = "$" + nuevoPrecioTotal.toFixed(2);
             } else {
                 Swal.fire({
