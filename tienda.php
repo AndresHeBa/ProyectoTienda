@@ -127,7 +127,7 @@
     
                             if ($precioFin >= $min && $precioFin <= $max) {
                                 echo '<div class="item">';
-                                echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
+                                echo '<div class="item-link">';
                                 if ($fila['Descuento'] > 0) {
                                     echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
                                     echo '<span class="texto-item" style="color: red;">' . round($fila['Descuento']) . '%</span>';
@@ -149,7 +149,7 @@
                                         <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
                                     </form>';
                                 echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
-                                echo '</a>';
+                                echo '</div>';
                                 
                                 echo '</div>';
                             }
@@ -161,7 +161,7 @@
                         
                         if ($precioFin >= $min && $precioFin <= $max) {
                                 echo '<div class="item">';
-                                echo '<a href="infoProduct.php?product_id=' . $fila['ProductoID'] . '" class="item-link">';
+                                echo '<div class="item-link">';
                                 if ($fila['Descuento'] > 0) {
                                     echo '<span class="titulo-item" style="color: red;">¡Oferta!</span>';
                                     echo '<span class="texto-item" style="color: red;">' . round($fila['Descuento']) . '%</span>';
@@ -185,7 +185,7 @@
                                         <button type="submit" class="boton-item" name="add_to_cart">Agregar al Carrito</button>
                                     </form>';
                                 echo '<span class="texto-item">Stock: ' . $fila['CantidadStock'] . '</span>';
-                                echo '</a>';
+                                echo '</div>';
                                 
                                 echo '</div>';
                             }
