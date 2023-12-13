@@ -20,9 +20,10 @@
     <!-- Estilos -->
     <link rel="stylesheet" href="css/logi.css">
 
-    <!-- Alertas -->
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="sweetalert2.all.min.js"></script>
+    
     <!-- transiciones -->
     <link rel="stylesheet" href="https://unpkg.com/transition-style">
 
@@ -84,10 +85,17 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    alert(data.message);
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success"
+                    });
                     window.location.href = "login.php";
                 } else {
-                    alert(data.message);
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error"
+                    });
+                    
                 }
             })
             .catch(error => {

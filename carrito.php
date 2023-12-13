@@ -99,6 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     <!-- Estilos -->
     <link rel="stylesheet" href="css/carrito.css">
 
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+
 </head>
 
 <body>
@@ -248,7 +252,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                         inputCantidad.value = cantidad;
                         updateHiddenQuantityInput(productId, cantidad);
                     } else {
-                        alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
+                        Swal.fire({
+                            title: "¡Lamentablemente, la cantidad de productos disponibles es insuficiente!",
+                            icon: "warning"
+                        });
                     }
                 });
             });
