@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-12-2023 a las 05:24:50
+-- Tiempo de generación: 13-12-2023 a las 04:13:34
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -37,6 +37,14 @@ CREATE TABLE `carrito` (
   `Estado` varchar(20) DEFAULT 'En carrito',
   `Activo` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`CarritoID`, `ClienteID`, `ProductoID`, `CantidadVendida`, `PrecioVenta`, `CuponID`, `Estado`, `Activo`) VALUES
+(1, 1, 567, 1, 4150.00, 3, 'Pagado', 1),
+(4, 1, 174, 1, 5900.00, 3, 'Pagado', 1);
 
 -- --------------------------------------------------------
 
@@ -95,7 +103,7 @@ INSERT INTO `cupon` (`CuponID`, `Codecup`, `DesCupon`, `Descuento`, `Mensaje`, `
 CREATE TABLE `pagos` (
   `PagosID` int(11) NOT NULL,
   `Tarjeta` varchar(30) DEFAULT NULL,
-  `NumTar` int(11) DEFAULT NULL,
+  `NumTar` varchar(20) DEFAULT NULL,
   `Vencimiento` varchar(10) DEFAULT NULL,
   `CVV` int(11) DEFAULT NULL,
   `Envio` varchar(150) DEFAULT NULL,
@@ -108,14 +116,17 @@ CREATE TABLE `pagos` (
 --
 
 INSERT INTO `pagos` (`PagosID`, `Tarjeta`, `NumTar`, `Vencimiento`, `CVV`, `Envio`, `Descr`, `ClienteID`) VALUES
-(1, 'Pepe Botella', 1234567890, '25/24', 864, '', '', 1),
-(2, 'Patricio Estrella', 2147483647, '02/25', 953, 'Av. Convención Estrada', '', 2),
-(3, 'Boeponja', 2147483647, '23/27', 125, 'Mural Literario #123', 'Una casa con puertas y ventanas', 2),
-(4, 'Macareno', 4737, '30/27', 906, 'Ciudad Costera', 'Vivo por el puerto', 1),
-(5, 'Macareno', 4737, '30/27', 906, 'Ciudad Costera', 'Vivo por el puerto', 1),
-(6, 'Salala', 2147483647, '09/38', 369, 'Ciudad Costera', 'Mi casa', 1),
-(7, 'Salala', 2147483647, '09/38', 369, 'Ciudad Costera', 'Mi casa', 2),
-(8, 'andres', 23456789, '23/25', 562, 'hidalgo buena vista', 'casa con porton amarillo', 1);
+(1, 'Pepe Botella', '1234567890', '25/24', 864, '', '', 1),
+(2, 'Patricio Estrella', '2147483647', '02/25', 953, 'Av. Convención Estrada', '', 2),
+(3, 'Boeponja', '2147483647', '23/27', 125, 'Mural Literario #123', 'Una casa con puertas y ventanas', 2),
+(4, 'Macareno', '4737', '30/27', 906, 'Ciudad Costera', 'Vivo por el puerto', 1),
+(5, 'Macareno', '4737', '30/27', 906, 'Ciudad Costera', 'Vivo por el puerto', 1),
+(6, 'Salala', '2147483647', '09/38', 369, 'Ciudad Costera', 'Mi casa', 1),
+(7, 'Salala', '2147483647', '09/38', 369, 'Ciudad Costera', 'Mi casa', 2),
+(8, 'andres', '23456789', '23/25', 562, 'hidalgo buena vista', 'casa con porton amarillo', 1),
+(9, 'Adrian Alonso', '5555 5555 5555 5555', '09/26', 123, 'Santander #127', 'Casa de color rojo', 1),
+(10, 'Adrian Alonso', '5512334112313', '09/26', 123, 'Santander #127', 'Casa de color rojo', 1),
+(11, 'Adrian Alonso', '5555 5555 5555 5555', '09/26', 123, 'Santander #127', 'Casa de color rojo', 1);
 
 -- --------------------------------------------------------
 
@@ -166,20 +177,20 @@ CREATE TABLE `producto` (
 INSERT INTO `producto` (`ProductoID`, `Nombre`, `Descripción`, `Modelo`, `NúmeroSerie`, `ProveedorID`, `Descuento`, `PrecioVenta`, `CantidadStock`, `Imagen`, `CategoriaID`) VALUES
 (123, 'Seagate Skyhawk 1Tb', '1Tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb Cache', 'barracuda', '765678', 2, 10, 1600.00, 15, 'img/barracuda_1tb.webp', 1),
 (125, 'Western Digital 18tb', '18tb, Sata, 7200 Rpm, Cache 512 Mb, 3.5\"', 'wd', '89641', 2, 15, 8200.00, 5, 'img/wd_18tb.webp', 1),
-(146, 'Seagate Barracuda 4tb', '4tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb', 'barracuda', '87654', 2, NULL, 1600.00, 20, 'img/barracuda_4tb.webp', 1),
-(174, 'Intel Core i5', 'Cache 24 Mb, Nucleos 14, Hilos 20, 5.1 Ghz', 'core', '42888', 1, NULL, 5900.00, 4, 'img/core_i5.webp', 2),
-(193, 'Seagate Skyhawk 20tb', '20 Tb, Serial Ata Iii, Cache 256 Mb, 3.5\"', 'skyhawk', '45782', 2, NULL, 8900.00, 5, 'img/skyhawk_20tb.webp', 1),
-(525, 'AMD Ryzen 7', 'Skt Am5, 5nm, 4.2 Ghz, 8 Core', 'ryzen', '24743', 1, NULL, 7500.00, 13, 'img/ryzen_7.webp', 2),
+(146, 'Seagate Barracuda 4tb', '4tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb', 'barracuda', '87654', 2, 0, 1600.00, 20, 'img/barracuda_4tb.webp', 1),
+(174, 'Intel Core i5', 'Cache 24 Mb, Nucleos 14, Hilos 20, 5.1 Ghz', 'core', '42888', 1, 0, 5900.00, 4, 'img/core_i5.webp', 2),
+(193, 'Seagate Skyhawk 20tb', '20 Tb, Serial Ata Iii, Cache 256 Mb, 3.5\"', 'skyhawk', '45782', 2, 0, 8900.00, 5, 'img/skyhawk_20tb.webp', 1),
+(525, 'AMD Ryzen 7', 'Skt Am5, 5nm, 4.2 Ghz, 8 Core', 'ryzen', '24743', 1, 0, 7500.00, 13, 'img/ryzen_7.webp', 2),
 (567, 'Western Digital 8tb', '8tb, Sata 6gb/s, 5640rpm, 128mb', 'barracuda', '78902', 2, 30, 4150.00, 10, 'img/wd_8tb.webp', 1),
 (689, 'Seagate Ironwolf 18tb', '18tb, 7200 Rpm, Cache 256 Mb, 3.5\"', 'ironwolf', '34572', 2, 55, 7100.00, 7, 'img/ironwolf_18tb.webp', 1),
-(746, 'Intel Core i3', 'Cache 12 Mb, Nucleos 4, Hilos 8, 4.5 Ghz', 'core', '42887', 1, NULL, 2000.00, 11, 'img/core_i3.webp', 2),
+(746, 'Intel Core i3', 'Cache 12 Mb, Nucleos 4, Hilos 8, 4.5 Ghz', 'core', '42887', 1, 0, 2000.00, 11, 'img/core_i3.webp', 2),
 (782, 'Intel Celeron', 'kt 1200, 3.5ghz, 4mb Cache', 'celeron', '42572', 1, 4, 900.00, 4, 'img/celeron.webp', 2),
-(789, 'Intel Core i7', 'Cache 30 Mb, 16 Nucleos, 24 Hilos, 5.2 Ghz', 'core', '42882', 1, NULL, 7600.00, 9, 'img/core_i7.webp', 2),
+(789, 'Intel Core i7', 'Cache 30 Mb, 16 Nucleos, 24 Hilos, 5.2 Ghz', 'core', '42882', 1, 0, 7600.00, 9, 'img/core_i7.webp', 2),
 (913, 'Seagate Ironwolf 6tb', '18tb, 7200 Rpm, Cache 256 Mb, 3.5\"', 'ironwolf', '93157', 2, 20, 4200.00, 10, 'img/ironwolf_6tb.webp', 1),
-(78124, 'Seagate Barracuda 2tb', '2tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb', 'barracuda', '87654', 2, NULL, 1000.00, 20, 'img/hard_drive.webp', 1),
+(78124, 'Seagate Barracuda 2tb', '2tb, 3.5 Pulgadas, Sata Iii, 5400 Rpm, 256mb', 'barracuda', '87654', 2, 0, 1000.00, 20, 'img/hard_drive.webp', 1),
 (78125, 'AMD Ryzen 5', 'Socket Am5, 4.7ghz, 5.3ghz, 38mb Cache', 'ryzen', '24743', 1, 10, 4000.00, 17, 'img/ryzen_5.jpg', 2),
-(78126, 'Intel Core i9', 'Cache 36mb, Nucleos 24, Hilos 32, 5.8 Ghz', 'core', '42882', 1, NULL, 10600.00, 9, 'img/core_i9.webp', 2),
-(78127, 'AMD Athlon', '3.5 Ghz 4mb 35w Am4 Vega Graphics', 'amd', NULL, 1, NULL, 900.00, 2, 'img/amd.png', 2);
+(78126, 'Intel Core i9', 'Cache 36mb, Nucleos 24, Hilos 32, 5.8 Ghz', 'core', '42882', 1, 0, 10600.00, 9, 'img/core_i9.webp', 2),
+(78127, 'AMD Athlon', '3.5 Ghz 4mb 35w Am4 Vega Graphics', 'amd', NULL, 1, 0, 900.00, 2, 'img/amd.png', 2);
 
 -- --------------------------------------------------------
 
@@ -227,9 +238,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ClienteID`, `IsAdmin`, `Nombre`, `Dirección`, `NúmeroContacto`, `Correo`, `Contraseña`, `Cuenta`, `PreguntaID`, `RespuestaP`, `Estado`) VALUES
-(1, 1, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '(449) 543-6109', 'adrianalonso.a4@gmail.com', '1fa441dd5816ac042441945e748b2ef0f2138ede', 'YuunoDev', 4, 'azul', 'activo'),
+(1, 1, 'Adrian Alonso Arambula', 'Santander 127 Col. España', '(449) 543-6109', 'adrianalonso.a4@gmail.com', '21cf7671aae2ab94236d114c542d658fb1f5b944', 'YuunoDev', 4, 'azul', 'activo'),
 (2, 0, 'Erik', 'Lomas Turbias', '4495451413', 'erikalbadavila@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'ErikUni', 1, 'chicharo', 'activo'),
-(3, 0, 'Erik', 'Lomas Turbias', '4495451413', 'erikalbadavila@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'ErikUni', 1, 'chicharo', 'activo');
+(3, 0, 'Erik', 'Lomas Turbias', '4495451413', 'erikalbadavila@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'ErikUni', 1, 'chicharo', 'activo'),
+(4, 0, 'Adrian', 'Santander 127 Col. España', '49912341512', 'endoalonso.a4@gmail.com', 'e5d442f5b236c2b451d3601af703553c3b7deb87', 'Endo', 1, 'Nikki', 'activo'),
+(7, 0, 'Paulina', 'Santander', '4495436109', 'al291682@edu.uaa.mx', '16bd2ea5040a2ccbe608fc3bfbdb90a80219f6c4', 'tienda', 1, 'gato', 'activo');
 
 -- --------------------------------------------------------
 
@@ -245,6 +258,14 @@ CREATE TABLE `ventas` (
   `PrecioVentaTotal` decimal(10,2) DEFAULT NULL,
   `PagosID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`VentaID`, `Fecha`, `Hora`, `CarritoID`, `PrecioVentaTotal`, `PagosID`) VALUES
+(1, '2023-12-11', '12:30:00', 1, 4150.00, 8),
+(3, '2023-12-11', '16:20:00', 4, 5900.00, 8);
 
 --
 -- Índices para tablas volcadas
@@ -322,7 +343,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `CarritoID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CarritoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -340,7 +361,7 @@ ALTER TABLE `cupon`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `PagosID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `PagosID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -364,13 +385,13 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ClienteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `VentaID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `VentaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas

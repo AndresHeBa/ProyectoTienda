@@ -209,11 +209,11 @@ body{
     pointer-events: none;
 }
 
-.carrito-total{
+.carrito-totaldiv{
     background-color: #f3f3f3;
     padding: 30px;
 }
-.carrito-total .fila{
+.carrito-totaldiv .carrito-total{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -221,7 +221,17 @@ body{
     font-weight: bold;
     margin-bottom: 10px;
 }
-.carrito-total .btn-pagar{
+
+.carrito-totaldiv .descuento-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.carrito-totaldiv .btn-pagar{
     display: block;
     width: 100%;
     border: none;
@@ -236,7 +246,7 @@ body{
     cursor: pointer;
     transition: .3s;
 }
-.carrito-total .btn-pagar:hover{
+.carrito-totaldiv .btn-pagar:hover{
     scale: 1.05;
 }
 

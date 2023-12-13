@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 <span class="carrito-item-precio">$' . round($precioFin, 2) . '</span>
                 </div>
             </div>
-            <span class="btn-eliminar">
+            <span class="btn-eliminar" onclick="borrarproduct(' . $product['ProductoID'] . ')">
                 <i class="fa-solid fa-trash"></i>
             </span>
         </div>';
@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 ?>
 
             </div>
-            <div class="carrito-total">
+            <div class="carrito-totaldiv">
                 <?php
                 //precio sin descuento
                 $sql = "SELECT SUM(p.PrecioVenta * c.CantidadVendida) AS total FROM carrito c JOIN producto p ON c.ProductoID = p.ProductoID WHERE c.ClienteID = " . $iduser . " AND c.Estado = 'En carrito'";
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
                 if ($result) {
                     $total = $result->fetch_assoc()['total'];
-                    echo '<div class="fila">
+                    echo '<div class="carrito-total" id="carrito-total">
                             <strong>Total sin descuento</strong>
                             <span class="carrito-precio-total">
                                 $' . round($total, 2) . '
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
                 if ($result) {
                     $total = $result->fetch_assoc()['total'];
-                    echo '<div class="fila">
+                    echo '<div class="descuento-container" id="descuento-container">
                             <strong>Total</strong>
                             <span class="carrito-precio-total">
                                 $' . round($total, 2) . '
@@ -234,23 +234,169 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
+                        let response;
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            // Si la respuesta no es un JSON válido, mostrar un mensaje de error
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Error al procesar la respuesta del servidor',
+                                icon: 'error'
+                            });
+                            return;
+                        }
 
                         if (response.success) {
                             const updatedQuantity = response.updatedQuantity;
 
                             const inputCantidad = document.querySelector('[data-product-id="' + productId + '"] .carrito-item-cantidad');
                             inputCantidad.value = updatedQuantity;
+
+
+                            // Llamar a la función para actualizar el descuento
+                            updateDiscount();
+
+                            // Llamar a la función para actualizar el total
+                            updateTotalPrice();
+
                             if (response.message) {
-                                alert(response.message);
+                                // Mostrar mensaje de éxito con SweetAlert
+                                Swal.fire({
+                                    title: 'Éxito',
+                                    text: response.message,
+                                    icon: 'success'
+                                });
                             }
+
                         } else {
-                            alert(response.message); // Muestra un mensaje de alerta al usuario
+                            // Mostrar mensaje de error con SweetAlert
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error'
+                            });
                         }
                     } else {
+                        // Mostrar mensaje de error con SweetAlert
                         Swal.fire({
-                            title: "¡Lamentablemente, la cantidad de productos disponibles es insuficiente!",
-                            icon: "warning"
+                            title: 'Error',
+                            text: 'Error al procesar la respuesta del servidor',
+                            icon: 'error'
+                        });
+                    }
+                }
+            };
+
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('product_id=' + productId + '&change=' + change + '&iduser=' + iduser);
+        }
+
+        // Nueva función para actualizar el precio total
+        function updateTotalPrice() {
+            const totalContainer = document.getElementById('carrito-total');
+            const xhr = new XMLHttpRequest();
+            const url = 'actualizar_precio_total.php'; // Reemplaza esto con la ruta correcta
+            const iduser = <?php echo $iduser; ?>;
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Actualizar el contenido del contenedor del precio total
+                        totalContainer.innerHTML = xhr.responseText;
+                    } else {
+                        // Manejar errores si es necesario
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al procesar la respuesta del servidor',
+                            icon: 'error'
+                        });
+
+                    }
+                }
+            };
+
+            xhr.open('GET', url + '?iduser=' + iduser, true);
+            xhr.send();
+        }
+
+        // Nueva función para actualizar el descuento
+        function updateDiscount() {
+            const discountContainer = document.getElementById('descuento-container');
+            const xhr = new XMLHttpRequest();
+            const url = 'actualizar_descuento.php'; // Reemplaza esto con la ruta correcta
+            const iduser = <?php echo $iduser; ?>;
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Actualizar el contenido del contenedor del descuento
+                        discountContainer.innerHTML = xhr.responseText;
+                    } else {
+                        // Manejar errores si es necesario
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al procesar la respuesta del servidor',
+                            icon: 'error'
+                        });
+                    }
+                }
+            };
+
+            xhr.open('GET', url + '?iduser=' + iduser, true);
+            xhr.send();
+        }
+
+        function borrarproduct(productId) {
+            const xhr = new XMLHttpRequest();
+            const url = 'borrar_producto.php';
+            const iduser = <?php echo $iduser; ?>;
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        let response;
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            // Si la respuesta no es un JSON válido, mostrar un mensaje de error
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Error al procesar la respuesta del servidor',
+                                icon: 'error'
+                            });
+                            return;
+                        }
+
+                        if (response.success) {
+                            // Si la eliminación fue exitosa, puedes recargar la página o realizar alguna acción adicional si es necesario
+                            Swal.fire({
+                                title: 'Éxito',
+                                text: response.message,
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            });
+
+                            
+                        } else {
+                            // Mostrar mensaje de error con SweetAlert
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    } else {
+                        // Mostrar mensaje de error con SweetAlert
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al procesar la respuesta del servidor',
+                            icon: 'error'
                         });
                     }
                 }
@@ -258,7 +404,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 
             xhr.open('POST', url, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.send('product_id=' + productId + '&change=' + change + '&iduser=' + iduser);
+            xhr.send('product_id=' + productId + '&iduser=' + iduser);
+
         }
     </script>
 </body>

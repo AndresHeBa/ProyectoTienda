@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
                 echo json_encode($response);
             }
         } else {
-            $mensaje = 'La cantidad no puede ser menor a 1 ni mayor al stock disponible';
-            $response = array('success' => true, 'updatedQuantity' => $stockLimit, 'message' => $message);
+            $message = 'La cantidad no puede ser menor a 1 ni mayor al stock disponible';
+            $response = array('success' => false, 'updatedQuantity' => $currentQuantity, 'message' => $message);
             echo json_encode($response);
         }
     } else {
@@ -47,4 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
 } else {
     echo 'Parámetros no válidos';
 }
-?>

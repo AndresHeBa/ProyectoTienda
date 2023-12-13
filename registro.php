@@ -1,6 +1,22 @@
 <?php
 require_once 'adminzone/includes/db.php';
 
+function validatePassword($password)
+{
+    // Validate password strength
+    // https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-php/
+    $uppercase = preg_match('@[A-Z]@', $password);
+    $lowercase = preg_match('@[a-z]@', $password);
+    $number = preg_match('@[0-9]@', $password);
+    $specialChars = preg_match('@[^\w]@', $password);
+
+    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 // checar metodo de solicitud
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
@@ -37,18 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Enlazar parámetros
             $stmt->bind_param("issssssis", $isAdmin, $nombre, $direccion, $telefono, $email, $password, $usuario, $pregunta, $respuesta);
 
-            $stmt->execute();
-
-            // Execute the query
-            $result = $stmt->get_result();
+            // Ejecutar la consulta
+            $result = $stmt->execute();
 
             if ($result) {
-                // Registration successful
+                // Registro exitoso
                 $response = array('status' => 'success', 'message' => 'User registered successfully');
             } else {
-                // Registration failed
-                $response = array('status' => 'error', 'message' => 'Error registering user');
+                // Registro fallido
+                $response = array('status' => 'error', 'message' => 'Error registering user: ' . $stmt->error);
             }
+
             $stmt->close();
         } else {
             $response = array('status' => 'error', 'message' => 'Las contraseñas no coinciden');
