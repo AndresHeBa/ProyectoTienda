@@ -121,7 +121,7 @@ $precioTotal = $total;
             </div>
             <div class="mb-3">
                 <label for="Cupon" class="form-label">Aplicar Cupon</label>
-                <input type="text" class="form-control" id="Cupon" name="Cupon" placeholder="Cupon" required>
+                <input type="text" class="form-control" id="Cupon" name="Cupon" placeholder="Cupon">
                 <button type="button" class="btn btn-secondary" onclick="aplicarCupon()">Aplicar Cupón</button>
                 <input type="hidden" id="cuponAplicado" name="cuponAplicado" value="0">
                 <?php
