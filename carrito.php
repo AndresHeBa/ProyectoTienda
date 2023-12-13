@@ -37,9 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             $total = $result->fetch_assoc()['total'];
             //si la cantidad que se quiere agregar es mayor a la cantidad que hay en el carrito
             if ($total + $productQuantity > $product['CantidadStock']) {
-                //si es mayor se agrega la cantidad que falta para llegar al limite
-                $productQuantity = $product['CantidadStock']-$total;
+                //si es mayor se agrega la cantidad que falta para llegar al límite
+                $productQuantity = $product['CantidadStock'] - $total;
             }
+
             //si la cantidad que se quiere agregar es menor a la cantidad que hay en el carrito
             $sql = "UPDATE carrito SET CantidadVendida = CantidadVendida + $productQuantity WHERE ClienteID = $iduser AND ProductoID = $productId AND Estado = 'En carrito'";
             $result = $conn->query($sql);
@@ -99,6 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     <!-- Estilos -->
     <link rel="stylesheet" href="css/carrito.css">
 
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+
+
 </head>
 
 <body>
@@ -124,37 +130,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
                 <?php
                 include 'adminzone/includes/db.php';
 
-                $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
+                $stmt = $conn->prepare("SELECT c.*, p.ProductoID, p.CantidadStock, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
                     FROM carrito c
                     JOIN producto p ON c.ProductoID = p.ProductoID
-                    WHERE c.ClienteID = " . $iduser . " AND c.Estado = 'En carrito'";
-                $result = $conn->query($sql);
+                    WHERE c.ClienteID = ? AND c.Estado = 'En carrito'");
+                $stmt->bind_param("i", $iduser);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 if ($result->num_rows > 0) {
                     while ($product = $result->fetch_assoc()) {
                         $precioFin = $product['PrecioVenta'];
-                        echo '<div class="carrito-item">
+                        echo '<div class="carrito-item" data-product-id="' . $product['ProductoID'] . '" data-stock="' . $product['CantidadStock'] . '">
                             <img src="' . $product['Imagen'] . '" width="80px" alt="">
                             <div class="carrito-item-detalles">
-                                <span class="carrito-item-titulo">' . $product['Nombre'] . '</span>
+                                <span class="carrito-item-titulo">' . htmlspecialchars($product['Nombre']) . '</span>
                                 <div class="selector-cantidad">
-                                    <i class="fa-solid fa-minus restar-cantidad"></i>
+                                    <i class="fa-solid fa-minus restar-cantidad" onclick="updateQuantity(' . $product['ProductoID'] . ', -1)"></i>
                                     <input type="text" value="' . $product['CantidadVendida'] . '" class="carrito-item-cantidad" disabled>
-                                    <i class="fa-solid fa-plus sumar-cantidad"></i>
+                                    <i class="fa-solid fa-plus sumar-cantidad" onclick="updateQuantity(' . $product['ProductoID'] . ', 1)"></i>
                                 </div> 
                                 <div>';
-                                if ($product['Descuento'] > 0) {
-                                    echo  '<span class="carrito-item-orig">$' . round($product['PrecioVenta'],2) . '</span>';
-                                    $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
-                                }
-                                echo '
-                                <span class="carrito-item-precio">$' . round($precioFin,2) . '</span>
-                                </div>
-                            </div>
-                            <span class="btn-eliminar">
-                                <i class="fa-solid fa-trash"></i>
-                            </span>
-                        </div>';
+                        if ($product['Descuento'] > 0) {
+                            echo  '<span class="carrito-item-orig">$' . round($product['PrecioVenta'], 2) . '</span>';
+                            $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta'] * ($product['Descuento'] / 100));
+                        }
+                        echo '
+                <span class="carrito-item-precio">$' . round($precioFin, 2) . '</span>
+                </div>
+            </div>
+            <span class="btn-eliminar">
+                <i class="fa-solid fa-trash"></i>
+            </span>
+        </div>';
                     }
                 } else {
                     echo "Carrito vacío";
@@ -219,40 +227,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             window.location.href = "metodo_pago.php";
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const cantidadSelectors = document.querySelectorAll('.selector-cantidad');
+        function updateQuantity(productId, change) {
+            const xhr = new XMLHttpRequest();
+            const url = 'actualizar_cantidad.php';
+            const iduser = <?php echo $iduser; ?>;
 
-            cantidadSelectors.forEach(function (selector) {
-                const productId = selector.getAttribute('data-product-id');
-                const inputCantidad = selector.querySelector('.carrito-item-cantidad');
-                const restarBtn = selector.querySelector('.restar-cantidad');
-                const sumarBtn = selector.querySelector('.sumar-cantidad');
-                const stock = parseInt(selector.getAttribute('data-stock'));
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
 
-                restarBtn.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    let cantidad = parseInt(inputCantidad.value);
-                    if (cantidad > 1) {
-                        cantidad--;
-                        inputCantidad.value = cantidad;
-                        updateHiddenQuantityInput(productId, cantidad);
-                    }
-                });
+                        if (response.success) {
+                            const updatedQuantity = response.updatedQuantity;
 
-                sumarBtn.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    let cantidad = parseInt(inputCantidad.value);
-
-                    if (cantidad < stock) {
-                        cantidad++;
-                        inputCantidad.value = cantidad;
-                        updateHiddenQuantityInput(productId, cantidad);
+                            const inputCantidad = document.querySelector('[data-product-id="' + productId + '"] .carrito-item-cantidad');
+                            inputCantidad.value = updatedQuantity;
+                            if (response.message) {
+                                alert(response.message);
+                            }
+                        } else {
+                            alert(response.message); // Muestra un mensaje de alerta al usuario
+                        }
                     } else {
-                        alert('¡Lamentablemente, la cantidad de productos disponibles es insuficiente!');
+                        console.error('Error al actualizar la cantidad');
                     }
-                });
-            });
-        });
+                }
+            };
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('product_id=' + productId + '&change=' + change + '&iduser=' + iduser);
+        }
     </script>
 </body>
 

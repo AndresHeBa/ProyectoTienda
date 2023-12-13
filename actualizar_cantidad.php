@@ -1,20 +1,50 @@
 <?php
-include 'adminzone/includes/db.php';
+// actualizar_cantidad.php
 
-if (isset($_POST['product_id']) && isset($_POST['cantidad'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['change'])) {
     $productId = $_POST['product_id'];
-    $cantidad = $_POST['cantidad'];
+    $change = (int)$_POST['change'];
+    $iduser = $_POST['iduser'];
 
-    // Actualizar la cantidad en la base de datos
-    $sqlUpdateCantidad = "UPDATE producto SET CantidadStock = $cantidad WHERE ProductoID = $productId";
-    $resultadoUpdate = $conn->query($sqlUpdateCantidad);
+    include 'adminzone/includes/db.php';
 
-    if ($resultadoUpdate) {
-        echo json_encode(['success' => true, 'message' => 'Cantidad actualizada correctamente']);
+    $sql = "SELECT CantidadVendida FROM carrito WHERE ClienteID = $iduser AND ProductoID = $productId AND Estado = 'En carrito'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $currentQuantity = $result->fetch_assoc()['CantidadVendida'];
+        $newQuantity = $currentQuantity + $change;
+
+        // Verificar si la nueva cantidad está dentro del límite del stock
+        $sql = "SELECT CantidadStock FROM producto WHERE ProductoID = $productId";
+        $result = $conn->query($sql);
+        $stockLimit = $result->fetch_assoc()['CantidadStock'];
+
+        if ($newQuantity >= 1 && $newQuantity <= $stockLimit) {
+            $sql = "UPDATE carrito SET CantidadVendida = $newQuantity WHERE ClienteID = $iduser AND ProductoID = $productId AND Estado = 'En carrito'";
+            $result = $conn->query($sql);
+
+            if ($result) {
+                $response = array('success' => true, 'updatedQuantity' => $newQuantity);
+                echo json_encode($response);
+            } else {
+                $message = 'Error al obtener la cantidad actualizada';
+                $response = array('success' => false, 'message' => $message);
+                echo json_encode($response);
+            }
+        } else {
+            $mensaje = 'La cantidad no puede ser menor a 1 ni mayor al stock disponible';
+            $response = array('success' => true, 'updatedQuantity' => $stockLimit, 'message' => $message);
+            echo json_encode($response);
+        }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Error al actualizar la cantidad en la base de datos']);
+        $message = 'Parámetros no válidos';
+        $response = array('success' => false, 'message' => $message);
+        echo json_encode($response);
     }
+
+    $conn->close();
 } else {
-    echo json_encode(['success' => false, 'message' => 'Parámetros no válidos']);
+    echo 'Parámetros no válidos';
 }
 ?>
