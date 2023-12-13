@@ -99,8 +99,8 @@ $precioTotal = $total;
                     <label for="Region" class="form-label">Region</label>
                     <select class="form-select" id="Region" name="Region" required onchange="calcularImpuestos()">
                         <option value="default">-</option>
-                        <option value="0.16">Mexico</option>
-                        <option value="0.08">Estados Unidos</option>
+                        <option value="0.16">Mexico(16%)</option>
+                        <option value="0.08">Estados Unidos(8%)</option>
                     </select>
                     <span class="mb-3">
                         Se hará un cargo de impuesto según tu región.

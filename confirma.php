@@ -72,7 +72,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
             //mostar direccion de envio
             $envio = $_SESSION['envio'];
             $tipo = $_SESSION['tipoEnvio'];
-            $impuesto = 0;
+            $impuesto = $_SESSION['impuesto'];
             $banco = $_SESSION['banco'];
             echo "<p id='envio-message' class='envio-message'>El envio se realizara a la siguiente direccion:</p>";
             echo "<p id='envio-message2' class='envio-message2'>$envio</p>";
@@ -119,7 +119,9 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                         $total = $result->fetch_assoc()['total'];
                         $subtotal = $total;
                         $precio = $subtotal - ($subtotal * ($cupon / 100));
+                        $impuesto *= $subtotal;
                         $total = $precio + $tipo + $impuesto;
+
 
                         echo '<div class="fila">
                                     <span class="nota">Subtotal:</span>
@@ -127,7 +129,7 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                                 </div>';
                         echo '<div class="fila">
                                 <span class="nota">Subtotal despues del cupon:</span>
-                                <span class="nota">' . $precio . '</span>
+                                <span class="nota">' . number_format($precio,2) . '</span>
                             </div>';
                         echo '<div class="fila">
                                     <span class="nota">Metodo de Pago:</span>
@@ -139,12 +141,12 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                                 </div>';
                         echo '<div class="fila">
                                     <span class="nota">Total de Impuestos:</span>
-                                    <span class="nota"> $' . $impuesto . '</span>
+                                    <span class="nota"> $' . number_format($impuesto,2) . '</span>
                                 </div>';
                         echo '<div class="fila">
                                     <strong>Total</strong>
                                     <span class="carrito-precio-total">
-                                        $' . round($total, 2) . '
+                                        $' . number_format($total, 2) . '
                                     </span>
                                 </div>';
                     } else {

@@ -122,6 +122,6 @@ input[type='checkbox'] {
 	position: absolute;
 	right: 10px;
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translate(-130%,-90%);
 	cursor: pointer;
 }
