@@ -324,10 +324,8 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                     echo 'La dirección de correo electrónico no está disponible.';
                 }
                 // Correo
-                $correo = $_SESSION['correo'];
-                if (isset($correo)) {
-                    $email = $correo;
-
+                $email = isset($_SESSION['correo']) ? $_SESSION['correo'] : '';
+                if (!empty($email)) {
                     try {
                         //Server settings
                         //Enable verbose debug output
@@ -343,20 +341,19 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                         //Recipients
                         $mail->setFrom('adrianalonso.a4@gmail.com', 'InnovaCodeTech');
                         $mail->addAddress($email);     //Add a recipient
-
-                        //Content
-                        $mail->isHTML(true);                                  //Set email format to HTML
-                        $mail->addAttachment("img/logo-2.png", "logo-2.png");
-                        $mail->Body = 'Embedded Image: <img alt="PHPMailer" src="cid:my-attach"> Here is an image!';
-                        $mail->Subject = 'Gracias por contactarnos';
-                        $mail->CharSet = 'UTF-8';
-                        $mail->Body  = '<html>
+                
+                        $mail->addAddress($email);
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Recibo de Compra';
+                        $mail->Body = '<html>
                         <head>
                             <style>
                                 body {
                                     font-family: Arial, sans-serif;
                                     background-color: #f4f4f4;
                                     color: #333;
+                                    margin: 0;
+                                    padding: 0;
                                 }
                                 .container {
                                     max-width: 600px;
@@ -369,30 +366,87 @@ $iduser = $result->fetch_assoc()['ClienteID'];
                                 h1 {
                                     color: #007bff;
                                 }
-                                h3{
-                                    text-align:center;
-                                    color:rgb(134,15,90);
-                                    }
-                                    </style>
+                                ul {
+                                    list-style-type: none;
+                                    padding: 0;
+                                }
+                                li {
+                                    margin-bottom: 10px;
+                                }
+                                .nota {
+                                    display: block;
+                                    margin-bottom: 5px;
+                                }
+                                .carrito-precio-total {
+                                    font-weight: bold;
+                                    font-size: 18px;
+                                }
+                            </style>
                         </head>
                         <body>
                             <div class="container">
-                                <h1>Proceso de solicitud</h1>
-                                <p>Gracias por ponerte en contacto con nosotros, su solicitud esta siendo procesada.<br> 
-                                Un miembro de nuestro equipo se pondra en contacto con usted dentro de las proximas 48 horas, agradecemos su paciencia.
-                                  <br>
-                                <br>Atentamente<br>
-                                  <br>
-                                    
-                                <h3>TecnoGadget<h/3> </p>
+                                <h1>Nota de Compra</h1>
+                                <p>Estos son los productos que compro y los detalles de la venta:</p>
+                                <ul>';
+                    $sql = "SELECT c.*, p.Nombre, p.PrecioVenta, p.Imagen, p.Descuento
+                            FROM carrito c
+                            JOIN producto p ON c.ProductoID = p.ProductoID
+                            WHERE c.ClienteID = ".$iduser." AND c.Estado = 'En carrito'";
+                    $prod = $conn->query($sql);
+                    
+                    if ($prod->num_rows > 0){
+                        while ($product = $prod->fetch_assoc()) {
+                            $precioFin = $product['PrecioVenta'];
+                            if ($product['Descuento'] > 0) {
+                                $precioFin = $product['PrecioVenta'] - ($product['PrecioVenta']* ($product['Descuento']/100));
+                            }
+                            $mail->Body .= '<li>
+                                                <span class="carrito-item-titulo">' . $product['Nombre'] . '</span>
+                                                <span class="carrito-item-precio">$' . number_format($precioFin, 2) . '</span>
+                                            </li>';
+                        }
+                    }
+                    
+                    $mail->Body .= '</ul>
+                                <div class="fila">
+                                    <span class="nota">Subtotal:</span>
+                                    <span class="nota">$' . number_format($subtotal, 2) . '</span>
+                                </div>
+                                <div class="fila">
+                                    <span class="nota">Subtotal despues del cupón:</span>
+                                    <span class="nota">$' . number_format($precio, 2) . '</span>
+                                </div>
+                                <div class="fila">
+                                    <span class="nota">Metodo de Pago:</span>
+                                    <span class="nota">' . $banco . '</span>
+                                </div>
+                                <div class="fila">
+                                    <span class="nota">Precio de Envio:</span>
+                                    <span class="nota">$' . $tipo . '</span>
+                                </div>
+                                <div class="fila">
+                                    <span class="nota">Total de Impuestos:</span>
+                                    <span class="nota">$' . $impuesto . '</span>
+                                </div>
+                                <div class="fila">
+                                    <strong>Total</strong>
+                                    <span class="carrito-precio-total">$' . round($total, 2) . '</span>
+                                </div>
+                                <div class="fila">
+                                    <span class="nota">Direccion de Envio:</span>
+                                    <span class="nota">' . $envio . '</span>
+                                </div>
                             </div>
                         </body>
-                        </html>';
-
-
+                    </html>';
+                        $mail->addAttachment(__DIR__ . '/pdf/nota_compra.pdf', 'nota_compra.pdf');
+                
                         $mail->send();
                     } catch (Exception $e) {
+                        echo 'Error al enviar el correo: ' . $mail->ErrorInfo;
                     }
+                } else {
+                    echo 'La dirección de correo electrónico no está disponible.';
                 }
 
                 //actualizar carrito
